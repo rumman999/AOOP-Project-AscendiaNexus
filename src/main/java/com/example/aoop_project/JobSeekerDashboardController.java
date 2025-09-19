@@ -31,6 +31,7 @@ public class JobSeekerDashboardController implements Initializable {
     @FXML private Label accountDes;
     @FXML private Button logout_button;
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadUserDataFromDB(); // fetch logged-in user data automatically
@@ -78,65 +79,117 @@ public class JobSeekerDashboardController implements Initializable {
     }
 
 
+    private Stage chatStage;
+
     @FXML
     private void handleChatbot(ActionEvent e) {
         try {
+            // Reuse existing window if it's already created
+            if (chatStage != null) {
+                if (!chatStage.isShowing()) chatStage.show();
+                chatStage.toFront();
+                return;
+            }
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ChatBot.fxml"));
             Parent root = loader.load();
 
-            Stage chatStage = new Stage();
+            Stage owner = (Stage) ((Node) e.getSource()).getScene().getWindow();
+
+            // Undecorated, stable (won't auto-hide on focus loss)
+            chatStage = new Stage(StageStyle.UNDECORATED);
             chatStage.setTitle("Skill Buddy");
-            chatStage.setScene(new Scene(root));
-            chatStage.getScene().setFill(javafx.scene.paint.Color.web("#2c3e50"));
+            chatStage.setScene(new Scene(root, 450, 550));
+            chatStage.setResizable(false);
+            chatStage.initOwner(owner);
+            chatStage.initModality(Modality.NONE);     // dashboard stays interactive
+            chatStage.setAlwaysOnTop(true);           // set true if you want it to float above
 
-            // Make it float above dashboard
-            chatStage.initOwner(((Node) e.getSource()).getScene().getWindow());
-            chatStage.initModality(Modality.NONE); // background remains interactive
+            // Pin to bottom-right of the owner window
+            Runnable positionChat = () -> {
+                double x = owner.getX() + owner.getWidth()  - chatStage.getWidth()  - 20;
+                double y = owner.getY() + owner.getHeight() - chatStage.getHeight() - 35;
+                chatStage.setX(x);
+                chatStage.setY(y);
+            };
 
-            // Small popup size
-            chatStage.setWidth(450);
-            chatStage.setHeight(550);
-            chatStage.setResizable(true);
+            chatStage.setOnShown(ev -> positionChat.run());
+            owner.xProperty().addListener((obs, o, n) -> positionChat.run());
+            owner.yProperty().addListener((obs, o, n) -> positionChat.run());
+            owner.widthProperty().addListener((obs, o, n) -> positionChat.run());
+            owner.heightProperty().addListener((obs, o, n) -> positionChat.run());
 
-            // Optional: remove taskbar icon and keep it utility style
-            chatStage.initStyle(StageStyle.UTILITY);
+            // When user closes it, clear the reference so next click recreates it
+            chatStage.setOnCloseRequest(ev -> chatStage = null);
 
-            // Show popup
             chatStage.show();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-
-}
-
-    @FXML
-    private void handleMusic(ActionEvent e) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/aoop_project/LofiMusic.fxml"));
-            Parent root = loader.load();
-
-            Stage musicStage = new Stage();
-            musicStage.setScene(new Scene(root));
-
-            // Make it float above dashboard
-            musicStage.initOwner(((Node) e.getSource()).getScene().getWindow());
-            musicStage.initModality(Modality.NONE); // background remains interactive
-
-            // Small popup size
-            musicStage.setWidth(380);
-            musicStage.setHeight(200);
-            musicStage.setResizable(false);
-
-            // Optional: remove taskbar icon and keep it utility style
-            musicStage.initStyle(StageStyle.UTILITY);
-
-            // Show popup
-            musicStage.show();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            // Provide better error handling here (e.g., show alert to user)
-        }
     }
 
 
+    // Class-level field
+    private Stage musicStage;
+    @FXML
+    public void handleMusic(ActionEvent e) {
+        try {
+            if (musicStage == null) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/aoop_project/LofiMusic.fxml"));
+                Parent root = loader.load();
+
+                musicStage = new Stage();
+                musicStage.setScene(new Scene(root));
+                musicStage.initOwner(((Node) e.getSource()).getScene().getWindow());
+                musicStage.initModality(Modality.NONE);
+                musicStage.setWidth(420);
+                musicStage.setHeight(200);
+                musicStage.setResizable(false);
+                musicStage.initStyle(StageStyle.UNDECORATED);
+                musicStage.setAlwaysOnTop(true);
+
+                // If user clicks window X -> hide only (do not close)
+                musicStage.setOnCloseRequest(event -> {
+                    Boolean forceClose = Boolean.TRUE.equals(musicStage.getProperties().get("forceClose"));
+                    if (!forceClose) {
+                        event.consume();       // prevent default close
+                        musicStage.hide();     // just hide (keeps background running)
+                    }
+                    // if forceClose==true, allow the close to proceed
+                });
+
+                // After it's hidden/closed, check if it was a forced close and free the reference
+                musicStage.setOnHidden(evt -> {
+                    Boolean forceClose = Boolean.TRUE.equals(musicStage.getProperties().get("forceClose"));
+                    if (Boolean.TRUE.equals(forceClose)) {
+                        // it was a real close -> cleanup
+                        musicStage.getProperties().remove("forceClose");
+                        musicStage = null; // next click will recreate
+                    }
+                    // if it was just hide(), we keep musicStage alive (so music continues)
+                });
+
+                // Optional: give controller a reference
+                LofiMusicController controller = loader.getController();
+                controller.initStage(musicStage);
+
+                musicStage.show();
+            } else {
+                if (!musicStage.isShowing()) musicStage.show();
+                else musicStage.toFront();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void handleTodolist(ActionEvent e){
+        getStartedApplication.launchScene("TodoList.fxml");
+    }
+
+    @FXML
+    public void handleCV(ActionEvent e){
+        getStartedApplication.launchScene("CVBuilder.fxml");
+    }
 }

@@ -3,44 +3,29 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/8.0.171"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.example.aoop_project.LofiMusicController"
-      alignment="CENTER"
-      spacing="25"
-      style="-fx-background-color: #10231c"
-      prefWidth="420" prefHeight="350">
 
-    <!-- Padding -->
+<VBox alignment="CENTER" prefHeight="359.0" prefWidth="420" spacing="25" style="-fx-background-color: #10231c;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.LofiMusicController">
+
+          <!-- Padding -->
     <padding>
-        <Insets top="50" right="50" bottom="50" left="50"/>
+        <Insets bottom="50" left="50" right="50" top="50" />
     </padding>
 
-    <!-- Title -->
-    <Label text="🎵 Lofi Music Player 🎵"
-           style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+          <!-- Title -->
+    <Label style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: white;" text="🎵 Lofi Music Player 🎵" />
 
-    <!-- Current Song Label -->
-    <Label fx:id="songLabel"
-           text="Now Playing: "
-           style="-fx-font-size: 15px; -fx-text-fill: #4ef5c6;"/>
+          <!-- Current Song Label -->
+    <Label fx:id="songLabel" style="-fx-font-size: 15px; -fx-text-fill: #4ef5c6;" text="Now Playing: " />
 
-    <!-- Control Buttons -->
+          <!-- Control Buttons -->
     <HBox alignment="CENTER" spacing="15">
-        <Button fx:id="prevBtn" text="⏮ Prev" onAction="#handlePrev"
-                style="-fx-background-color: #e67e22; -fx-text-fill: black; -fx-font-weight: bold;
-                       -fx-background-radius: 10; -fx-padding: 8 16;" />
-        <Button fx:id="playPauseBtn" text="▶ Play" onAction="#handlePlayPause"
-                style="-fx-background-color: #34d399; -fx-text-fill: black; -fx-font-weight: bold;
-                       -fx-background-radius: 10; -fx-padding: 8 20;" />
-        <Button fx:id="nextBtn" text="Next ⏭" onAction="#handleNext"
-                style="-fx-background-color: #e67e22; -fx-text-fill: black; -fx-font-weight: bold;
-                       -fx-background-radius: 10; -fx-padding: 8 16;" />
+        <Button fx:id="prevBtn" onAction="#handlePrev" style="-fx-background-color: #e67e22; -fx-text-fill: black; -fx-font-weight: bold;                        -fx-background-radius: 10; -fx-padding: 8 16;" text="⏮ Prev" />
+        <Button fx:id="playPauseBtn" onAction="#handlePlayPause" style="-fx-background-color: #34d399; -fx-text-fill: black; -fx-font-weight: bold;                        -fx-background-radius: 10; -fx-padding: 8 20;" text="▶ Play" />
+        <Button fx:id="nextBtn" onAction="#handleNext" style="-fx-background-color: #e67e22; -fx-text-fill: black; -fx-font-weight: bold;                        -fx-background-radius: 10; -fx-padding: 8 16;" text="Next ⏭" />
+      <Button alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#handleExit" style="-fx-background-color: red; -fx-background-radius: 50px;" text="❌" />
     </HBox>
 
-</VBox>
+      </VBox>

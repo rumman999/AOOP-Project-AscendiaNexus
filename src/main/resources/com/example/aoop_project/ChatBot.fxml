@@ -5,42 +5,63 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<VBox alignment="CENTER" prefHeight="500" prefWidth="400" spacing="10" style="-fx-background-color: #0d221c; -fx-padding: 12; -fx-background-radius: 16;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.ChatBotController">
-   <VBox>
-      <children>
-         <TextFlow prefHeight="137.0" prefWidth="376.0">
+<VBox alignment="CENTER" prefHeight="500" prefWidth="400" spacing="10" style="-fx-background-color: #0d221c; -fx-padding: 12; -fx-border-color: #e67e22; -fx-border-radius: 10;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.ChatBotController">
+
+    <!-- Header with title and internal close button -->
+    <HBox alignment="CENTER_LEFT" spacing="8">
+        <TextFlow prefHeight="143.0" prefWidth="265.0" textAlignment="CENTER">
             <children>
-               <Text fx:id="textSkill" fill="WHITE" fontSmoothingType="LCD" style="-fx-font-size: 50px; -fx-font-weight: bold;" text="Skill" />
-               <Text fx:id="textPlus" style="-fx-font-size: 50; -fx-font-weight: bold; -fx-fill: #e67e22;" text="Buddy" />
+                <Text fx:id="textSkill" fill="WHITE" style="-fx-font-size: 50px; -fx-font-weight: bold;" text="Skill" />
+                <Text fx:id="textPlus" style="-fx-font-size: 50; -fx-font-weight: bold; -fx-fill: #e67e22;" text="Buddy" />
             </children>
-         </TextFlow>
-         <Label text="- Your Partner in Learning. Ask me anything" textFill="TEAL">
-            <font>
-               <Font size="16.0" />
-            </font>
-         </Label>
-      </children>
-   </VBox>
+         <padding>
+            <Insets top="15.0" />
+         </padding>
+        </TextFlow>
+      <ImageView fitHeight="109.0" fitWidth="115.0">
+         <image>
+            <Image url="@Images/chatbot-unscreen.gif" />
+         </image>
+      </ImageView>
+    </HBox>
+    <Label prefHeight="26.0" prefWidth="391.0" text="- Your Partner in Learning. Ask me anything" textFill="TEAL">
+        <font>
+         <Font size="16.0" />
+      </font>
+    </Label>
 
     <!-- Chat Area -->
     <ScrollPane fx:id="chatBoxScrollPane" fitToWidth="true" prefHeight="359.0" prefWidth="370.0" style="-fx-background: #0d221c; -fx-border-color: #0d221c;">
         <content>
-            <VBox fx:id="chatBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="8" style="-fx-background-color: transparent; -fx-padding: 8;" />
+            <VBox fx:id="chatBox" spacing="8" style="-fx-background-color: transparent; -fx-padding: 8;" />
         </content>
-      <VBox.margin>
-         <Insets top="10.0" />
-      </VBox.margin>
+        <VBox.margin><Insets top="10.0" /></VBox.margin>
     </ScrollPane>
 
     <!-- Input Bar -->
     <HBox spacing="8" style="-fx-background-color: #152d25; -fx-background-radius: 12; -fx-padding: 8;">
-        <TextField fx:id="inputField" promptText="Type a message..." style="-fx-background-color: #0d221c;                           -fx-text-fill: white;                           -fx-prompt-text-fill: gray;                           -fx-background-radius: 20;                           -fx-border-color: teal;                           -fx-border-radius: 20;                           -fx-padding: 6;" HBox.hgrow="ALWAYS" />
-        <Button fx:id="sendButton" disable="false" onAction="#sendMessage" style="-fx-background-color: #e67e22; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 20; -fx-pref-width: 50;" text="➤" />
+        <TextField fx:id="inputField" promptText="Type a message..." style="-fx-background-color: #0d221c; -fx-text-fill: white; -fx-prompt-text-fill: gray;                           -fx-background-radius: 20; -fx-border-color: teal; -fx-border-radius: 20; -fx-padding: 6;" HBox.hgrow="ALWAYS" />
+        <Button fx:id="sendButton" onAction="#sendMessage" style="-fx-background-color: #e67e22; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 20; -fx-pref-width: 50;" text="➤" />
+      <Button mnemonicParsing="false" onAction="#handleExit" prefHeight="34.0" prefWidth="33.0" style="-fx-background-color: red; -fx-background-radius: 50px;" text="❌" />
     </HBox>
+   <padding>
+      <Insets left="10.0" top="20.0" />
+   </padding>
+   <effect>
+      <DropShadow>
+         <color>
+            <Color red="0.10526315867900848" green="0.10409356653690338" blue="0.10409356653690338" />
+         </color>
+      </DropShadow>
+   </effect>
 </VBox>

@@ -5,9 +5,12 @@ module com.example.aoop_project {
     requires java.sql;
     requires java.desktop;
     requires java.net.http;
-    requires org.json;
+
     requires google.genai;
     requires javafx.media;
+    requires com.google.gson;
+    requires org.apache.pdfbox;
+    requires org.json;
 
     opens com.example.aoop_project to javafx.fxml;
     exports com.example.aoop_project;

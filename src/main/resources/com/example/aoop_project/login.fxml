@@ -26,7 +26,7 @@
         <GridPane alignment="CENTER" hgap="40" prefHeight="740" prefWidth="900" style="-fx-background-color: #10231c;" stylesheets="@StyleSheets/DashboardUI.css" vgap="0">
 
             <!-- Left Column -->
-            <VBox alignment="CENTER_LEFT" prefHeight="520.0" prefWidth="475.0" spacing="20" style="-fx-padding: 20;" GridPane.columnIndex="0">
+            <VBox alignment="CENTER_LEFT" prefHeight="520.0" prefWidth="475.0" spacing="20" style="-fx-padding: 20;" stylesheets="@StyleSheets/DashboardUI.css" GridPane.columnIndex="0">
                 <TextFlow>
                     <Text fx:id="textSkill" fill="WHITE" fontSmoothingType="LCD" style="-fx-font-size: 72px; -fx-font-weight: bold;" text="SkillPlus" />
                     <Text fx:id="textPlus" style="-fx-font-size:72px;-fx-font-weight:bold;-fx-fill:#e67e22;" text="Plus" />

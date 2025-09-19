@@ -1,11 +1,14 @@
 package com.example.aoop_project;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
+import javafx.stage.Stage;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -17,6 +20,8 @@ public class ChatBotController {
 
     @FXML
     private VBox chatBox;
+    @FXML
+    private Button chatDock;
     @FXML
     private TextField inputField;
     @FXML
@@ -120,6 +125,22 @@ public class ChatBotController {
                 .getJSONObject("message")
                 .getString("content")
                 .trim();
+    }
+
+    @FXML
+    public void handleExit(ActionEvent event) {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        // Optional: check if we want to force close or just hide
+        Boolean forceClose = Boolean.TRUE.equals(stage.getProperties().get("forceClose"));
+        if (!forceClose) {
+            // Prevent full close and just hide the window
+            stage.hide();
+        } else {
+            // Allow proper close
+            stage.close();
+            stage.getProperties().remove("forceClose"); // clean up
+        }
     }
 
 }

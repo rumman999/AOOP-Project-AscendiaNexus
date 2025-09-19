@@ -1,0 +1,74 @@
+/* Dark themed table */
+.table-view {
+    -fx-background-color: #0d1f1a;       /* dark green background */
+    -fx-border-color: transparent;
+    -fx-table-cell-border-color: transparent;
+    -fx-padding: 5;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+
+    /* Header background gradient */
+    -fx-table-header-row-background: linear-gradient(to bottom, #2c3e3b, #1b2a28);
+}
+
+/* Column header */
+.table-view .column-header-background {
+    -fx-background-color: linear-gradient(to bottom, #2c3e3b, #1b2a28);
+    -fx-border-color: transparent;
+    -fx-background-radius: 10 10 0 0;
+}
+
+.table-view .column-header, .table-view .filler {
+   -fx-text-fill: #00ff00;   /* green header text */
+   -fx-font-weight: bold;
+   -fx-alignment: CENTER;
+}
+
+/* Table rows */
+.table-row-cell {
+     -fx-background-color: #1a2d28;  /* dark row background */
+        -fx-text-fill: #ffffff;         /* default white text */
+        -fx-font-size: 14px;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #10221c;  /* alternating rows */
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #ff6600;  /* orange highlight */
+    -fx-text-fill: #ffffff;
+}
+
+/* Table cells */
+    .table-cell {
+        -fx-padding: 8px;
+        -fx-alignment: CENTER_LEFT;
+        -fx-text-fill: #ffffff;   /* default text color */
+    }
+
+.table-view .column-header, .table-view .filler {
+    -fx-text-fill: #00ff00;  /* green text */
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER;
+    -fx-size: 40px;
+}
+.table-view .column-header-background {
+    -fx-background-color: linear-gradient(to bottom, #2c3e3b, #1b2a28);
+    -fx-border-color: transparent;
+    -fx-background-radius: 10 10 0 0;
+}
+
+/* Column header text */
+.table-view .column-header, .table-view .filler {
+    -fx-text-fill: #ffffff;    /* text color */
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER;
+    -fx-size: 40px;
+}
+#doneColumn{
+    -fx-text-fill: #ffffff;    /* text color */
+        -fx-font-weight: bold;
+        -fx-alignment: CENTER;
+        -fx-size: 40px;
+}

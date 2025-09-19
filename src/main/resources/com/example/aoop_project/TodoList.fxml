@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.TextFlow?>
+
+<BorderPane prefHeight="800" prefWidth="1200" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.TodoController">
+
+    <!-- Top: User Email -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 15; -fx-background-color: #10231c;" stylesheets="@StyleSheets/DashboardUI.css">
+            <Label style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 20;" text="Welcome Back">
+            <font>
+               <Font size="26.0" />
+            </font></Label>
+         <Label prefHeight="26.0" prefWidth="1086.0">
+            <graphic>
+                  <Label fx:id="emailLabel" style="-fx-text-fill: #1abc9c; -fx-font-size: 16;" />
+            </graphic>
+         </Label>
+         <Button mnemonicParsing="false" onAction="#handleDashboard" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="📈 Dashboard" />
+         <Button mnemonicParsing="false" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text=" 🧭Explore" />
+        </HBox>
+    </top>
+
+    <!-- Center: Table of tasks -->
+    <center>
+        <VBox spacing="15" style="-fx-padding: 20; -fx-background-color: #10231c;" VBox.vgrow="ALWAYS">
+         <TextFlow>
+            <children>
+                  <Label style="-fx-font-weight: bold; -fx-text-fill: white;" text="Task">
+                  <font>
+                     <Font size="39.0" />
+                  </font>
+               </Label>
+               <Label style="-fx-font-weight: bold; -fx-text-fill: #e67e22;" text="Master">
+                  <font>
+                     <Font size="39.0" />
+                  </font>
+               </Label>
+            </children>
+         </TextFlow>
+            <TableView fx:id="taskTable" style="-fx-background-color: #10231c;" stylesheets="@StyleSheets/TableUI.css" VBox.vgrow="ALWAYS">
+                <columns>
+                    <!-- Checkbox column -->
+                    <TableColumn fx:id="doneColumn" prefWidth="100" styleClass="doneColumn" text="Done" />
+
+                                         <!-- Task text column -->
+                    <TableColumn fx:id="taskColumn" prefWidth="1000" text="Task" />
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+
+    <!-- Bottom: Add new task -->
+    <bottom>
+        <HBox alignment="CENTER" spacing="15" style="-fx-padding: 15; -fx-background-color: #10231c;">
+            <TextField fx:id="taskField" promptText="Enter new task..." HBox.hgrow="ALWAYS" />
+            <Button onAction="#handleAddTask" prefHeight="31.0" prefWidth="76.0" style=": ;" styleClass="viewBtn" stylesheets="@StyleSheets/DashboardUI.css" text="Add Task" />
+            <Button onAction="#handleDeleteTask" style="-fx-background-color: #FF0000; -fx-text-fill: white; -fx-font-size: 14;" text="Delete Selected" />
+        </HBox>
+    </bottom>
+
+</BorderPane>

@@ -10,6 +10,7 @@ import javafx.scene.layout.GridPane;
 import javax.swing.*;
 import java.io.IOException;
 import java.sql.*;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -105,7 +106,8 @@ public class loginController  {
                 // Check password
                 if(password.equals(passDB)) {
                     LoginErrorUI.setText(""); // Clear error
-                    Session.setLoggedInUserEmail(email); // store email globally
+                    Session.setLoggedInUserEmail(email);// store email globally
+                    Session.setLoggedInUserName(rs.getString("full_name"));
 
                     // Use your existing scene launcher
                     getStartedApplication.launchScene("JobSeekerDashboard.fxml");
@@ -165,13 +167,15 @@ public class loginController  {
 
                 if (!rs.next()) {
                     // ✅ No duplicates → insert
-                    query = "INSERT INTO user(full_name,email,password,phone_number,account_type) VALUES(?,?,?,?,?)";
+                    query = "INSERT INTO user(full_name,email,password,phone_number,account_type,UUID) VALUES(?,?,?,?,?,?)";
+                    UUID id = UUID.randomUUID();
                     PreparedStatement insertStmt = con.prepareStatement(query);
                     insertStmt.setString(1, full_name);
                     insertStmt.setString(2, email_address);
                     insertStmt.setString(3, password);
                     insertStmt.setString(4, phone_number);
                     insertStmt.setString(5, account_type);
+                    insertStmt.setString(6, id.toString());
 
                     insertStmt.executeUpdate();
                     signUpError.setText("✅ User created successfully!");
