@@ -12,6 +12,9 @@ module com.example.aoop_project {
     requires org.apache.pdfbox;
     requires org.json;
 
+    opens com.example.aoop_project.games.chess to javafx.fxml;
     opens com.example.aoop_project to javafx.fxml;
+
+    exports com.example.aoop_project.games.chess;
     exports com.example.aoop_project;
 }

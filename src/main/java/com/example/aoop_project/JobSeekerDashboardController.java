@@ -1,7 +1,7 @@
 package com.example.aoop_project;
 
-import com.example.aoop_project.Session;
-import com.example.aoop_project.getStartedApplication;
+import com.example.aoop_project.games.chess.Interface;
+import com.example.aoop_project.games.chess.Main;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -141,6 +141,23 @@ public class JobSeekerDashboardController implements Initializable {
         Session.clear(); // clear logged-in user
         getStartedApplication.launchScene("login.fxml");
     }
+
+    @FXML
+    private void handleGame(ActionEvent e){
+        try {
+            // Create a fresh stage for the chess interface
+            Stage chessStage = new Stage();
+
+            // Instantiate your Application subclass directly
+            Interface chessApp = new Interface();
+
+            // Call its start method to set up the scene and show the window
+            chessApp.start(chessStage);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
 
     // Chatbot popup
     private Stage chatStage;
