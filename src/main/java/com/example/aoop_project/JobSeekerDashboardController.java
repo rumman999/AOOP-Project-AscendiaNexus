@@ -11,17 +11,22 @@ import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.shape.Circle;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import javax.swing.*;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class JobSeekerDashboardController implements Initializable {
@@ -30,16 +35,56 @@ public class JobSeekerDashboardController implements Initializable {
     @FXML private Label UserName;
     @FXML private Label accountDes;
     @FXML private Button logout_button;
+    @FXML private ImageView dassprofilePicView;
 
+    private static String profile; // stores user image path
+    private static Image defaultImage; // default GIF
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        // Load default image safely
+        if (defaultImage == null) {
+            try {
+                defaultImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/example/aoop_project/Images/chatbot2-unscreen.gif")));
+            } catch (Exception ex) {
+                System.out.println("⚠ Default profile image not found!");
+            }
+        }
+
         loadUserDataFromDB(); // fetch logged-in user data automatically
+
+        // Set image: user's image if exists, else default
+        Image imgToShow;
+        if (profile != null && !profile.isEmpty()) {
+            try {
+                imgToShow = new Image(profile);
+            } catch (Exception ex) {
+                imgToShow = defaultImage;
+            }
+        } else {
+            imgToShow = defaultImage;
+        }
+        dassprofilePicView.setImage(imgToShow);
+
+        // Set image view properties
+        double size = 72;
+        dassprofilePicView.setFitWidth(size);
+        dassprofilePicView.setFitHeight(size);
+        dassprofilePicView.setPreserveRatio(false);
+        dassprofilePicView.setSmooth(true);
+
+        // Clip image into circle
+        Circle clip = new Circle(size / 2, size / 2, size / 2);
+        dassprofilePicView.setClip(clip);
+
+        // Allow user to change profile picture
+        dassprofilePicView.setOnMouseClicked(e -> handleUploadPic());
     }
 
     private void loadUserDataFromDB() {
         String userEmail = Session.getLoggedInUserEmail();
-        if(userEmail == null || userEmail.isEmpty()) return;
+        if (userEmail == null || userEmail.isEmpty()) return;
 
         String SUrl = "jdbc:mysql://localhost:4306/java_user_database";
         String SUser = "root";
@@ -49,14 +94,19 @@ public class JobSeekerDashboardController implements Initializable {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection(SUrl, SUser, SPass);
 
-            String query = "SELECT full_name, account_type FROM user WHERE email=?";
+            String query = "SELECT full_name, account_type, profile_pic FROM user WHERE email=?";
             PreparedStatement pst = con.prepareStatement(query);
             pst.setString(1, userEmail);
 
             ResultSet rs = pst.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 String fullName = rs.getString("full_name");
                 String accountType = rs.getString("account_type");
+                String profilePic = rs.getString("profile_pic");
+
+                if (profilePic != null && !profilePic.isEmpty()) {
+                    profile = profilePic; // update user image
+                }
 
                 UserName.setText(fullName);
                 dashBoardName.setText(fullName);
@@ -71,20 +121,32 @@ public class JobSeekerDashboardController implements Initializable {
         }
     }
 
+    // Allows user to upload a new profile picture
+    private void handleUploadPic() {
+        FileChooser chooser = new FileChooser();
+        chooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif")
+        );
+        File file = chooser.showOpenDialog(dassprofilePicView.getScene().getWindow());
+        if (file != null) {
+            profile = file.toURI().toString();
+            dassprofilePicView.setImage(new Image(profile));
+            // Optional: save this path to DB immediately or on next profile save
+            System.out.println("🖼 Selected profile image: " + profile);
+        }
+    }
+
     @FXML
     private void handleLogout(ActionEvent e) {
         Session.clear(); // clear logged-in user
-
-        getStartedApplication.launchScene("login.fxml"); // use existing launcher
+        getStartedApplication.launchScene("login.fxml");
     }
 
-
+    // Chatbot popup
     private Stage chatStage;
-
     @FXML
     private void handleChatbot(ActionEvent e) {
         try {
-            // Reuse existing window if it's already created
             if (chatStage != null) {
                 if (!chatStage.isShowing()) chatStage.show();
                 chatStage.toFront();
@@ -96,18 +158,16 @@ public class JobSeekerDashboardController implements Initializable {
 
             Stage owner = (Stage) ((Node) e.getSource()).getScene().getWindow();
 
-            // Undecorated, stable (won't auto-hide on focus loss)
             chatStage = new Stage(StageStyle.UNDECORATED);
             chatStage.setTitle("Skill Buddy");
             chatStage.setScene(new Scene(root, 450, 550));
             chatStage.setResizable(false);
             chatStage.initOwner(owner);
-            chatStage.initModality(Modality.NONE);     // dashboard stays interactive
-            chatStage.setAlwaysOnTop(true);           // set true if you want it to float above
+            chatStage.initModality(Modality.NONE);
+            chatStage.setAlwaysOnTop(true);
 
-            // Pin to bottom-right of the owner window
             Runnable positionChat = () -> {
-                double x = owner.getX() + owner.getWidth()  - chatStage.getWidth()  - 20;
+                double x = owner.getX() + owner.getWidth() - chatStage.getWidth() - 20;
                 double y = owner.getY() + owner.getHeight() - chatStage.getHeight() - 35;
                 chatStage.setX(x);
                 chatStage.setY(y);
@@ -119,17 +179,14 @@ public class JobSeekerDashboardController implements Initializable {
             owner.widthProperty().addListener((obs, o, n) -> positionChat.run());
             owner.heightProperty().addListener((obs, o, n) -> positionChat.run());
 
-            // When user closes it, clear the reference so next click recreates it
             chatStage.setOnCloseRequest(ev -> chatStage = null);
-
             chatStage.show();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
 
-
-    // Class-level field
+    // Music popup
     private Stage musicStage;
     @FXML
     public void handleMusic(ActionEvent e) {
@@ -148,28 +205,22 @@ public class JobSeekerDashboardController implements Initializable {
                 musicStage.initStyle(StageStyle.UNDECORATED);
                 musicStage.setAlwaysOnTop(true);
 
-                // If user clicks window X -> hide only (do not close)
                 musicStage.setOnCloseRequest(event -> {
                     Boolean forceClose = Boolean.TRUE.equals(musicStage.getProperties().get("forceClose"));
                     if (!forceClose) {
-                        event.consume();       // prevent default close
-                        musicStage.hide();     // just hide (keeps background running)
+                        event.consume();
+                        musicStage.hide();
                     }
-                    // if forceClose==true, allow the close to proceed
                 });
 
-                // After it's hidden/closed, check if it was a forced close and free the reference
                 musicStage.setOnHidden(evt -> {
                     Boolean forceClose = Boolean.TRUE.equals(musicStage.getProperties().get("forceClose"));
                     if (Boolean.TRUE.equals(forceClose)) {
-                        // it was a real close -> cleanup
                         musicStage.getProperties().remove("forceClose");
-                        musicStage = null; // next click will recreate
+                        musicStage = null;
                     }
-                    // if it was just hide(), we keep musicStage alive (so music continues)
                 });
 
-                // Optional: give controller a reference
                 LofiMusicController controller = loader.getController();
                 controller.initStage(musicStage);
 
@@ -191,5 +242,10 @@ public class JobSeekerDashboardController implements Initializable {
     @FXML
     public void handleCV(ActionEvent e){
         getStartedApplication.launchScene("CVBuilder.fxml");
+    }
+
+    @FXML
+    public void handleProfile(ActionEvent e){
+        getStartedApplication.launchScene("Profile.fxml");
     }
 }

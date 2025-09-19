@@ -15,14 +15,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<ScrollPane fitToHeight="false" fitToWidth="true" onDragDetected="#initialize" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.CVBuilderController">
-
+<ScrollPane fitToHeight="false" fitToWidth="true" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.CVBuilderController">
     <VBox spacing="25" style="-fx-background-color: #10231c; -fx-border-radius: 18; -fx-background-radius: 18;">
-
         <padding>
             <Insets bottom="35" left="45" right="45" top="35" />
         </padding>
-
         <children>
             <!-- Title Section -->
             <VBox alignment="CENTER" spacing="8" style="-fx-background-color: #10231c;">
@@ -33,14 +30,12 @@
                 </Text>
                 <Text style="-fx-font-size: 16px; -fx-fill: white;" text="Create your perfect resume in minutes" />
             </VBox>
-
             <Separator style="-fx-background-color: #e67e22;" />
 
             <!-- Personal Information Section -->
             <VBox spacing="18">
                 <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #e67e22;" text="Personal Information" />
-
-                <GridPane hgap="20" maxWidth="Infinity" style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 28;" vgap="15">
+                <GridPane hgap="20" maxWidth="Infinity" style="-fx-background-color: #fff4e6; -fx-background-radius: 16; -fx-padding: 28;" vgap="15">
                     <columnConstraints>
                         <ColumnConstraints percentWidth="30" />
                         <ColumnConstraints percentWidth="70" />
@@ -69,39 +64,40 @@
                     <!-- Row 5: LinkedIn -->
                     <Label style="-fx-font-size:16px;-fx-text-fill:#2d3748;-fx-font-weight:600;" text="LinkedIn Profile" GridPane.columnIndex="0" GridPane.rowIndex="5" />
                     <TextField fx:id="linkedinField" promptText="https://linkedin.com/in/johndoe" style="-fx-background-color:#f8fafc;-fx-border-color:#cbd5e0;-fx-border-radius:8;-fx-background-radius:8;-fx-font-size:15px;-fx-padding:10;" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-               <rowConstraints>
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-               </rowConstraints>
+
+                    <rowConstraints>
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                    </rowConstraints>
                 </GridPane>
             </VBox>
 
             <!-- Professional Summary Section -->
             <VBox spacing="15">
                 <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #e67e22;" text="Professional Summary" />
-                <TextArea fx:id="summaryArea" prefRowCount="4" promptText="Write a compelling 2-3 sentence summary highlighting your key achievements and career goals..." style="-fx-background-color:#ffffff;-fx-border-color:#cbd5e0;-fx-border-radius:12;-fx-background-radius:12;-fx-font-size:15px;-fx-padding:15;" wrapText="true" />
+                <TextArea fx:id="summaryArea" prefRowCount="4" promptText="Write a compelling 2-3 sentence summary highlighting your key achievements and career goals..." style="-fx-background-color: #fff4e6; -fx-border-color: #cbd5e0; -fx-border-radius: 12; -fx-background-radius: 12; -fx-font-size: 15px; -fx-padding: 15;" wrapText="true" />
             </VBox>
 
             <!-- Skills Section -->
             <VBox spacing="15">
                 <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #e67e22;" text="Technical Skills" />
-                <TextField fx:id="skillsField" promptText="Java, Python, React, Node.js, SQL, AWS..." style="-fx-background-color:#ffffff;-fx-border-color:#cbd5e0;-fx-border-radius:12;-fx-background-radius:12;-fx-font-size:15px;-fx-padding:12;" />
+                <TextField fx:id="skillsField" promptText="Java, Python, React, Node.js, SQL, AWS..." style="-fx-background-color: #fff4e6; -fx-border-color: #cbd5e0; -fx-border-radius: 12; -fx-background-radius: 12; -fx-font-size: 15px; -fx-padding: 12;" />
             </VBox>
 
             <!-- Work Experience Section -->
             <VBox spacing="15">
                 <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #e67e22;" text="Work Experience" />
-                <TextArea fx:id="experienceArea" prefRowCount="6" promptText="Software Engineer | ABC Company | 2020-Present&#10;• Developed scalable web applications using React and Node.js&#10;• Improved system performance by 40%&#10;&#10;Junior Developer | XYZ Corp | 2018-2020&#10;• Built responsive user interfaces&#10;• Collaborated with cross-functional teams" style="-fx-background-color:#ffffff;-fx-border-color:#cbd5e0;-fx-border-radius:12;-fx-background-radius:12;-fx-font-size:15px;-fx-padding:15;" wrapText="true" />
+                <TextArea fx:id="experienceArea" prefRowCount="6" promptText="Software Engineer | ABC Company | 2020-Present&#10;• Developed scalable web applications using React and Node.js&#10;• Improved system performance by 40%&#10;&#10;Junior Developer | XYZ Corp | 2018-2020&#10;• Built responsive user interfaces&#10;• Collaborated with cross-functional teams" style="-fx-background-color: #fff4e6; -fx-border-color: #cbd5e0; -fx-border-radius: 12; -fx-background-radius: 12; -fx-font-size: 15px; -fx-padding: 15;" wrapText="true" />
             </VBox>
 
             <!-- Education Section -->
             <VBox spacing="15">
                 <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #e67e22;" text="Education" />
-                <TextArea fx:id="educationArea" prefRowCount="3" promptText="Bachelor of Computer Science | University Name | 2018&#10;GPA: 3.8/4.0&#10;Relevant Coursework: Data Structures, Algorithms, Database Systems" style="-fx-background-color:#ffffff;-fx-border-color:#cbd5e0;-fx-border-radius:12;-fx-background-radius:12;-fx-font-size:15px;-fx-padding:15;" wrapText="true" />
+                <TextArea fx:id="educationArea" prefRowCount="3" promptText="Bachelor of Computer Science | University Name | 2018&#10;GPA: 3.8/4.0&#10;Relevant Coursework: Data Structures, Algorithms, Database Systems" style="-fx-background-color: #fff4e6; -fx-border-color: #cbd5e0; -fx-border-radius: 12; -fx-background-radius: 12; -fx-font-size: 15px; -fx-padding: 15;" wrapText="true" />
             </VBox>
 
             <!-- Action Buttons -->
@@ -112,16 +108,26 @@
                 <Button onAction="#Submit" style="-fx-background-color: transparent; -fx-text-fill: #00F270; -fx-font-size: 17px; -fx-border-radius: 14; -fx-padding: 12 28 12 12 28 12 28 28; -fx-cursor: hand; -fx-border-color: #00F270; -fx-border-width: 2;" text=" Generate Professional CV" />
                 <Button onAction="#Reset" style="-fx-background-color: transparent; -fx-border-color: #00F270; -fx-border-width: 2; -fx-text-fill: #00F270; -fx-font-size: 17px; -fx-border-radius: 14; -fx-padding: 12 28 12 28; -fx-cursor: hand;" text="🔄 Clear All Fields" />
             </HBox>
-         <HBox centerShape="false" prefHeight="46.0" prefWidth="598.0">
+
+            <HBox centerShape="false" prefHeight="46.0" prefWidth="598.0">
+                <children>
+                    <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleDashboard" style="-fx-background-color: transparent; -fx-text-fill: #00F270; -fx-border-radius: 14; -fx-font-size: 17px; -fx-padding: 12 28 12 28; -fx-alignment: center; -fx-border-color: #00F270; -fx-border-width: 2; -fx-cursor: hand;" text="Return to Dashboard" />
+                </children>
+                <VBox.margin>
+                    <Insets />
+                </VBox.margin>
+                <padding>
+                    <Insets left="615.0" />
+                </padding>
+            </HBox>
+         <HBox prefHeight="30.0" prefWidth="687.0">
             <children>
-               <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleDashboard" style="-fx-background-color: transparent; -fx-text-fill: #00F270; -fx-border-radius: 14; -fx-font-size: 17px; -fx-padding: 12 28 12 28; -fx-alignment: center; -fx-border-color: #00F270; -fx-border-width: 2; -fx-cursor: hand;" text="Return to Dashboard" />
+               <Label fx:id="NotificationLabel" prefHeight="26.0" prefWidth="948.0" style="-fx-text-fill: #00F270; -fx-font-size: 17px; -fx-alignment: center;">
+                  <HBox.margin>
+                     <Insets left="253.0" />
+                  </HBox.margin>
+               </Label>
             </children>
-            <VBox.margin>
-               <Insets />
-            </VBox.margin>
-            <padding>
-               <Insets left="615.0" />
-            </padding>
          </HBox>
         </children>
     </VBox>

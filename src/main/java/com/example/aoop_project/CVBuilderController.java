@@ -2,6 +2,7 @@ package com.example.aoop_project;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -30,8 +31,7 @@ public class CVBuilderController {
     @FXML private TextField skillsField;
     @FXML private TextArea experienceArea;
     @FXML private TextArea educationArea;
-
-    
+    @FXML private Label NotificationLabel;
 
     @FXML
     void Reset(ActionEvent event) {
@@ -68,7 +68,6 @@ public class CVBuilderController {
             document.addPage(page);
 
             try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
-
                 // Colors
                 Color primaryBlue = new Color(49, 130, 206);
                 Color darkBlue = new Color(26, 54, 93);
@@ -113,7 +112,6 @@ public class CVBuilderController {
                 // Contact info vertically aligned
                 contentStream.setNonStrokingColor(darkBlue);
                 contentStream.setFont(helvetica, 11);
-
                 float contactY = yPosition - 25; // start position
 
                 if (!email.isEmpty()) {
@@ -153,8 +151,8 @@ public class CVBuilderController {
                             margin, yPosition, contentWidth, primaryBlue, darkBlue, helvetica, 12);
 
                 if (!skills.isEmpty())
-                    yPosition = drawSkillsSection(contentStream, skills, margin, yPosition,
-                            contentWidth, primaryBlue, accentBlue, Color.WHITE);
+                    yPosition = drawSkillsSection(contentStream, skills,
+                            margin, yPosition, contentWidth, primaryBlue, accentBlue, Color.WHITE);
 
                 if (!experience.isEmpty())
                     yPosition = drawSection(contentStream, "WORK EXPERIENCE", experience,
@@ -166,9 +164,12 @@ public class CVBuilderController {
             }
 
             String home = System.getProperty("user.home");
-            File pdfFile = new File(home, "Professional_CV_" + fullName.replaceAll("[^a-zA-Z0-9]", "_") + ".pdf");
+            File pdfFile = new File(home,
+                    "Professional_CV_" + fullName.replaceAll("[^a-zA-Z0-9]", "_") + ".pdf");
             document.save(pdfFile);
             System.out.println("CV saved: " + pdfFile.getAbsolutePath());
+
+            NotificationLabel.setText("CV created Successfully !");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -194,7 +195,6 @@ public class CVBuilderController {
         contentStream.stroke();
 
         y -= 28;
-
         contentStream.setNonStrokingColor(textColor);
         contentStream.setFont(font, fontSize);
 
@@ -205,12 +205,13 @@ public class CVBuilderController {
             contentStream.endText();
             y -= (fontSize + 3);
         }
+
         return y - 35;
     }
 
     private float drawSkillsSection(PDPageContentStream contentStream, String skills,
-                                    float x, float y, float width, Color titleColor,
-                                    Color chipColor, Color textColor) throws IOException {
+                                    float x, float y, float width,
+                                    Color titleColor, Color chipColor, Color textColor) throws IOException {
 
         contentStream.setNonStrokingColor(titleColor);
         contentStream.setFont(helveticaBold, 14);
@@ -255,7 +256,6 @@ public class CVBuilderController {
                 chipX += skillWidth + 12;
             }
         }
-
         return chipY - 45;
     }
 
@@ -280,7 +280,7 @@ public class CVBuilderController {
     }
 
     @FXML
-    private void handleDashboard(ActionEvent e){
+    private void handleDashboard(ActionEvent e) {
         getStartedApplication.launchScene("JobSeekerDashboard.fxml");
     }
 }

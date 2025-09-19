@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -10,7 +11,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
 <!-- Make BorderPane resizable to fill the AnchorPane -->
@@ -32,7 +35,7 @@
                   <Button alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="💼      Job Search" textFill="WHITE" />
                   <Button alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🎯      Focus Mode" textFill="WHITE" />
                   <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleCV" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="📄      CV Builder" textFill="WHITE" />
-                  <Button alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="👤      Profile" textFill="WHITE" />
+                  <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleProfile" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="👤      Profile" textFill="WHITE" />
                   <Button fx:id="logout_button" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleLogout" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🚶‍♂️      Logout" textFill="WHITE" />
               </children>
               <padding>
@@ -46,11 +49,20 @@
                   <!-- Profile Section -->
                   <HBox alignment="CENTER_LEFT">
                       <children>
-                          <ImageView fitHeight="64.0" fitWidth="71.0">
-                              <image>
-                                  <Image url="@Images/Profile.png" />
-                              </image>
-                          </ImageView>
+                  <StackPane>
+                     <children>
+                        <Group>
+                           <children>
+                              <Circle fx:id="dassprofileClip" fill="#ff852100" radius="36.0" stroke="#00f06c00" strokeType="INSIDE" />
+                                      <ImageView fx:id="dassprofilePicView" fitHeight="61.0" fitWidth="70.0" layoutX="-35.0" layoutY="-36.0">
+                                          <image>
+                                              <Image url="@Images/chatbot2-unscreen.gif" />
+                                          </image>
+                                      </ImageView>
+                           </children>
+                        </Group>
+                     </children>
+                  </StackPane>
                           <VBox prefHeight="64.0" prefWidth="302.0">
                               <children>
                                   <Label fx:id="UserName" prefHeight="30.0" prefWidth="218.0" textFill="WHITE">
@@ -65,7 +77,7 @@
                                   </Label>
                               </children>
                      <padding>
-                        <Insets top="7.0" />
+                        <Insets left="10.0" top="7.0" />
                      </padding>
                           </VBox>
                       </children>

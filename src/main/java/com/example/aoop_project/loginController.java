@@ -105,10 +105,12 @@ public class loginController  {
                 passDB = rs.getString("password");
                 // Check password
                 if(password.equals(passDB)) {
+                    int id = rs.getInt("id");
                     LoginErrorUI.setText(""); // Clear error
+                    Session.setLoggedInUserId(id);
                     Session.setLoggedInUserEmail(email);// store email globally
                     Session.setLoggedInUserName(rs.getString("full_name"));
-
+                    Session.setLoggedInUserPassword(passDB);
                     // Use your existing scene launcher
                     getStartedApplication.launchScene("JobSeekerDashboard.fxml");
                 } else {
