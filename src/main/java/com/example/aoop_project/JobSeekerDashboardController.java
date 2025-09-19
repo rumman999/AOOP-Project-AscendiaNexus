@@ -2,6 +2,7 @@ package com.example.aoop_project;
 
 import com.example.aoop_project.games.chess.Interface;
 import com.example.aoop_project.games.chess.Main;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -142,21 +143,45 @@ public class JobSeekerDashboardController implements Initializable {
         getStartedApplication.launchScene("login.fxml");
     }
 
+    // Keep one reference
+    private Stage chessStage;
+
     @FXML
-    private void handleGame(ActionEvent e){
+    private void handleGame(ActionEvent e) {
         try {
-            // Create a fresh stage for the chess interface
-            Stage chessStage = new Stage();
+            if (chessStage == null) {
+                Stage owner = (Stage) ((Node) e.getSource()).getScene().getWindow();
 
-            // Instantiate your Application subclass directly
-            Interface chessApp = new Interface();
+                chessStage = new Stage();
+                chessStage.initOwner(owner);       // tie to dashboard (z-order)
+                chessStage.initModality(Modality.NONE);
+                chessStage.setAlwaysOnTop(true);   // keep it above if desired
+                chessStage.setResizable(false);
 
-            // Call its start method to set up the scene and show the window
-            chessApp.start(chessStage);
+                // Launch your chess UI
+                Interface chessApp = new Interface();
+                chessApp.start(chessStage);
+
+                // Instead of destroying the stage on close, just hide it
+                chessStage.setOnCloseRequest(event -> {
+                    event.consume();   // prevent default close
+                    chessStage.hide(); // just hide
+                });
+
+                chessStage.show();
+            } else {
+                if (!chessStage.isShowing()) {
+                    chessStage.show();
+                }
+                chessStage.toFront();
+                chessStage.requestFocus();
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
+
+
 
 
     // Chatbot popup
@@ -265,4 +290,6 @@ public class JobSeekerDashboardController implements Initializable {
     public void handleProfile(ActionEvent e){
         getStartedApplication.launchScene("Profile.fxml");
     }
+
+
 }
