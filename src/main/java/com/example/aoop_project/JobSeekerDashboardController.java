@@ -291,5 +291,8 @@ public class JobSeekerDashboardController implements Initializable {
         getStartedApplication.launchScene("Profile.fxml");
     }
 
-
+    @FXML
+    public void handleMessages(ActionEvent e){
+        getStartedApplication.launchScene("ChatUI.fxml");
+    }
 }

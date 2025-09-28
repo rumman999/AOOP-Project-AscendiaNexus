@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.aoop_project.messaging.ChatController">
+
+    <!-- ===== LEFT SIDEBAR ===== -->
+    <left>
+        <VBox spacing="10">
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10" />
+            </padding>
+
+            <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Chats" />
+            <ListView fx:id="chatListView" prefHeight="400" prefWidth="180" />
+
+            <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Groups" />
+            <ListView fx:id="groupListView" prefHeight="200" prefWidth="180" />
+
+            <!-- ✅ Group creation button -->
+            <Button fx:id="createGroupBtn" text="➕ Create Group" onAction="#handleCreateGroup"/>
+        </VBox>
+    </left>
+
+    <!-- ===== MAIN CHAT AREA ===== -->
+    <center>
+        <VBox spacing="10">
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10" />
+            </padding>
+
+            <Label fx:id="chatTitle" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Select a chat..." />
+
+            <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" prefHeight="400" vbarPolicy="ALWAYS">
+                <VBox fx:id="messageContainer" spacing="5"/>
+            </ScrollPane>
+
+            <HBox spacing="5">
+                <TextField fx:id="messageField" promptText="Type your message..." HBox.hgrow="ALWAYS"/>
+                <Button text="Send" onAction="#handleSend"/>
+            </HBox>
+        </VBox>
+    </center>
+
+</BorderPane>

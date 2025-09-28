@@ -14,7 +14,10 @@ module com.example.aoop_project {
 
     opens com.example.aoop_project.games.chess to javafx.fxml;
     opens com.example.aoop_project to javafx.fxml;
+    opens com.example.aoop_project.messaging to javafx.fxml;   // 🔑 added
 
     exports com.example.aoop_project.games.chess;
     exports com.example.aoop_project;
+    exports com.example.aoop_project.messaging;
+    exports com.example.aoop_project.chat;
 }

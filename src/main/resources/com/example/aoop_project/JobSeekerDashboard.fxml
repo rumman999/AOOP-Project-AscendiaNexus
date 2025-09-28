@@ -27,7 +27,7 @@
                         <!-- Navigation Buttons -->
                   <Button alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🏠      Home" textFill="WHITE" />
                   <Button fx:id="LofiMusic" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleMusic" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🎧      Lo-Fi Music" textFill="WHITE" />
-                  <Button alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="💬     Messages" textFill="WHITE" />
+                  <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleMessages" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="💬     Messages" textFill="WHITE" />
                   <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleTodolist" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="📝      Todo-List" textFill="WHITE" />
                   <Button alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🛒      Shop" textFill="WHITE" />
                   <Button fx:id="chatDock" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleChatbot" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🤖      ChatBot" textFill="WHITE" />
