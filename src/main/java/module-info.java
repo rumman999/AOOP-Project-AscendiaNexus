@@ -11,6 +11,7 @@ module com.example.aoop_project {
     requires com.google.gson;
     requires org.apache.pdfbox;
     requires org.json;
+    requires org.slf4j;
 
     opens com.example.aoop_project.games.chess to javafx.fxml;
     opens com.example.aoop_project to javafx.fxml;

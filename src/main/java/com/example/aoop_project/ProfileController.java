@@ -77,6 +77,7 @@ public class ProfileController {
                 accountTypeLabel.setText("Account Type: " + rs.getString("account_type"));
 
                 String picPath = rs.getString("profile_pic");
+                Session.setPic(picPath);
                 if (picPath != null && !picPath.isEmpty()) {
                     profilePicView.setImage(new Image(picPath));
                     profilePicView.setUserData(picPath);

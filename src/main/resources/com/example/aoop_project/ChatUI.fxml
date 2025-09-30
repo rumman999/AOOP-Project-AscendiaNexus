@@ -1,28 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.aoop_project.messaging.ChatController">
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.messaging.ChatController">
 
     <!-- ===== LEFT SIDEBAR ===== -->
     <left>
-        <VBox spacing="10">
+        <VBox prefHeight="768.0" prefWidth="305.0" spacing="10">
             <padding>
                 <Insets bottom="10" left="10" right="10" top="10" />
             </padding>
-
-            <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Chats" />
+         <HBox alignment="CENTER">
+            <children>
+      
+                  <Label style="-fx-font-size: 23px; -fx-font-weight: bold;" text="Chats">
+                  <font>
+                     <Font size="22.0" />
+                  </font>
+               </Label>
+               <ImageView fitHeight="150.0" fitWidth="200.0">
+                  <image>
+                     <Image url="@Images/chatgif-unscreen.gif" />
+                  </image>
+               </ImageView>
+            </children>
+         </HBox>
+         <Label fx:id="loggedInUser" prefHeight="34.0" prefWidth="286.0" wrapText="true">
+            <font>
+               <Font size="15.0" />
+            </font></Label>
             <ListView fx:id="chatListView" prefHeight="400" prefWidth="180" />
 
-            <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Groups" />
+            <Label style="-fx-font-size: 23px; -fx-font-weight: bold;" text="Groups">
+            <font>
+               <Font size="23.0" />
+            </font></Label>
             <ListView fx:id="groupListView" prefHeight="200" prefWidth="180" />
 
             <!-- ✅ Group creation button -->
-            <Button fx:id="createGroupBtn" text="➕ Create Group" onAction="#handleCreateGroup"/>
+            <Button fx:id="createGroupBtn" onAction="#handleCreateGroup" text="➕ Create Group">
+            <font>
+               <Font size="16.0" />
+            </font></Button>
         </VBox>
     </left>
 
@@ -33,16 +63,34 @@
                 <Insets bottom="10" left="10" right="10" top="10" />
             </padding>
 
-            <Label fx:id="chatTitle" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Select a chat..." />
+            <Label fx:id="chatTitle" style="-fx-font-size: 23px; -fx-font-weight: bold;" text="Select a chat...">
+            <font>
+               <Font size="23.0" />
+            </font></Label>
 
-            <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" prefHeight="400" vbarPolicy="ALWAYS">
-                <VBox fx:id="messageContainer" spacing="5"/>
+            <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" prefHeight="661.0" prefWidth="198.0" vbarPolicy="ALWAYS">
+                <VBox fx:id="messageContainer" prefHeight="592.0" prefWidth="182.0" spacing="5" />
             </ScrollPane>
 
             <HBox spacing="5">
-                <TextField fx:id="messageField" promptText="Type your message..." HBox.hgrow="ALWAYS"/>
-                <Button text="Send" onAction="#handleSend"/>
+                <TextField fx:id="messageField" prefHeight="26.0" prefWidth="78.0" promptText="Type your message..." HBox.hgrow="ALWAYS">
+               <font>
+                  <Font size="16.0" />
+               </font></TextField>
+                <Button onAction="#handleSend" text="Send">
+               <font>
+                  <Font size="16.0" />
+               </font></Button>
             </HBox>
+         <HBox alignment="CENTER">
+            <children>
+               <Button mnemonicParsing="false" onAction="#handleDashboard" text="Back to Dashboard">
+                  <font>
+                     <Font size="16.0" />
+                  </font>
+               </Button>
+            </children>
+         </HBox>
         </VBox>
     </center>
 

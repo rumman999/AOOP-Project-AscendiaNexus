@@ -5,6 +5,7 @@ public class Session {
     private static String loggedInUserEmail;
     private static String loggedInUserName;
     private static String loggedInUserPassword;
+    private static String pic="";
 
     // ===== User ID =====
     public static void setLoggedInUserId(int id) {
@@ -40,6 +41,10 @@ public class Session {
     public static void setLoggedInUserPassword(String pass){
         loggedInUserPassword=pass;
     }
+
+    public static void setPic(String s){  pic = s; }
+
+    public static String getPic(){ return pic; }
 
     // ===== Clear session =====
     public static void clear() {
