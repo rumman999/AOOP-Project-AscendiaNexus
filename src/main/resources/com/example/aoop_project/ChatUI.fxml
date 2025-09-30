@@ -17,14 +17,14 @@
 
     <!-- ===== LEFT SIDEBAR ===== -->
     <left>
-        <VBox prefHeight="768.0" prefWidth="305.0" spacing="10">
+        <VBox prefHeight="768.0" prefWidth="305.0" spacing="10" style="-fx-background-color: #10231c;">
             <padding>
                 <Insets bottom="10" left="10" right="10" top="10" />
             </padding>
          <HBox alignment="CENTER">
             <children>
       
-                  <Label style="-fx-font-size: 23px; -fx-font-weight: bold;" text="Chats">
+                  <Label style="-fx-font-size: 23px; -fx-font-weight: bold;" text="Chats" textFill="#e67e22">
                   <font>
                      <Font size="22.0" />
                   </font>
@@ -36,55 +36,58 @@
                </ImageView>
             </children>
          </HBox>
-         <Label fx:id="loggedInUser" prefHeight="34.0" prefWidth="286.0" wrapText="true">
+         <Label fx:id="loggedInUser" prefHeight="34.0" prefWidth="286.0" style="-fx-font-weight: bold;" textFill="#e67e22" wrapText="true">
             <font>
                <Font size="15.0" />
             </font></Label>
-            <ListView fx:id="chatListView" prefHeight="400" prefWidth="180" />
+            <ListView fx:id="chatListView" prefHeight="400" prefWidth="180" style="-fx-background-color: #FFF7E0; -fx-border-radius: 4;" />
 
-            <Label style="-fx-font-size: 23px; -fx-font-weight: bold;" text="Groups">
+            <Label style="-fx-font-size: 23px; -fx-font-weight: bold;" text="Groups" textFill="#e67e22">
             <font>
                <Font size="23.0" />
             </font></Label>
-            <ListView fx:id="groupListView" prefHeight="200" prefWidth="180" />
+            <ListView fx:id="groupListView" prefHeight="200" prefWidth="180" style="-fx-background-color: #FFF7E0; -fx-border-radius: ; -fx-border-color: ; -fx-border-radius: 4;" />
 
             <!-- ✅ Group creation button -->
-            <Button fx:id="createGroupBtn" onAction="#handleCreateGroup" text="➕ Create Group">
+            <Button fx:id="createGroupBtn" onAction="#handleCreateGroup" style="-fx-text-fill: #00F270; -fx-border-radius: 12px; -fx-padding: 8 20 8 20; -fx-cursor: hand; -fx-border-color: #00F270; -fx-background-color: transparent; -fx-border-width: 2;" text="➕ Create Group">
             <font>
                <Font size="16.0" />
-            </font></Button>
+            </font>
+            <VBox.margin>
+               <Insets top="10.0" />
+            </VBox.margin></Button>
         </VBox>
     </left>
 
     <!-- ===== MAIN CHAT AREA ===== -->
     <center>
-        <VBox spacing="10">
+        <VBox spacing="10" style="-fx-background-color: #10231c;">
             <padding>
                 <Insets bottom="10" left="10" right="10" top="10" />
             </padding>
 
-            <Label fx:id="chatTitle" style="-fx-font-size: 23px; -fx-font-weight: bold;" text="Select a chat...">
+            <Label fx:id="chatTitle" style="-fx-font-size: 23px; -fx-font-weight: bold;" text="Select a chat..." textFill="#e67e22">
             <font>
                <Font size="23.0" />
             </font></Label>
 
-            <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" prefHeight="661.0" prefWidth="198.0" vbarPolicy="ALWAYS">
-                <VBox fx:id="messageContainer" prefHeight="592.0" prefWidth="182.0" spacing="5" />
+            <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="661.0" prefWidth="198.0" style="-fx-background-color: transparent;" vbarPolicy="NEVER">
+                <VBox fx:id="messageContainer" prefHeight="592.0" prefWidth="182.0" spacing="5" style="-fx-background-color: #FFF7E0; -fx-border-width: 3; -fx-border-radius: 20px;" />
             </ScrollPane>
 
             <HBox spacing="5">
-                <TextField fx:id="messageField" prefHeight="26.0" prefWidth="78.0" promptText="Type your message..." HBox.hgrow="ALWAYS">
+                <TextField fx:id="messageField" prefHeight="26.0" prefWidth="78.0" promptText="Type your message..." style="-fx-background-color: #FFF7E0; -fx-background-radius: 14px;" HBox.hgrow="ALWAYS">
                <font>
-                  <Font size="16.0" />
+                  <Font size="20.0" />
                </font></TextField>
-                <Button onAction="#handleSend" text="Send">
+                <Button onAction="#handleSend" style="-fx-text-fill: #00F270; -fx-border-radius: 14px; -fx-padding: 8 20 8 20; -fx-cursor: hand; -fx-background-color: transparent; -fx-border-width: 2; -fx-border-color: #00F270;" text="Send">
                <font>
                   <Font size="16.0" />
                </font></Button>
             </HBox>
          <HBox alignment="CENTER">
             <children>
-               <Button mnemonicParsing="false" onAction="#handleDashboard" text="Back to Dashboard">
+               <Button mnemonicParsing="false" onAction="#handleDashboard" style="-fx-text-fill: #00F270; -fx-border-radius: 12px; -fx-padding: 8 20 8 20; -fx-cursor: hand; -fx-border-color: #00F270; -fx-background-color: transparent; -fx-border-width: 2;" text="Back to Dashboard">
                   <font>
                      <Font size="16.0" />
                   </font>

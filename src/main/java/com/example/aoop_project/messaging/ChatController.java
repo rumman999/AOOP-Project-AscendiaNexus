@@ -9,8 +9,6 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -43,6 +41,7 @@ public class ChatController {
             loadUsers();
             loadGroups();
             setupListHandlers();
+            messageField.setOnAction(event -> handleSend());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -54,15 +53,53 @@ public class ChatController {
                 Session.getLoggedInUserName());
 
         client.setOnMessage(msg -> Platform.runLater(() -> {
-            HBox bubble = MessageBubble.create("Server", msg, System.currentTimeMillis(), false);
-            messageContainer.getChildren().add(bubble);
-            scrollToBottom();
+            // ✅ Determine if the message belongs to current chat
+            boolean showMessage = false;
+            String sender = "Server";
+            String text = msg;
+
+            // Check if it's a private message
+            if (msg.contains("(private):")) {
+                String[] parts = msg.split(" \\(private\\): ", 2);
+                sender = parts[0];
+                text = parts[1];
+
+                // Only show if current chat is with this sender
+                if ("USER".equals(currentTargetType) && currentTargetId != null) {
+                    // extract sender ID from DB if needed or just match name
+                    if (sender.equals(chatListView.getSelectionModel().getSelectedItem().split(":")[1].trim())) {
+                        showMessage = true;
+                    }
+                }
+            }
+            // Check if it's a group message
+            else if (msg.startsWith("[Group ")) {
+                int groupIdStart = msg.indexOf(" ") + 1;
+                int groupIdEnd = msg.indexOf("]");
+                int groupId = Integer.parseInt(msg.substring(groupIdStart, groupIdEnd));
+
+                // Only show if current chat is this group
+                if ("GROUP".equals(currentTargetType) && currentTargetId != null && currentTargetId == groupId) {
+                    showMessage = true;
+                }
+            }
+            // Broadcast message
+            else if ("ALL".equals(currentTargetType)) {
+                showMessage = true;
+            }
+
+            if (showMessage) {
+                HBox bubble = MessageBubble.create(sender, text, System.currentTimeMillis(), false);
+                messageContainer.getChildren().add(bubble);
+                scrollToBottom();
+            }
         }));
     }
 
+
     private void setupListHandlers() {
-        chatListView.setOnMouseClicked(e -> selectUserChat());   // ✅ switch to USER
-        groupListView.setOnMouseClicked(e -> selectGroupChat()); // ✅ switch to GROUP
+        chatListView.setOnMouseClicked(e -> selectUserChat());
+        groupListView.setOnMouseClicked(e -> selectGroupChat());
     }
 
     private void loadUsers() {
@@ -93,7 +130,7 @@ public class ChatController {
         if (text == null || text.isBlank()) return;
 
         switch (currentTargetType) {
-            case "ALL" -> client.sendMessage(text); // ✅ broadcast
+            case "ALL" -> client.sendMessage(text);
             case "USER" -> { if (currentTargetId != null) client.sendPrivateMessage(currentTargetId, text); }
             case "GROUP" -> { if (currentTargetId != null) client.sendGroupMessage(currentTargetId, text); }
         }
@@ -109,10 +146,9 @@ public class ChatController {
         String[] parts = selected.split(":");
         currentTargetId = Integer.parseInt(parts[0].trim());
 
-        // ✅ SWITCH TO USER
         currentTargetType = "USER";
         chatTitle.setText("Chat with " + parts[1].trim());
-        messageContainer.getChildren().clear(); // ✅ clear previous messages
+        messageContainer.getChildren().clear();
 
         try (ResultSet rs = DBUtils.getPrivateMessages(
                 Session.getLoggedInUserId(),
@@ -142,10 +178,9 @@ public class ChatController {
         String[] parts = selected.split(":");
         currentTargetId = Integer.parseInt(parts[0].trim());
 
-        // ✅ SWITCH TO GROUP
         currentTargetType = "GROUP";
         chatTitle.setText("Group: " + parts[1].trim());
-        messageContainer.getChildren().clear(); // ✅ clear previous messages
+        messageContainer.getChildren().clear();
 
         try (ResultSet rs = DBUtils.getGroupMessages(currentTargetId, 50)) {
             while (rs.next()) {
@@ -180,9 +215,30 @@ public class ChatController {
         String groupName = nameDialog.showAndWait().orElse(null);
         if (groupName == null || groupName.isBlank()) return;
 
-        List<Integer> members = new ArrayList<>();
-        members.add(Session.getLoggedInUserId());
-        // TODO: show dialog to pick members
+        try {
+            List<Integer> userIds = new ArrayList<>();
+            List<String> userNames = new ArrayList<>();
+            try (ResultSet rs = DBUtils.getAllOtherUsers(Session.getLoggedInUserId())) {
+                while (rs.next()) {
+                    userIds.add(rs.getInt("id"));
+                    userNames.add(rs.getString("full_name"));
+                }
+            }
+
+            List<Integer> selectedMembers = UserSelectionDialog.show(userNames, userIds);
+            if (selectedMembers == null || selectedMembers.isEmpty()) return;
+
+            selectedMembers.add(Session.getLoggedInUserId());
+            int groupId = DBUtils.createGroup(groupName, Session.getLoggedInUserId(), selectedMembers);
+
+            if (groupId != -1) {
+                loadGroups();
+                new Alert(Alert.AlertType.INFORMATION, "Group created!").showAndWait();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

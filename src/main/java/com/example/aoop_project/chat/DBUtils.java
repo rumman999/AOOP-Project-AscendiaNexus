@@ -114,19 +114,53 @@ public class DBUtils {
         return stmt.executeQuery();
     }
 
-    public static int createGroup(String name, int creatorId) throws Exception {
-        String sql = "INSERT INTO groups (name, creator_id) VALUES (?, ?)";
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            stmt.setString(1, name);
-            stmt.setInt(2, creatorId);
-            stmt.executeUpdate();
+    public static int createGroup(String name, int creatorId, List<Integer> memberIds) throws Exception {
+        String sqlGroup = "INSERT INTO groups (name) VALUES (?)";
+        String sqlMembers = "INSERT INTO group_members (group_id, user_id) VALUES (?, ?)";
 
-            try (ResultSet rs = stmt.getGeneratedKeys()) {
-                if (rs.next()) return rs.getInt(1); // return group_id
+        try (Connection conn = getConnection();
+             PreparedStatement stmtGroup = conn.prepareStatement(sqlGroup, Statement.RETURN_GENERATED_KEYS)) {
+
+            // Insert group
+            stmtGroup.setString(1, name);
+            stmtGroup.executeUpdate();
+
+            ResultSet rs = stmtGroup.getGeneratedKeys();
+            if (rs.next()) {
+                int groupId = rs.getInt(1);
+
+                // Insert members (including creator)
+                try (PreparedStatement stmtMembers = conn.prepareStatement(sqlMembers)) {
+                    for (int memberId : memberIds) {
+                        stmtMembers.setInt(1, groupId);
+                        stmtMembers.setInt(2, memberId);
+                        stmtMembers.addBatch();
+                    }
+                    stmtMembers.executeBatch();
+                }
+
+                return groupId;
             }
         }
         return -1;
     }
+
+    public static ResultSet getGroupMembers(int groupId) throws SQLException {
+        String sql = "SELECT user_id FROM group_members WHERE group_id = ?";
+        PreparedStatement ps = getConnection().prepareStatement(sql);
+        ps.setInt(1, groupId);
+        return ps.executeQuery();
+    }
+
+    public static boolean isUserInGroup(int userId, int groupId) throws SQLException {
+        String sql = "SELECT 1 FROM group_members WHERE user_id = ? AND group_id = ?";
+        PreparedStatement ps = getConnection().prepareStatement(sql);
+        ps.setInt(1, userId);
+        ps.setInt(2, groupId);
+        ResultSet rs = ps.executeQuery();
+        return rs.next();
+    }
+
+
 
 }
