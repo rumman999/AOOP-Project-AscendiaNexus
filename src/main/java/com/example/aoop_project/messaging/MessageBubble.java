@@ -41,8 +41,9 @@ public class MessageBubble {
         messageLabel.setFont(new Font(14));
         messageLabel.setWrapText(true);
         messageLabel.setPadding(new Insets(8, 10, 6, 10));
+        messageLabel.setWrapText(true);
         messageLabel.setMaxWidth(420);
-        messageLabel.setPrefWidth(Region.USE_COMPUTED_SIZE);
+        messageLabel.setMinHeight(Region.USE_PREF_SIZE);
 
         // Timestamp
         Label timeLabel = new Label(timeString);

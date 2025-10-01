@@ -110,6 +110,7 @@ public class loginController  {
                     Session.setLoggedInUserId(id);
                     Session.setLoggedInUserEmail(email);// store email globally
                     Session.setLoggedInUserName(rs.getString("full_name"));
+                    Session.setLoggedInUserType(rs.getString("account_type"));
                     Session.setLoggedInUserPassword(passDB);
                     // Use your existing scene launcher
                     getStartedApplication.launchScene("JobSeekerDashboard.fxml");

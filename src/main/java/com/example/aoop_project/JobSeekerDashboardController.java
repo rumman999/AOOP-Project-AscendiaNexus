@@ -37,12 +37,24 @@ public class JobSeekerDashboardController implements Initializable {
     @FXML private Label accountDes;
     @FXML private Button logout_button;
     @FXML private ImageView dassprofilePicView;
+    @FXML private Button ModerateContent;
+    @FXML private Button postJobs;
 
     private static String profile; // stores user image path
     private static Image defaultImage; // default GIF
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        String acc = Session.getLoggedInUserType();
+        if(acc.equals("Jobseeker")){
+            postJobs.setDisable(true);
+            ModerateContent.setDisable(true);
+        }
+
+        if(acc.equals("Recruiter")){
+            ModerateContent.setDisable(true);
+        }
 
         // Load default image safely
         if (defaultImage == null) {

@@ -6,7 +6,7 @@ public class Session {
     private static String loggedInUserName;
     private static String loggedInUserPassword;
     private static String pic="";
-
+    private static String s;
     // ===== User ID =====
     public static void setLoggedInUserId(int id) {
         loggedInUserId = id;
@@ -51,5 +51,13 @@ public class Session {
         loggedInUserId = 0;          // reset to default
         loggedInUserEmail = null;
         loggedInUserName = null;
+    }
+
+    public static void setLoggedInUserType(String accountType) {
+        s=accountType;
+    }
+
+    public static String getLoggedInUserType(){
+        return s;
     }
 }

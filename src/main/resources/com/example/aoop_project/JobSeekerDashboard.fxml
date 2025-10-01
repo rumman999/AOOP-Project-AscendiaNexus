@@ -21,7 +21,7 @@
 <BorderPane style="-fx-background-color: #10231c;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.JobSeekerDashboardController">
       <left>
           <!-- VBox without fixed width, it will resize with the screen -->
-          <VBox prefHeight="531.0" prefWidth="298.0" style="-fx-background-color: #10231c;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
+          <VBox fx:id="moderateContent" prefHeight="531.0" prefWidth="298.0" style="-fx-background-color: #10231c;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
               <children>
 
                         <!-- Navigation Buttons -->
@@ -36,7 +36,9 @@
                   <Button alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🎯      Focus Mode" textFill="WHITE" />
                   <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleCV" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="📄      CV Builder" textFill="WHITE" />
                   <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleProfile" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="👤      Profile" textFill="WHITE" />
-                  <Button fx:id="logout_button" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleLogout" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🚶‍♂️      Logout" textFill="WHITE" />
+                  <Button fx:id="logout_button" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleLogout" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🚶‍♂️     Logout" textFill="WHITE" />
+            <Button fx:id="postJobs" alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🔎     Post Jobs" textFill="WHITE" />
+            <Button fx:id="ModerateContent" alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="👮    Moderate Contents" textFill="WHITE" />
               </children>
               <padding>
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
