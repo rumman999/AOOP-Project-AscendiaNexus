@@ -289,6 +289,23 @@ public class JobSeekerDashboardController implements Initializable {
     }
 
     @FXML
+    private void handlePostJobs(ActionEvent e) throws IOException {
+        // Close current window
+        Stage currentStage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        currentStage.close();
+
+        // Load AdminJobManager.fxml
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/aoop_project/AdminJobManager.fxml"));
+        Parent root = loader.load();
+
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Admin Job Management");
+        stage.show();
+    }
+
+
+    @FXML
     public void handleTodolist(ActionEvent e){
         getStartedApplication.launchScene("TodoList.fxml");
     }
