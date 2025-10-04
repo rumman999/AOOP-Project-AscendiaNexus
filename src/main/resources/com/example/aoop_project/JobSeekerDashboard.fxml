@@ -19,475 +19,475 @@
 <!-- Make BorderPane resizable to fill the AnchorPane -->
 
 <BorderPane style="-fx-background-color: #10231c;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.JobSeekerDashboardController">
-      <left>
-          <!-- VBox without fixed width, it will resize with the screen -->
-          <VBox fx:id="moderateContent" prefHeight="531.0" prefWidth="298.0" style="-fx-background-color: #10231c;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
-              <children>
+    <left>
+        <!-- VBox without fixed width, it will resize with the screen -->
+        <VBox fx:id="moderateContent" prefHeight="531.0" prefWidth="298.0" style="-fx-background-color: #10231c;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
+            <children>
 
-                        <!-- Navigation Buttons -->
-                  <Button alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🏠      Home" textFill="WHITE" />
-                  <Button fx:id="LofiMusic" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleMusic" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🎧      Lo-Fi Music" textFill="WHITE" />
-                  <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleMessages" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="💬     Messages" textFill="WHITE" />
-                  <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleTodolist" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="📝      Todo-List" textFill="WHITE" />
-                  <Button alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🛒      Shop" textFill="WHITE" />
-                  <Button fx:id="chatDock" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleChatbot" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🤖      ChatBot" textFill="WHITE" />
-                  <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleGame" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🎮      Games" textFill="WHITE" />
-                  <Button alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="💼      Job Search" textFill="WHITE" />
-                  <Button alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🎯      Focus Mode" textFill="WHITE" />
-                  <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleCV" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="📄      CV Builder" textFill="WHITE" />
-                  <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleProfile" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="👤      Profile" textFill="WHITE" />
-                  <Button fx:id="logout_button" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleLogout" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🚶‍♂️     Logout" textFill="WHITE" />
-            <Button fx:id="postJobs" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handlePostJobs" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🔎     Post Jobs" textFill="WHITE" />
-            <Button fx:id="ModerateContent" alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="👮    Moderate Contents" textFill="WHITE" />
-              </children>
-              <padding>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-              </padding>
-          </VBox>
-      </left>
-   <top>
-      <HBox style="-fx-background-color: #10231c;" BorderPane.alignment="CENTER">
-         <children>
-                  <!-- Profile Section -->
-                  <HBox alignment="CENTER_LEFT">
-                      <children>
-                  <StackPane>
-                     <children>
-                        <Group>
-                           <children>
-                              <Circle fx:id="dassprofileClip" fill="#ff852100" radius="36.0" stroke="#00f06c00" strokeType="INSIDE" />
-                                      <ImageView fx:id="dassprofilePicView" fitHeight="61.0" fitWidth="70.0" layoutX="-35.0" layoutY="-36.0">
-                                          <image>
-                                              <Image url="@Images/chatbot2-unscreen.gif" />
-                                          </image>
-                                      </ImageView>
-                           </children>
-                        </Group>
-                     </children>
-                  </StackPane>
-                          <VBox prefHeight="64.0" prefWidth="302.0">
-                              <children>
-                                  <Label fx:id="UserName" prefHeight="30.0" prefWidth="218.0" textFill="WHITE">
-                                      <font>
-                                          <Font size="20.0" />
-                                      </font>
-                                  </Label>
-                                  <Label fx:id="accountDes" textFill="#379172">
-                                      <font>
-                                          <Font size="15.0" />
-                                      </font>
-                                  </Label>
-                              </children>
-                     <padding>
-                        <Insets left="10.0" top="7.0" />
-                     </padding>
-                          </VBox>
-                      </children>
-                  </HBox>
-            <Button mnemonicParsing="false" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="📈 Dashboard" textFill="WHITE">
-               <font>
-                  <Font size="15.0" />
-               </font>
-               <HBox.margin>
-                  <Insets left="40.0" top="15.0" />
-               </HBox.margin>
-            </Button>
-            <Button mnemonicParsing="false" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🧑‍💻 Feed" textFill="WHITE">
-               <HBox.margin>
-                  <Insets left="30.0" top="15.0" />
-               </HBox.margin>
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Button>
-            <Button mnemonicParsing="false" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🧭Explore" textFill="WHITE">
-               <font>
-                  <Font size="15.0" />
-               </font>
-               <HBox.margin>
-                  <Insets left="30.0" top="15.0" />
-               </HBox.margin>
-            </Button>
-            <TextField prefHeight="31.0" prefWidth="393.0" promptText="🔍 Search" styleClass="search" stylesheets="@StyleSheets/DashboardUI.css">
-               <font>
-                  <Font size="15.0" />
-               </font>
-               <HBox.margin>
-                  <Insets left="100.0" top="18.0" />
-               </HBox.margin>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-            </TextField>
-            <Button mnemonicParsing="false" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="👥 About Us" textFill="WHITE">
-               <font>
-                  <Font size="15.0" />
-               </font>
-               <HBox.margin>
-                  <Insets left="40.0" top="15.0" />
-               </HBox.margin>
-            </Button>
-         </children>
-         <BorderPane.margin>
-            <Insets />
-         </BorderPane.margin>
-         <padding>
-            <Insets bottom="20.0" left="20.0" top="20.0" />
-         </padding>
-      </HBox>
-   </top>
-   <right>
-      <ScrollPane styleClass="custom-scroll" stylesheets="@StyleSheets/DashboardUI.css" BorderPane.alignment="CENTER">
-         <content>
-            <VBox minHeight="2000.0" prefWidth="1450.0">
-               <children>
-                  <HBox prefHeight="29.0" prefWidth="1323.0">
-                     <children>
-                        <VBox prefHeight="73.0" prefWidth="641.0">
-                           <children>
-                              <HBox prefHeight="68.0" prefWidth="676.0">
-                                 <children>
-                                    <Label prefHeight="47.0" prefWidth="223.0" text="Welcome Back, " textFill="WHITE">
-                                       <font>
-                                          <Font size="32.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="dashBoardName" prefHeight="47.0" prefWidth="402.0" textFill="WHITE" wrapText="true">
-                                       <font>
-                                          <Font size="32.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets top="5.0" />
-                                 </VBox.margin>
-                                 <padding>
-                                    <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
-                                 </padding>
-                              </HBox>
-                           </children>
+                <!-- Navigation Buttons -->
+                <Button alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🏠      Home" textFill="WHITE" />
+                <Button fx:id="LofiMusic" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleMusic" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🎧      Lo-Fi Music" textFill="WHITE" />
+                <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleMessages" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="💬     Messages" textFill="WHITE" />
+                <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleTodolist" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="📝      Todo-List" textFill="WHITE" />
+                <Button alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🛒      Shop" textFill="WHITE" />
+                <Button fx:id="chatDock" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleChatbot" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🤖      ChatBot" textFill="WHITE" />
+                <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleGame" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🎮      Games" textFill="WHITE" />
+                <Button alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="💼      Job Search" textFill="WHITE" />
+                <Button alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🎯      Focus Mode" textFill="WHITE" />
+                <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleCV" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="📄      CV Builder" textFill="WHITE" />
+                <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleProfile" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="👤      Profile" textFill="WHITE" />
+                <Button fx:id="logout_button" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleLogout" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🚶‍♂️     Logout" textFill="WHITE" />
+                <Button fx:id="postJobs" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handlePostJobs" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🔎     Post Jobs" textFill="WHITE" />
+                <Button fx:id="ModerateContent" alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="👮    Moderate Contents" textFill="WHITE" />
+            </children>
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+        </VBox>
+    </left>
+    <top>
+        <HBox style="-fx-background-color: #10231c;" BorderPane.alignment="CENTER">
+            <children>
+                <!-- Profile Section -->
+                <HBox alignment="CENTER_LEFT">
+                    <children>
+                        <StackPane>
+                            <children>
+                                <Group>
+                                    <children>
+                                        <Circle fx:id="dassprofileClip" fill="#ff852100" radius="36.0" stroke="#00f06c00" strokeType="INSIDE" />
+                                        <ImageView fx:id="dassprofilePicView" fitHeight="61.0" fitWidth="70.0" layoutX="-35.0" layoutY="-36.0">
+                                            <image>
+                                                <Image url="@Images/chatbot2-unscreen.gif" />
+                                            </image>
+                                        </ImageView>
+                                    </children>
+                                </Group>
+                            </children>
+                        </StackPane>
+                        <VBox prefHeight="64.0" prefWidth="302.0">
+                            <children>
+                                <Label fx:id="UserName" prefHeight="30.0" prefWidth="218.0" textFill="WHITE">
+                                    <font>
+                                        <Font size="20.0" />
+                                    </font>
+                                </Label>
+                                <Label fx:id="accountDes" textFill="#379172">
+                                    <font>
+                                        <Font size="15.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                            <padding>
+                                <Insets left="10.0" top="7.0" />
+                            </padding>
                         </VBox>
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="82.0" prefWidth="1323.0">
-                     <children>
-                        <VBox prefHeight="154.0" prefWidth="453.0">
-                           <children>
-                              <VBox alignment="CENTER_LEFT" prefHeight="222.0" prefWidth="352.0">
-                                 <children>
-                                    <Label prefHeight="35.0" prefWidth="166.0" text="Enjoy Lofi beats," textFill="WHITE">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                    </Label>
-                                    <Label text="Chill out with our lofi playlist" textFill="#379172">
-                                       <font>
-                                          <Font size="14.0" />
-                                       </font>
-                                    </Label>
-                                    <Button mnemonicParsing="false" onAction="#handleMusic" styleClass="musicPlay" stylesheets="@StyleSheets/DashboardUI.css" text="Play">
-                                       <VBox.margin>
-                                          <Insets top="10.0" />
-                                       </VBox.margin>
-                                    </Button>
-                                 </children>
-                                 <padding>
-                                    <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
-                                 </padding>
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                              </VBox>
-                           </children>
-                        </VBox>
-                        <ImageView fitHeight="199.0" fitWidth="354.0" preserveRatio="true">
-                           <image>
-                              <Image url="@Images/img.png" />
-                           </image>
-                           <HBox.margin>
-                              <Insets left="400.0" />
-                           </HBox.margin>
-                        </ImageView>
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="26.0" prefWidth="1323.0">
-                     <children>
-                        <Label text="Feed" textFill="WHITE">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </Label>
-                     </children>
-                     <VBox.margin>
-                        <Insets bottom="10.0" top="10.0" />
-                     </VBox.margin>
-                  </HBox>
-                  <HBox prefHeight="167.0" prefWidth="1323.0">
-                     <children>
-                        <VBox prefHeight="166.0" prefWidth="1467.0">
-                           <children>
-                              <HBox prefHeight="100.0" prefWidth="200.0">
-                                 <children>
-                                    <ImageView fitHeight="163.0" fitWidth="253.0" preserveRatio="true">
-                                       <image>
-                                          <Image url="@Images/img_1.png" />
-                                       </image>
-                                       <HBox.margin>
-                                          <Insets bottom="10.0" top="10.0" />
-                                       </HBox.margin>
-                                    </ImageView>
-                                    <VBox alignment="CENTER_LEFT">
-                                       <children>
-                                          <Label prefHeight="27.0" prefWidth="202.0" text="New post from Alex" textFill="WHITE">
-                                             <font>
-                                                <Font size="18.0" />
-                                             </font>
-                                             <VBox.margin>
+                    </children>
+                </HBox>
+                <Button mnemonicParsing="false" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="📈 Dashboard" textFill="WHITE">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                    <HBox.margin>
+                        <Insets left="40.0" top="15.0" />
+                    </HBox.margin>
+                </Button>
+                <Button mnemonicParsing="false" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🧑‍💻 Feed" textFill="WHITE">
+                    <HBox.margin>
+                        <Insets left="30.0" top="15.0" />
+                    </HBox.margin>
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                </Button>
+                <Button mnemonicParsing="false" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🧭Explore" textFill="WHITE">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                    <HBox.margin>
+                        <Insets left="30.0" top="15.0" />
+                    </HBox.margin>
+                </Button>
+                <TextField prefHeight="31.0" prefWidth="393.0" promptText="🔍 Search" styleClass="search" stylesheets="@StyleSheets/DashboardUI.css">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                    <HBox.margin>
+                        <Insets left="100.0" top="18.0" />
+                    </HBox.margin>
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                </TextField>
+                <Button mnemonicParsing="false" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="👥 About Us" textFill="WHITE">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                    <HBox.margin>
+                        <Insets left="40.0" top="15.0" />
+                    </HBox.margin>
+                </Button>
+            </children>
+            <BorderPane.margin>
+                <Insets />
+            </BorderPane.margin>
+            <padding>
+                <Insets bottom="20.0" left="20.0" top="20.0" />
+            </padding>
+        </HBox>
+    </top>
+    <right>
+        <ScrollPane styleClass="custom-scroll" stylesheets="@StyleSheets/DashboardUI.css" BorderPane.alignment="CENTER">
+            <content>
+                <VBox minHeight="2000.0" prefWidth="1450.0">
+                    <children>
+                        <HBox prefHeight="29.0" prefWidth="1323.0">
+                            <children>
+                                <VBox prefHeight="73.0" prefWidth="641.0">
+                                    <children>
+                                        <HBox prefHeight="68.0" prefWidth="676.0">
+                                            <children>
+                                                <Label prefHeight="47.0" prefWidth="223.0" text="Welcome Back, " textFill="WHITE">
+                                                    <font>
+                                                        <Font size="32.0" />
+                                                    </font>
+                                                </Label>
+                                                <Label fx:id="dashBoardName" prefHeight="47.0" prefWidth="402.0" textFill="WHITE" wrapText="true">
+                                                    <font>
+                                                        <Font size="32.0" />
+                                                    </font>
+                                                </Label>
+                                            </children>
+                                            <VBox.margin>
+                                                <Insets top="5.0" />
+                                            </VBox.margin>
+                                            <padding>
+                                                <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
+                                            </padding>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+                            </children>
+                        </HBox>
+                        <HBox prefHeight="82.0" prefWidth="1323.0">
+                            <children>
+                                <VBox prefHeight="154.0" prefWidth="453.0">
+                                    <children>
+                                        <VBox alignment="CENTER_LEFT" prefHeight="222.0" prefWidth="352.0">
+                                            <children>
+                                                <Label prefHeight="35.0" prefWidth="166.0" text="Enjoy Lofi beats," textFill="WHITE">
+                                                    <font>
+                                                        <Font size="18.0" />
+                                                    </font>
+                                                </Label>
+                                                <Label text="Chill out with our lofi playlist" textFill="#379172">
+                                                    <font>
+                                                        <Font size="14.0" />
+                                                    </font>
+                                                </Label>
+                                                <Button mnemonicParsing="false" onAction="#handleMusic" styleClass="musicPlay" stylesheets="@StyleSheets/DashboardUI.css" text="Play">
+                                                    <VBox.margin>
+                                                        <Insets top="10.0" />
+                                                    </VBox.margin>
+                                                </Button>
+                                            </children>
+                                            <padding>
+                                                <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
+                                            </padding>
+                                            <VBox.margin>
                                                 <Insets />
-                                             </VBox.margin>
-                                          </Label>
-                                          <Label prefHeight="27.0" prefWidth="243.0" text="Check out my latest project" textFill="WHITE">
-                                             <font>
-                                                <Font size="14.0" />
-                                             </font>
-                                          </Label>
-                                          <Button contentDisplay="CENTER" mnemonicParsing="false" styleClass="viewBtn" stylesheets="@StyleSheets/DashboardUI.css" text="View">
-                                             <VBox.margin>
-                                                <Insets left="68.0" top="10.0" />
-                                             </VBox.margin>
-                                          </Button>
-                                       </children>
-                                       <padding>
-                                          <Insets left="30.0" />
-                                       </padding>
-                                    </VBox>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                              </HBox>
-                              <HBox>
-                                 <children>
-                                    <ImageView fitHeight="163.0" fitWidth="253.0" preserveRatio="true">
-                                       <image>
-                                          <Image url="@Images/img_1.png" />
-                                       </image>
-                                       <HBox.margin>
-                                          <Insets bottom="10.0" top="10.0" />
-                                       </HBox.margin>
-                                    </ImageView>
-                                    <VBox alignment="CENTER_LEFT">
-                                       <children>
-                                          <Label prefHeight="27.0" prefWidth="202.0" text="New post from Alex" textFill="WHITE">
-                                             <font>
-                                                <Font size="18.0" />
-                                             </font>
-                                             <VBox.margin>
+                                            </VBox.margin>
+                                        </VBox>
+                                    </children>
+                                </VBox>
+                                <ImageView fitHeight="199.0" fitWidth="354.0" preserveRatio="true">
+                                    <image>
+                                        <Image url="@Images/img.png" />
+                                    </image>
+                                    <HBox.margin>
+                                        <Insets left="400.0" />
+                                    </HBox.margin>
+                                </ImageView>
+                            </children>
+                        </HBox>
+                        <HBox prefHeight="26.0" prefWidth="1323.0">
+                            <children>
+                                <Label text="Feed" textFill="WHITE">
+                                    <font>
+                                        <Font size="24.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                            <VBox.margin>
+                                <Insets bottom="10.0" top="10.0" />
+                            </VBox.margin>
+                        </HBox>
+                        <HBox prefHeight="167.0" prefWidth="1323.0">
+                            <children>
+                                <VBox prefHeight="166.0" prefWidth="1467.0">
+                                    <children>
+                                        <HBox prefHeight="100.0" prefWidth="200.0">
+                                            <children>
+                                                <ImageView fitHeight="163.0" fitWidth="253.0" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@Images/img_1.png" />
+                                                    </image>
+                                                    <HBox.margin>
+                                                        <Insets bottom="10.0" top="10.0" />
+                                                    </HBox.margin>
+                                                </ImageView>
+                                                <VBox alignment="CENTER_LEFT">
+                                                    <children>
+                                                        <Label prefHeight="27.0" prefWidth="202.0" text="New post from Alex" textFill="WHITE">
+                                                            <font>
+                                                                <Font size="18.0" />
+                                                            </font>
+                                                            <VBox.margin>
+                                                                <Insets />
+                                                            </VBox.margin>
+                                                        </Label>
+                                                        <Label prefHeight="27.0" prefWidth="243.0" text="Check out my latest project" textFill="WHITE">
+                                                            <font>
+                                                                <Font size="14.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <Button contentDisplay="CENTER" mnemonicParsing="false" styleClass="viewBtn" stylesheets="@StyleSheets/DashboardUI.css" text="View">
+                                                            <VBox.margin>
+                                                                <Insets left="68.0" top="10.0" />
+                                                            </VBox.margin>
+                                                        </Button>
+                                                    </children>
+                                                    <padding>
+                                                        <Insets left="30.0" />
+                                                    </padding>
+                                                </VBox>
+                                            </children>
+                                            <VBox.margin>
                                                 <Insets />
-                                             </VBox.margin>
-                                          </Label>
-                                          <Label prefHeight="27.0" prefWidth="243.0" text="Check out my latest project" textFill="WHITE">
-                                             <font>
-                                                <Font size="14.0" />
-                                             </font>
-                                          </Label>
-                                          <Button contentDisplay="CENTER" mnemonicParsing="false" styleClass="viewBtn" stylesheets="@StyleSheets/DashboardUI.css" text="View">
-                                             <VBox.margin>
-                                                <Insets left="68.0" top="10.0" />
-                                             </VBox.margin>
-                                          </Button>
-                                       </children>
-                                       <padding>
-                                          <Insets left="30.0" />
-                                       </padding>
-                                    </VBox>
-                                 </children>
-                              </HBox>
-                              <HBox>
-                                 <children>
-                                    <ImageView fitHeight="163.0" fitWidth="253.0" preserveRatio="true">
-                                       <image>
-                                          <Image url="@Images/img_1.png" />
-                                       </image>
-                                       <HBox.margin>
-                                          <Insets bottom="10.0" top="10.0" />
-                                       </HBox.margin>
-                                    </ImageView>
-                                    <VBox alignment="CENTER_LEFT">
-                                       <children>
-                                          <Label prefHeight="27.0" prefWidth="202.0" text="New post from Alex" textFill="WHITE">
-                                             <font>
+                                            </VBox.margin>
+                                        </HBox>
+                                        <HBox>
+                                            <children>
+                                                <ImageView fitHeight="163.0" fitWidth="253.0" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@Images/img_1.png" />
+                                                    </image>
+                                                    <HBox.margin>
+                                                        <Insets bottom="10.0" top="10.0" />
+                                                    </HBox.margin>
+                                                </ImageView>
+                                                <VBox alignment="CENTER_LEFT">
+                                                    <children>
+                                                        <Label prefHeight="27.0" prefWidth="202.0" text="New post from Alex" textFill="WHITE">
+                                                            <font>
+                                                                <Font size="18.0" />
+                                                            </font>
+                                                            <VBox.margin>
+                                                                <Insets />
+                                                            </VBox.margin>
+                                                        </Label>
+                                                        <Label prefHeight="27.0" prefWidth="243.0" text="Check out my latest project" textFill="WHITE">
+                                                            <font>
+                                                                <Font size="14.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <Button contentDisplay="CENTER" mnemonicParsing="false" styleClass="viewBtn" stylesheets="@StyleSheets/DashboardUI.css" text="View">
+                                                            <VBox.margin>
+                                                                <Insets left="68.0" top="10.0" />
+                                                            </VBox.margin>
+                                                        </Button>
+                                                    </children>
+                                                    <padding>
+                                                        <Insets left="30.0" />
+                                                    </padding>
+                                                </VBox>
+                                            </children>
+                                        </HBox>
+                                        <HBox>
+                                            <children>
+                                                <ImageView fitHeight="163.0" fitWidth="253.0" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@Images/img_1.png" />
+                                                    </image>
+                                                    <HBox.margin>
+                                                        <Insets bottom="10.0" top="10.0" />
+                                                    </HBox.margin>
+                                                </ImageView>
+                                                <VBox alignment="CENTER_LEFT">
+                                                    <children>
+                                                        <Label prefHeight="27.0" prefWidth="202.0" text="New post from Alex" textFill="WHITE">
+                                                            <font>
+                                                                <Font size="18.0" />
+                                                            </font>
+                                                            <VBox.margin>
+                                                                <Insets />
+                                                            </VBox.margin>
+                                                        </Label>
+                                                        <Label prefHeight="27.0" prefWidth="243.0" text="Check out my latest project" textFill="WHITE">
+                                                            <font>
+                                                                <Font size="14.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <Button contentDisplay="CENTER" mnemonicParsing="false" styleClass="viewBtn" stylesheets="@StyleSheets/DashboardUI.css" text="View">
+                                                            <VBox.margin>
+                                                                <Insets left="68.0" top="10.0" />
+                                                            </VBox.margin>
+                                                        </Button>
+                                                    </children>
+                                                    <padding>
+                                                        <Insets left="30.0" />
+                                                    </padding>
+                                                </VBox>
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+                            </children>
+                        </HBox>
+                        <HBox prefHeight="26.0" prefWidth="1323.0">
+                            <children>
+                                <Label text="Learning resources" textFill="WHITE">
+                                    <font>
+                                        <Font size="24.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </HBox>
+                        <HBox prefHeight="100.0" prefWidth="200.0" styleClass="Learn" stylesheets="@StyleSheets/DashboardUI.css">
+                            <children>
+                                <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="308.0">
+                                    <children>
+                                        <Label prefHeight="27.0" prefWidth="202.0" text="Java-FX for Begineers" textFill="WHITE">
+                                            <font>
                                                 <Font size="18.0" />
-                                             </font>
-                                             <VBox.margin>
+                                            </font>
+                                            <VBox.margin>
                                                 <Insets />
-                                             </VBox.margin>
-                                          </Label>
-                                          <Label prefHeight="27.0" prefWidth="243.0" text="Check out my latest project" textFill="WHITE">
-                                             <font>
+                                            </VBox.margin>
+                                        </Label>
+                                        <Label prefHeight="27.0" prefWidth="243.0" text="Learn basics of JavaFx" textFill="#368f5d">
+                                            <font>
                                                 <Font size="14.0" />
-                                             </font>
-                                          </Label>
-                                          <Button contentDisplay="CENTER" mnemonicParsing="false" styleClass="viewBtn" stylesheets="@StyleSheets/DashboardUI.css" text="View">
-                                             <VBox.margin>
+                                            </font>
+                                        </Label>
+                                        <Button contentDisplay="CENTER" mnemonicParsing="false" styleClass="viewBtn" stylesheets="@StyleSheets/DashboardUI.css" text="Start">
+                                            <VBox.margin>
                                                 <Insets left="68.0" top="10.0" />
-                                             </VBox.margin>
-                                          </Button>
-                                       </children>
-                                       <padding>
-                                          <Insets left="30.0" />
-                                       </padding>
-                                    </VBox>
-                                 </children>
-                              </HBox>
-                           </children>
-                        </VBox>
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="26.0" prefWidth="1323.0">
-                     <children>
-                        <Label text="Learning resources" textFill="WHITE">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0" styleClass="Learn" stylesheets="@StyleSheets/DashboardUI.css">
-                     <children>
-                        <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="308.0">
-                           <children>
-                              <Label prefHeight="27.0" prefWidth="202.0" text="Java-FX for Begineers" textFill="WHITE">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                              </Label>
-                              <Label prefHeight="27.0" prefWidth="243.0" text="Learn basics of JavaFx" textFill="#368f5d">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                              </Label>
-                              <Button contentDisplay="CENTER" mnemonicParsing="false" styleClass="viewBtn" stylesheets="@StyleSheets/DashboardUI.css" text="Start">
-                                 <VBox.margin>
-                                    <Insets left="68.0" top="10.0" />
-                                 </VBox.margin>
-                              </Button>
-                           </children>
-                           <padding>
-                              <Insets left="30.0" />
-                           </padding>
-                           <HBox.margin>
-                              <Insets bottom="10.0" top="10.0" />
-                           </HBox.margin>
-                        </VBox>
-                        <Label prefHeight="171.0" prefWidth="543.0" text="Label" />
-                        <ImageView fitHeight="171.0" fitWidth="302.0">
-                           <image>
-                              <Image url="@Images/img_2.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                     <VBox.margin>
-                        <Insets bottom="5.0" top="10.0" />
-                     </VBox.margin>
-                  </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0" styleClass="Learn" stylesheets="@StyleSheets/DashboardUI.css">
-                     <children>
-                        <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="308.0">
-                           <children>
-                              <Label prefHeight="27.0" prefWidth="202.0" text="Java-Fx for Advanced" textFill="WHITE">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                              </Label>
-                              <Label prefHeight="27.0" prefWidth="243.0" text="Master Java-FX " textFill="WHITE">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                              </Label>
-                              <Button contentDisplay="CENTER" mnemonicParsing="false" styleClass="viewBtn" stylesheets="@StyleSheets/DashboardUI.css" text="Start">
-                                 <VBox.margin>
-                                    <Insets left="68.0" top="10.0" />
-                                 </VBox.margin>
-                              </Button>
-                           </children>
-                           <padding>
-                              <Insets left="30.0" />
-                           </padding>
-                           <HBox.margin>
-                              <Insets bottom="10.0" top="10.0" />
-                           </HBox.margin>
-                        </VBox>
-                        <Label prefHeight="171.0" prefWidth="543.0" text="Label" />
-                        <ImageView fitHeight="171.0" fitWidth="302.0">
-                           <image>
-                              <Image url="@Images/img_2.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                     <VBox.margin>
-                        <Insets bottom="5.0" top="5.0" />
-                     </VBox.margin>
-                  </HBox>
-                  <HBox prefHeight="26.0" prefWidth="1323.0">
-                     <children>
-                        <Label text="View Your Achievements &amp; Certificates" textFill="WHITE">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets bottom="10.0" top="20.0" />
-                           </HBox.margin>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0" styleClass="Learn" stylesheets="@StyleSheets/DashboardUI.css">
-                     <children>
-                        <VBox alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="425.0">
-                           <children>
-                              <Label prefHeight="27.0" prefWidth="202.0" text="Congratulations" textFill="WHITE">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                              </Label>
-                              <Label prefHeight="42.0" prefWidth="370.0" text="Here are your hard earned achievements. Will be looking forward for more till then happy learning !" textFill="WHITE" wrapText="true">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                              </Label>
-                              <Button contentDisplay="CENTER" mnemonicParsing="false" styleClass="viewBtn" stylesheets="@StyleSheets/DashboardUI.css" text="Have a look !">
-                                 <VBox.margin>
-                                    <Insets left="140.0" top="10.0" />
-                                 </VBox.margin>
-                              </Button>
-                           </children>
-                           <padding>
-                              <Insets left="30.0" />
-                           </padding>
-                           <HBox.margin>
-                              <Insets bottom="10.0" top="10.0" />
-                           </HBox.margin>
-                        </VBox>
-                        <Label prefHeight="18.0" prefWidth="424.0" />
-                        <ImageView fitHeight="185.0" fitWidth="265.0">
-                           <image>
-                              <Image url="@Images/img_4.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
-         </content>
-      </ScrollPane>
-   </right>
-  </BorderPane>
+                                            </VBox.margin>
+                                        </Button>
+                                    </children>
+                                    <padding>
+                                        <Insets left="30.0" />
+                                    </padding>
+                                    <HBox.margin>
+                                        <Insets bottom="10.0" top="10.0" />
+                                    </HBox.margin>
+                                </VBox>
+                                <Label prefHeight="171.0" prefWidth="543.0" text="Label" />
+                                <ImageView fitHeight="171.0" fitWidth="302.0">
+                                    <image>
+                                        <Image url="@Images/img_2.png" />
+                                    </image>
+                                </ImageView>
+                            </children>
+                            <VBox.margin>
+                                <Insets bottom="5.0" top="10.0" />
+                            </VBox.margin>
+                        </HBox>
+                        <HBox prefHeight="100.0" prefWidth="200.0" styleClass="Learn" stylesheets="@StyleSheets/DashboardUI.css">
+                            <children>
+                                <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="308.0">
+                                    <children>
+                                        <Label prefHeight="27.0" prefWidth="202.0" text="Java-Fx for Advanced" textFill="WHITE">
+                                            <font>
+                                                <Font size="18.0" />
+                                            </font>
+                                            <VBox.margin>
+                                                <Insets />
+                                            </VBox.margin>
+                                        </Label>
+                                        <Label prefHeight="27.0" prefWidth="243.0" text="Master Java-FX " textFill="WHITE">
+                                            <font>
+                                                <Font size="14.0" />
+                                            </font>
+                                        </Label>
+                                        <Button contentDisplay="CENTER" mnemonicParsing="false" styleClass="viewBtn" stylesheets="@StyleSheets/DashboardUI.css" text="Start">
+                                            <VBox.margin>
+                                                <Insets left="68.0" top="10.0" />
+                                            </VBox.margin>
+                                        </Button>
+                                    </children>
+                                    <padding>
+                                        <Insets left="30.0" />
+                                    </padding>
+                                    <HBox.margin>
+                                        <Insets bottom="10.0" top="10.0" />
+                                    </HBox.margin>
+                                </VBox>
+                                <Label prefHeight="171.0" prefWidth="543.0" text="Label" />
+                                <ImageView fitHeight="171.0" fitWidth="302.0">
+                                    <image>
+                                        <Image url="@Images/img_2.png" />
+                                    </image>
+                                </ImageView>
+                            </children>
+                            <VBox.margin>
+                                <Insets bottom="5.0" top="5.0" />
+                            </VBox.margin>
+                        </HBox>
+                        <HBox prefHeight="26.0" prefWidth="1323.0">
+                            <children>
+                                <Label text="View Your Achievements &amp; Certificates" textFill="WHITE">
+                                    <font>
+                                        <Font size="24.0" />
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets bottom="10.0" top="20.0" />
+                                    </HBox.margin>
+                                </Label>
+                            </children>
+                        </HBox>
+                        <HBox prefHeight="100.0" prefWidth="200.0" styleClass="Learn" stylesheets="@StyleSheets/DashboardUI.css">
+                            <children>
+                                <VBox alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="425.0">
+                                    <children>
+                                        <Label prefHeight="27.0" prefWidth="202.0" text="Congratulations" textFill="WHITE">
+                                            <font>
+                                                <Font size="18.0" />
+                                            </font>
+                                            <VBox.margin>
+                                                <Insets />
+                                            </VBox.margin>
+                                        </Label>
+                                        <Label prefHeight="42.0" prefWidth="370.0" text="Here are your hard earned achievements. Will be looking forward for more till then happy learning !" textFill="WHITE" wrapText="true">
+                                            <font>
+                                                <Font size="14.0" />
+                                            </font>
+                                        </Label>
+                                        <Button contentDisplay="CENTER" mnemonicParsing="false" styleClass="viewBtn" stylesheets="@StyleSheets/DashboardUI.css" text="Have a look !">
+                                            <VBox.margin>
+                                                <Insets left="140.0" top="10.0" />
+                                            </VBox.margin>
+                                        </Button>
+                                    </children>
+                                    <padding>
+                                        <Insets left="30.0" />
+                                    </padding>
+                                    <HBox.margin>
+                                        <Insets bottom="10.0" top="10.0" />
+                                    </HBox.margin>
+                                </VBox>
+                                <Label prefHeight="18.0" prefWidth="424.0" />
+                                <ImageView fitHeight="185.0" fitWidth="265.0">
+                                    <image>
+                                        <Image url="@Images/img_4.png" />
+                                    </image>
+                                </ImageView>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </right>
+</BorderPane>

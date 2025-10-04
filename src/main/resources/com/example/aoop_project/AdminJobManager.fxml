@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -16,9 +17,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="750" prefWidth="900" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.AdminJobManagerController">
+<BorderPane prefHeight="800" prefWidth="1200" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.AdminJobManagerController">
 
-    <!-- Single top section -->
+    <!-- Top section -->
     <top>
         <HBox alignment="CENTER_LEFT" spacing="10">
             <padding>
@@ -26,14 +27,14 @@
             </padding>
             <children>
                 <Button onAction="#handleBack" style="-fx-font-size:14px;" text="◀ Back" />
-                <Label alignment="CENTER" style="-fx-font-size:20px;" text="Admin Job Management" HBox.hgrow="ALWAYS" />
+                <Label fx:id="lblPageTitle" alignment="CENTER" style="-fx-font-size:20px;" text="Job Management" HBox.hgrow="ALWAYS" />
             </children>
         </HBox>
     </top>
 
     <!-- Center with SplitPane -->
     <center>
-        <SplitPane dividerPositions="0.5">
+        <SplitPane dividerPositions="0.6">
             <items>
 
                 <!-- Left pane: table -->
@@ -43,57 +44,81 @@
                             <columns>
                                 <TableColumn fx:id="colId" prefWidth="50" text="ID" />
                                 <TableColumn fx:id="colTitle" prefWidth="200" text="Title" />
-                                <TableColumn fx:id="colLocation" prefWidth="150" text="Location" />
-                                <TableColumn fx:id="colSalary" prefWidth="150" text="Salary" />
-                                <TableColumn fx:id="colPostedAt" prefWidth="200" text="Posted At" />
+                                <TableColumn fx:id="colJobType" prefWidth="120" text="Job Type" />
+                                <TableColumn fx:id="colLocation" prefWidth="120" text="Location" />
+                                <TableColumn fx:id="colSalary" prefWidth="120" text="Salary" />
+                                <TableColumn fx:id="colPostedAt" prefWidth="150" text="Posted At" />
                             </columns>
                         </TableView>
-                        <Button fx:id="btnDelete" onAction="#handleDelete" text="Delete Selected" AnchorPane.bottomAnchor="10" AnchorPane.rightAnchor="10" />
+                        <HBox spacing="10" AnchorPane.bottomAnchor="10" AnchorPane.rightAnchor="10">
+                            <children>
+                                <Button fx:id="btnViewApplications" disable="true" onAction="#handleViewApplications" text="View Applications" />
+                                <Button fx:id="btnDelete" onAction="#handleDelete" text="Delete Selected" />
+                            </children>
+                        </HBox>
                     </children>
                 </AnchorPane>
 
                 <!-- Right pane: form -->
                 <AnchorPane>
                     <children>
-                        <VBox spacing="10">
-                            <padding>
-                                <Insets bottom="10" left="10" right="10" top="10" />
-                            </padding>
-                            <children>
-                                <Label style="-fx-font-size:18px;" text="Add / Edit Job" />
-                                <GridPane hgap="10" vgap="10">
-                                    <columnConstraints>
-                                        <ColumnConstraints minWidth="100" />
-                                        <ColumnConstraints hgrow="ALWAYS" />
-                                    </columnConstraints>
-                                    <rowConstraints>
-                                        <RowConstraints minHeight="30" />
-                                        <RowConstraints minHeight="30" />
-                                        <RowConstraints minHeight="30" />
-                                        <RowConstraints minHeight="100" />
-                                    </rowConstraints>
+                        <ScrollPane fitToWidth="true" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+                            <content>
+                                <VBox spacing="15">
+                                    <padding>
+                                        <Insets bottom="15" left="15" right="15" top="15" />
+                                    </padding>
                                     <children>
-                                        <Label text="Title:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                                        <TextField fx:id="fldTitle" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                        <Label style="-fx-font-size:18px; -fx-font-weight:bold;" text="Add / Edit Job" />
 
-                                        <Label text="Location:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                                        <TextField fx:id="fldLocation" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                        <GridPane hgap="10" vgap="15">
+                                            <columnConstraints>
+                                                <ColumnConstraints minWidth="120" />
+                                                <ColumnConstraints hgrow="ALWAYS" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                                <RowConstraints minHeight="30" />
+                                                <RowConstraints minHeight="30" />
+                                                <RowConstraints minHeight="30" />
+                                                <RowConstraints minHeight="30" />
+                                                <RowConstraints minHeight="30" />
+                                                <RowConstraints minHeight="100" />
+                                                <RowConstraints minHeight="100" />
+                                            </rowConstraints>
+                                            <children>
+                                                <Label text="Job Title:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                                <TextField fx:id="fldTitle" promptText="e.g., Senior Java Developer" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-                                        <Label text="Salary:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                                        <TextField fx:id="fldSalary" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                                <Label text="Job Type:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                                <TextField fx:id="fldJobType" promptText="e.g., Full-time, Part-time, Contract" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                                        <Label text="Description:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-                                        <TextArea fx:id="fldDescription" prefRowCount="6" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                                <Label text="Location:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                                                <TextField fx:id="fldLocation" promptText="e.g., Dhaka, Bangladesh or Remote" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                                                <Label text="Salary Range:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                                                <TextField fx:id="fldSalary" promptText="e.g., 50k - 80k BDT" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+                                                <Label text="Tech Stack:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                                                <TextField fx:id="fldTechStack" promptText="e.g., Java, Spring Boot, MySQL, React" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+                                                <Label text="Description:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                                                <TextArea fx:id="fldDescription" prefRowCount="6" promptText="Job description and responsibilities..." wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+                                                <Label text="Requirements:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                                                <TextArea fx:id="fldRequirements" prefRowCount="6" promptText="Skills, experience, and qualifications required..." wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                            </children>
+                                        </GridPane>
+
+                                        <HBox alignment="CENTER_RIGHT" spacing="10">
+                                            <children>
+                                                <Button fx:id="btnClear" onAction="#handleClear" text="Clear" />
+                                                <Button fx:id="btnSave" onAction="#handleSave" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Post Job" />
+                                            </children>
+                                        </HBox>
                                     </children>
-                                </GridPane>
-                                <HBox alignment="CENTER_RIGHT" spacing="10">
-                                    <children>
-                                        <Button fx:id="btnClear" onAction="#handleClear" text="Clear" />
-                                        <Button fx:id="btnSave" onAction="#handleSave" text="Post" />
-                                    </children>
-                                </HBox>
-                            </children>
-                        </VBox>
+                                </VBox>
+                            </content>
+                        </ScrollPane>
                     </children>
                 </AnchorPane>
 
