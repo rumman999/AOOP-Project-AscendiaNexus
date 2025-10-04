@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.control.Label?>
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.aoop_project.JobSeekerDashboardController"
+            style="-fx-background-color: #ffffff;">
+
+    <!-- Title bar -->
+    <top>
+        <HBox spacing="10" padding="10">
+            <Button text="Close" onAction="#handleBack"/>
+            <Label text="Job Search" style="-fx-font-size:18px; -fx-font-weight:bold;"/>
+        </HBox>
+    </top>
+
+    <!-- Main content -->
+    <center>
+        <VBox spacing="10" padding="10">
+            <!-- Search form -->
+            <HBox spacing="8">
+                <TextField fx:id="fldKeyword" promptText="Keyword"/>
+                <TextField fx:id="fldJobTypeSearch" promptText="Job Type"/>
+                <TextField fx:id="fldLocationSearch" promptText="Location"/>
+                <TextField fx:id="fldTechStackSearch" promptText="Tech Stack"/>
+                <Button text="Search" onAction="#handleSearchJobs"/>
+            </HBox>
+
+            <!-- Search results -->
+            <TableView fx:id="tblSearchResults" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colSId"    text="ID"        prefWidth="50"/>
+                    <TableColumn fx:id="colSTitle" text="Title"     prefWidth="200"/>
+                    <TableColumn fx:id="colSType"  text="Job Type"  prefWidth="120"/>
+                    <TableColumn fx:id="colSLoc"   text="Location"  prefWidth="120"/>
+                    <TableColumn fx:id="colSTech"  text="Tech Stack"prefWidth="150"/>
+                    <TableColumn fx:id="colSPosted"text="Posted At" prefWidth="150"/>
+                    <TableColumn fx:id="colSAction"text="Action"    prefWidth="100"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+</BorderPane>

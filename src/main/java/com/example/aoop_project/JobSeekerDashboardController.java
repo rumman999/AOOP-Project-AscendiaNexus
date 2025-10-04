@@ -3,12 +3,13 @@ package com.example.aoop_project;
 import com.example.aoop_project.games.chess.Interface;
 import com.example.aoop_project.games.chess.Main;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -27,6 +28,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -39,10 +42,29 @@ public class JobSeekerDashboardController implements Initializable {
     @FXML private ImageView dassprofilePicView;
     @FXML private Button ModerateContent;
     @FXML private Button postJobs;
+    // Job-search UI
+    @FXML private TextField fldKeyword;
+    @FXML private TextField fldJobTypeSearch;
+    @FXML private TextField fldLocationSearch;
+    @FXML private TextField fldTechStackSearch;
+    @FXML private Button    btnSearchJobs;
+    @FXML private TableView<Job> tblSearchResults;
+    @FXML private TableColumn<Job,Integer>    colSId;
+    @FXML private TableColumn<Job,String>     colSTitle;
+    @FXML private TableColumn<Job,String> colSType;
+    @FXML private TableColumn<Job,String>     colSLoc;
+    @FXML private TableColumn<Job,String>     colSTech;
+    @FXML private TableColumn<Job, LocalDateTime> colSPosted;
+    @FXML private TableColumn<Job,Void> colSAction;
+
+
+
 
     private static String profile; // stores user image path
     private static Image defaultImage; // default GIF
-
+    private final JobDAO jobDAO = new JobDAO();
+    private final JobApplicationDAO appDAO = new JobApplicationDAO();
+    private final ObservableList<Job> searchResults = FXCollections.observableArrayList();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -288,20 +310,13 @@ public class JobSeekerDashboardController implements Initializable {
         }
     }
 
+
+
+
+
     @FXML
     private void handlePostJobs(ActionEvent e) throws IOException {
-        // Close current window
-        Stage currentStage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-        currentStage.close();
-
-        // Load AdminJobManager.fxml
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/aoop_project/AdminJobManager.fxml"));
-        Parent root = loader.load();
-
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.setTitle("Admin Job Management");
-        stage.show();
+        getStartedApplication.launchScene("AdminJobManager.fxml");
     }
 
 
