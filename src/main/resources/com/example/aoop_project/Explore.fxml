@@ -2,29 +2,50 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.web.WebView?>
 
-<?import javafx.scene.control.TextField?>
 <BorderPane xmlns="http://javafx.com/javafx/23.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.aoop_project.ExploreController">
+            fx:controller="com.example.aoop_project.ExploreController"
+            prefWidth="800" prefHeight="600">
 
     <left>
         <VBox spacing="10">
-            <padding><Insets top="10" left="10" right="10" bottom="10"/></padding>
-            <!-- Only visible to admin -->
-            <HBox fx:id="adminControls" visible="false">
-                <TextField fx:id="fldPlaylistUrl" promptText="YouTube Playlist URL"/>
-                <Button text="Add" onAction="#handleAddPlaylist"/>
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <HBox fx:id="adminControls" visible="false" spacing="5">
+                <children>
+                    <TextField fx:id="fldPlaylistName" promptText="Playlist Name" HBox.hgrow="ALWAYS"/>
+                    <TextField fx:id="fldPlaylistUrl" promptText="Playlist URL"  HBox.hgrow="ALWAYS"/>
+                    <Button text="Add" onAction="#handleAddPlaylist"/>
+                </children>
             </HBox>
-            <ListView fx:id="listPlaylists" onMouseClicked="#handleSelectPlaylist"/>
+            <ListView fx:id="listPlaylists" />
         </VBox>
     </left>
 
     <center>
-        <WebView fx:id="webView"/>
+        <VBox>
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <WebView fx:id="webView" VBox.vgrow="ALWAYS"/>
+        </VBox>
     </center>
+
+    <top>
+        <HBox spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <children>
+                <Button text="Back" onAction="#handleBack"/>
+            </children>
+        </HBox>
+    </top>
 </BorderPane>

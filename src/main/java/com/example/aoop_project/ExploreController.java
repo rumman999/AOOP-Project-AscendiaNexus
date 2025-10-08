@@ -1,18 +1,13 @@
 package com.example.aoop_project;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -20,25 +15,25 @@ import java.util.ResourceBundle;
 public class ExploreController implements Initializable {
 
     @FXML private HBox adminControls;
-    @FXML private TextField fldPlaylistUrl;
-    @FXML private ListView<String> listPlaylists;
+    @FXML private TextField fldPlaylistName, fldPlaylistUrl;
+    @FXML private ListView<Playlist> listPlaylists;
     @FXML private WebView webView;
 
-    private final PlaylistDAO playlistDAO = new PlaylistDAO();
+    private final PlaylistDAO dao = new PlaylistDAO();
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        // Show admin controls if user is admin
-        boolean isAdmin = "Admin".equals(Session.getLoggedInUserType());
-        adminControls.setVisible(isAdmin);
-
-        loadPlaylists();
+    public void initialize(URL url, ResourceBundle rb) {
+        adminControls.setVisible("Admin".equals(Session.getLoggedInUserType()));
+        listPlaylists.getSelectionModel().selectedItemProperty().addListener((obs, old, sel) -> {
+            if (sel != null) loadPlaylist(sel);
+        });
+        loadAll();
     }
 
-    private void loadPlaylists() {
+    private void loadAll() {
         try {
-            List<String> urls = playlistDAO.findAllUrls();
-            listPlaylists.getItems().setAll(urls);
+            List<Playlist> all = dao.findAll();
+            listPlaylists.getItems().setAll(all);
         } catch (Exception e) {
             new Alert(Alert.AlertType.WARNING, "Failed to load playlists").showAndWait();
         }
@@ -46,30 +41,29 @@ public class ExploreController implements Initializable {
 
     @FXML
     private void handleAddPlaylist() {
-        String url = fldPlaylistUrl.getText().trim();
-        if (url.isEmpty()) return;
-
+        String name = fldPlaylistName.getText().trim();
+        String url  = fldPlaylistUrl.getText().trim();
+        if (name.isEmpty() || url.isEmpty()) return;
         try {
-            playlistDAO.create(url, Session.getLoggedInUserId());
+            dao.create(name, url, Session.getLoggedInUserId());
+            fldPlaylistName.clear();
             fldPlaylistUrl.clear();
-            loadPlaylists();
+            loadAll();
         } catch (Exception e) {
             new Alert(Alert.AlertType.WARNING, "Failed to add playlist").showAndWait();
         }
     }
 
-    @FXML
-    private void handleSelectPlaylist() {
-        String selected = listPlaylists.getSelectionModel().getSelectedItem();
-        if (selected == null) return;
-        String playlistId = YouTubeUtil.extractPlaylistId(selected);
-        String embedUrl = YouTubeUtil.toEmbedUrl(playlistId);
+    private void loadPlaylist(Playlist p) {
         WebEngine engine = webView.getEngine();
-        engine.load(embedUrl);
+        String id = YouTubeUtil.extractPlaylistId(p.getUrl());
+        engine.load(YouTubeUtil.toEmbedUrl(id));
     }
 
     @FXML
     private void handleBack() {
+        Stage s = (Stage) webView.getScene().getWindow();
+        s.close();
         getStartedApplication.launchScene("JobSeekerDashboard.fxml");
     }
 }

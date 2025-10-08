@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:4306
--- Generation Time: Oct 08, 2025 at 07:04 PM
+-- Generation Time: Oct 08, 2025 at 07:31 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -129,7 +129,6 @@ CREATE TABLE `jobs` (
 --
 
 INSERT INTO `jobs` (`id`, `poster_id`, `title`, `description`, `location`, `salary_range`, `posted_at`, `tech_stack`, `job_type`, `requirements`) VALUES
-                                                                                                                                                      (5, 1, 'das', 'das', 'asd', 'das', '2025-10-08 21:54:28', 'das', 'das', 'asd'),
                                                                                                                                                       (6, 1, 'das', 'asdasdas', 'dsad', 'asdasdasd', '2025-10-08 21:55:40', 'asdasd', 'asdas', 'dasasdas'),
                                                                                                                                                       (8, 2, 'asd', 'dsa', 'das', 'ads', '2025-10-08 22:46:45', 'das', 'asd', 'asd');
 
@@ -153,8 +152,7 @@ CREATE TABLE `job_applications` (
 --
 
 INSERT INTO `job_applications` (`id`, `job_id`, `applicant_id`, `applied_at`, `status`, `cover_letter`) VALUES
-                                                                                                            (1, 6, 4, '2025-10-08 22:10:23', 'pending', ''),
-                                                                                                            (2, 5, 4, '2025-10-08 22:10:29', 'pending', ''),
+                                                                                                            (1, 6, 4, '2025-10-08 22:10:23', 'accepted', ''),
                                                                                                             (3, 6, 1, '2025-10-08 22:10:52', 'accepted', ''),
                                                                                                             (4, 6, 9, '2025-10-08 22:40:49', 'pending', ''),
                                                                                                             (5, 8, 2, '2025-10-08 22:46:58', 'pending', ''),
@@ -357,6 +355,7 @@ INSERT INTO `messages` (`id`, `sender_id`, `receiver_id`, `group_id`, `message_t
 CREATE TABLE `playlists` (
                              `id` int(11) NOT NULL,
                              `url` varchar(255) NOT NULL,
+                             `name` varchar(255) NOT NULL,
                              `created_by` int(11) DEFAULT NULL,
                              `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -365,8 +364,9 @@ CREATE TABLE `playlists` (
 -- Dumping data for table `playlists`
 --
 
-INSERT INTO `playlists` (`id`, `url`, `created_by`, `created_at`) VALUES
-    (1, 'https://www.youtube.com/watch?v=bWKbdPAovFA&list=PLoW9ZoLJX39Xcdaa4Dn5WLREHblolbji4', 1, '2025-10-08 22:56:43');
+INSERT INTO `playlists` (`id`, `url`, `name`, `created_by`, `created_at`) VALUES
+                                                                              (1, 'https://www.youtube.com/watch?v=bWKbdPAovFA&list=PLoW9ZoLJX39Xcdaa4Dn5WLREHblolbji4', 'Good PlayList', 1, '2025-10-08 22:56:43'),
+                                                                              (2, 'https://www.youtube.com/playlist?list=PLALM3TzRCwCsyNvIPvw1OQvpDKZjw4knp', 'Amazing Videos', 1, '2025-10-08 23:09:19');
 
 -- --------------------------------------------------------
 
@@ -495,7 +495,7 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT for table `playlists`
 --
 ALTER TABLE `playlists`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `user`
