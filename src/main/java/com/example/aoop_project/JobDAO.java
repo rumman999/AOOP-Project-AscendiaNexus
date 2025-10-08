@@ -6,82 +6,185 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JobDAO {
-    private static final String URL  = "jdbc:mysql://localhost:4306/java_user_database";
+    private static final String URL = "jdbc:mysql://localhost:4306/java_user_database";
     private static final String USER = "root";
     private static final String PASS = "";
 
-    // 1) Establish a DB connection
     private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USER, PASS);
-    }
-
-    // 2) Create a new job record
-    public int create(Job job) throws SQLException {
-        String sql = "INSERT INTO job(poster_id,title,description,location,salary_range) VALUES(?,?,?,?,?)";
-        try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-
-            ps.setInt(1, job.getPosterId());
-            ps.setString(2, job.getTitle());
-            ps.setString(3, job.getDescription());
-            ps.setString(4, job.getLocation());
-            ps.setString(5, job.getSalaryRange());
-
-            ps.executeUpdate();
-            ResultSet rs = ps.getGeneratedKeys();
-            return (rs.next() ? rs.getInt(1) : -1);
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            return DriverManager.getConnection(URL, USER, PASS);
+        } catch (ClassNotFoundException e) {
+            throw new SQLException("MySQL Driver not found", e);
         }
     }
 
-    // 3) Read all jobs, ordered by most recent
-    public List<Job> findAll() throws SQLException {
-        String sql = "SELECT * FROM job ORDER BY posted_at DESC";
-        List<Job> list = new ArrayList<>();
+    public void create(Job job) throws SQLException {
+        String sql = "INSERT INTO jobs (poster_id, title, description, location, salary_range, tech_stack, job_type, requirements, posted_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = getConnection();
-             Statement st = conn.createStatement();
-             ResultSet rs = st.executeQuery(sql)) {
+             PreparedStatement pst = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            while (rs.next()) {
-                Job j = new Job();
-                j.setId(rs.getInt("id"));
-                j.setPosterId(rs.getInt("poster_id"));
-                j.setTitle(rs.getString("title"));
-                j.setDescription(rs.getString("description"));
-                j.setLocation(rs.getString("location"));
-                j.setSalaryRange(rs.getString("salary_range"));
-                Timestamp ts = rs.getTimestamp("posted_at");
-                j.setPostedAt(ts != null ? ts.toLocalDateTime() : LocalDateTime.now());
-                list.add(j);
+            pst.setInt(1, job.getPosterId());
+            pst.setString(2, job.getTitle());
+            pst.setString(3, job.getDescription());
+            pst.setString(4, job.getLocation());
+            pst.setString(5, job.getSalaryRange());
+            pst.setString(6, job.getTechStack());
+            pst.setString(7, job.getJobType());
+            pst.setString(8, job.getRequirements());
+            pst.setTimestamp(9, Timestamp.valueOf(LocalDateTime.now()));
+
+            pst.executeUpdate();
+
+            try (ResultSet rs = pst.getGeneratedKeys()) {
+                if (rs.next()) {
+                    job.setId(rs.getInt(1));
+                }
             }
         }
-        return list;
     }
 
-    // 4) Update an existing job
-    public boolean update(Job job) throws SQLException {
-        String sql = "UPDATE job SET title=?, description=?, location=?, salary_range=? WHERE id=?";
+    public List<Job> findAll() throws SQLException {
+        String sql = "SELECT * FROM jobs ORDER BY posted_at DESC";
+        List<Job> jobs = new ArrayList<>();
+
         try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement pst = conn.prepareStatement(sql);
+             ResultSet rs = pst.executeQuery()) {
 
-            ps.setString(1, job.getTitle());
-            ps.setString(2, job.getDescription());
-            ps.setString(3, job.getLocation());
-            ps.setString(4, job.getSalaryRange());
-            ps.setInt(5, job.getId());
+            while (rs.next()) {
+                jobs.add(mapResultSetToJob(rs));
+            }
+        }
+        return jobs;
+    }
 
-            return ps.executeUpdate() > 0;
+    public List<Job> findByPosterId(int posterId) throws SQLException {
+        String sql = "SELECT * FROM jobs WHERE poster_id = ? ORDER BY posted_at DESC";
+        List<Job> jobs = new ArrayList<>();
+
+        try (Connection conn = getConnection();
+             PreparedStatement pst = conn.prepareStatement(sql)) {
+
+            pst.setInt(1, posterId);
+            try (ResultSet rs = pst.executeQuery()) {
+                while (rs.next()) {
+                    jobs.add(mapResultSetToJob(rs));
+                }
+            }
+        }
+        return jobs;
+    }
+
+    public Job findById(int id) throws SQLException {
+        String sql = "SELECT * FROM jobs WHERE id = ?";
+
+        try (Connection conn = getConnection();
+             PreparedStatement pst = conn.prepareStatement(sql)) {
+
+            pst.setInt(1, id);
+            try (ResultSet rs = pst.executeQuery()) {
+                if (rs.next()) {
+                    return mapResultSetToJob(rs);
+                }
+            }
+        }
+        return null;
+    }
+
+    public void update(Job job) throws SQLException {
+        String sql = "UPDATE jobs SET title = ?, description = ?, location = ?, salary_range = ?, tech_stack = ?, job_type = ?, requirements = ? WHERE id = ?";
+
+        try (Connection conn = getConnection();
+             PreparedStatement pst = conn.prepareStatement(sql)) {
+
+            pst.setString(1, job.getTitle());
+            pst.setString(2, job.getDescription());
+            pst.setString(3, job.getLocation());
+            pst.setString(4, job.getSalaryRange());
+            pst.setString(5, job.getTechStack());
+            pst.setString(6, job.getJobType());
+            pst.setString(7, job.getRequirements());
+            pst.setInt(8, job.getId());
+
+            pst.executeUpdate();
         }
     }
 
-    // 5) Delete a job by ID
-    public boolean delete(int id) throws SQLException {
-        String sql = "DELETE FROM job WHERE id=?";
-        try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+    public void delete(int id) throws SQLException {
+        String sql = "DELETE FROM jobs WHERE id = ?";
 
-            ps.setInt(1, id);
-            return ps.executeUpdate() > 0;
+        try (Connection conn = getConnection();
+             PreparedStatement pst = conn.prepareStatement(sql)) {
+
+            pst.setInt(1, id);
+            pst.executeUpdate();
         }
+    }
+
+    public List<Job> searchJobs(String keyword, String jobType, String location, String techStack) throws SQLException {
+        StringBuilder sql = new StringBuilder("SELECT * FROM jobs WHERE 1=1");
+        List<Object> params = new ArrayList<>();
+
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            sql.append(" AND (title LIKE ? OR description LIKE ?)");
+            String keywordPattern = "%" + keyword.trim() + "%";
+            params.add(keywordPattern);
+            params.add(keywordPattern);
+        }
+
+        if (jobType != null && !jobType.trim().isEmpty()) {
+            sql.append(" AND job_type LIKE ?");
+            params.add("%" + jobType.trim() + "%");
+        }
+
+        if (location != null && !location.trim().isEmpty()) {
+            sql.append(" AND location LIKE ?");
+            params.add("%" + location.trim() + "%");
+        }
+
+        if (techStack != null && !techStack.trim().isEmpty()) {
+            sql.append(" AND tech_stack LIKE ?");
+            params.add("%" + techStack.trim() + "%");
+        }
+
+        sql.append(" ORDER BY posted_at DESC");
+
+        List<Job> jobs = new ArrayList<>();
+        try (Connection conn = getConnection();
+             PreparedStatement pst = conn.prepareStatement(sql.toString())) {
+
+            for (int i = 0; i < params.size(); i++) {
+                pst.setObject(i + 1, params.get(i));
+            }
+
+            try (ResultSet rs = pst.executeQuery()) {
+                while (rs.next()) {
+                    jobs.add(mapResultSetToJob(rs));
+                }
+            }
+        }
+        return jobs;
+    }
+
+    private Job mapResultSetToJob(ResultSet rs) throws SQLException {
+        Job job = new Job();
+        job.setId(rs.getInt("id"));
+        job.setPosterId(rs.getInt("poster_id"));
+        job.setTitle(rs.getString("title"));
+        job.setDescription(rs.getString("description"));
+        job.setLocation(rs.getString("location"));
+        job.setSalaryRange(rs.getString("salary_range"));
+        job.setTechStack(rs.getString("tech_stack"));
+        job.setJobType(rs.getString("job_type"));
+        job.setRequirements(rs.getString("requirements"));
+
+        Timestamp timestamp = rs.getTimestamp("posted_at");
+        if (timestamp != null) {
+            job.setPostedAt(timestamp.toLocalDateTime());
+        }
+
+        return job;
     }
 }
