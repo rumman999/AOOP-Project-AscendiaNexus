@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
@@ -287,6 +288,14 @@ public class JobSeekerDashboardController implements Initializable {
             ex.printStackTrace();
         }
     }
+
+    @FXML private Button btnJobSearch;    // inject a button in your dashboard FXML
+
+    @FXML
+    private void handleJobSearch(ActionEvent e) {
+        getStartedApplication.launchScene("JobSearch.fxml");
+    }
+
 
     @FXML
     private void handlePostJobs(ActionEvent e) throws IOException {
