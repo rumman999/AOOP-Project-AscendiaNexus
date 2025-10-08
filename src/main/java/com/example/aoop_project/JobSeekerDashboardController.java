@@ -241,6 +241,13 @@ public class JobSeekerDashboardController implements Initializable {
         }
     }
 
+    @FXML
+    private void handleOpenExplore(ActionEvent e) {
+        getStartedApplication.launchScene("Explore.fxml");
+    }
+
+
+
     // Music popup
     private Stage musicStage;
     @FXML

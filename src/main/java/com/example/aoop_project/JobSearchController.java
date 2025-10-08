@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -77,20 +78,36 @@ public class JobSearchController implements Initializable {
     private void apply(Job job) {
         try {
             int userId = Session.getLoggedInUserId();
+
             if (appDAO.hasUserApplied(job.getId(), userId)) {
-                new Alert(Alert.AlertType.INFORMATION, "Already applied").showAndWait();
+                Alert info = new Alert(Alert.AlertType.INFORMATION, "Already applied");
+                // modal to this window
+                info.initOwner(tblResults.getScene().getWindow());
+                info.initModality(Modality.WINDOW_MODAL);
+                info.showAndWait();
                 return;
             }
+
             JobApplication app = new JobApplication();
             app.setJobId(job.getId());
             app.setApplicantId(userId);
             app.setCoverLetter("");
+
             appDAO.create(app);
-            new Alert(Alert.AlertType.INFORMATION, "Application submitted!").showAndWait();
+
+            Alert success = new Alert(Alert.AlertType.INFORMATION, "Application submitted!");
+            success.initOwner(tblResults.getScene().getWindow());
+            success.initModality(Modality.WINDOW_MODAL);
+            success.showAndWait();
+
         } catch (Exception ex) {
-            new Alert(Alert.AlertType.WARNING, "Apply failed: " + ex.getMessage()).showAndWait();
+            Alert error = new Alert(Alert.AlertType.WARNING, "Apply failed: " + ex.getMessage());
+            error.initOwner(tblResults.getScene().getWindow());
+            error.initModality(Modality.WINDOW_MODAL);
+            error.showAndWait();
         }
     }
+
 
     @FXML
     private void handleClose(ActionEvent e) {

@@ -100,7 +100,7 @@
                   <Font size="15.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🧭Explore" textFill="WHITE">
+            <Button fx:id="exploreBtn" mnemonicParsing="false" onAction="#handleOpenExplore" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🧭Explore" textFill="WHITE">
                <font>
                   <Font size="15.0" />
                </font>

@@ -12,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.sql.ResultSet;
@@ -283,6 +284,11 @@ public class ChatController {
         nameDialog.setTitle("Create Group");
         nameDialog.setHeaderText("Enter Group Name:");
         nameDialog.setContentText("Name:");
+        // Set dialog modality to block current window
+        Stage owner = (Stage) chatListView.getScene().getWindow();
+        nameDialog.initOwner(owner);
+        nameDialog.initModality(Modality.WINDOW_MODAL);
+
         String groupName = nameDialog.showAndWait().orElse(null);
         if (groupName == null || groupName.isBlank()) return;
 
@@ -299,7 +305,7 @@ public class ChatController {
             List<Integer> selectedMembers = UserSelectionDialog.show(
                     userNames,
                     userIds,
-                    (Stage) chatListView.getScene().getWindow() // existing chat window
+                    owner // pass owner for modality
             );
 
             if (selectedMembers == null || selectedMembers.isEmpty()) return;
@@ -309,13 +315,17 @@ public class ChatController {
 
             if (groupId != -1) {
                 loadGroups();
-                new Alert(Alert.AlertType.INFORMATION, "Group created!").showAndWait();
+                Alert info = new Alert(Alert.AlertType.INFORMATION, "Group created!");
+                info.initOwner(owner);
+                info.initModality(Modality.WINDOW_MODAL);
+                info.showAndWait();
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
     @FXML
     private void handleDashboard(ActionEvent e){
