@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.time.LocalDateTime;
@@ -111,10 +112,19 @@ public class JobApplicationsController {
     }
 
     private void showAlert(String msg) {
-        new Alert(Alert.AlertType.WARNING, msg, ButtonType.OK).showAndWait();
+        Stage owner = (Stage) lblJobTitle.getScene().getWindow();
+        Alert alert = new Alert(Alert.AlertType.WARNING, msg, ButtonType.OK);
+        alert.initOwner(owner); // set owner to current stage
+        alert.initModality(Modality.WINDOW_MODAL); // make it modal
+        alert.showAndWait();
     }
 
     private void showSuccessAlert(String msg) {
-        new Alert(Alert.AlertType.INFORMATION, msg, ButtonType.OK).showAndWait();
+        Stage owner = (Stage) lblJobTitle.getScene().getWindow();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, msg, ButtonType.OK);
+        alert.initOwner(owner);
+        alert.initModality(Modality.WINDOW_MODAL);
+        alert.showAndWait();
     }
+
 }
