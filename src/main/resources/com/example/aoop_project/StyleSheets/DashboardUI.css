@@ -11,6 +11,7 @@
     -fx-cursor: hand;
     -fx-text-fill: #FFFFFF;
 }
+
 .search{
     -fx-background-color: transparent;
          -fx-border-color: transparent transparent #4ef5c6 transparent; /* underline only */

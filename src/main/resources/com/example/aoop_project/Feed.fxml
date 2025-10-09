@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane style="-fx-background-color: #10231c;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.FeedController">
+    <left>
+        <!-- Same navigation as JobSeekerDashboard -->
+        <VBox fx:id="moderateContent" prefHeight="531.0" prefWidth="298.0" style="-fx-background-color: #10231c;" BorderPane.alignment="CENTER">
+            <children>
+                <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleHome" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🏠      Home" textFill="WHITE" />
+                <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleMusic" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🎧      Lo-Fi Music" textFill="WHITE" />
+                <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleMessages" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="💬     Messages" textFill="WHITE" />
+                <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleTodolist" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="📝      Todo-List" textFill="WHITE" />
+                <Button alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🛒      Shop" textFill="WHITE" />
+                <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleChatbot" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🤖      ChatBot" textFill="WHITE" />
+                <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleGame" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🎮      Games" textFill="WHITE" />
+                <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleJobSearch" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="💼      Job Search" textFill="WHITE" />
+                <Button alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🎯      Focus Mode" textFill="WHITE" />
+                <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleCV" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="📄      CV Builder" textFill="WHITE" />
+                <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleProfile" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="👤      Profile" textFill="WHITE" />
+                <Button fx:id="logout_button" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleLogout" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🚶‍♂️     Logout" textFill="WHITE" />
+                <Button fx:id="postJobs" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handlePostJobs" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🔎     Post Jobs" textFill="WHITE" />
+                <Button fx:id="ModerateContent" alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="👮    Moderate Contents" textFill="WHITE" />
+            </children>
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+        </VBox>
+    </left>
+
+    <top>
+        <!-- Same top bar as JobSeekerDashboard -->
+        <HBox style="-fx-background-color: #10231c;" BorderPane.alignment="CENTER">
+            <children>
+                <HBox alignment="CENTER_LEFT">
+                    <children>
+                        <StackPane>
+                            <children>
+                                <Group>
+                                    <children>
+                                        <Circle fx:id="profileClip" fill="#ff852100" radius="36.0" stroke="#00f06c00" strokeType="INSIDE" />
+                                        <ImageView fx:id="profilePicView" fitHeight="61.0" fitWidth="70.0" layoutX="-35.0" layoutY="-36.0">
+                                            <image>
+                                                <Image url="@Images/chatbot2-unscreen.gif" />
+                                            </image>
+                                        </ImageView>
+                                    </children>
+                                </Group>
+                            </children>
+                        </StackPane>
+                        <VBox prefHeight="64.0" prefWidth="302.0">
+                            <children>
+                                <Label fx:id="UserName" prefHeight="30.0" prefWidth="218.0" textFill="WHITE">
+                                    <font>
+                                        <Font size="20.0" />
+                                    </font>
+                                </Label>
+                                <Label fx:id="accountDes" textFill="#379172">
+                                    <font>
+                                        <Font size="15.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                            <padding>
+                                <Insets left="10.0" top="7.0" />
+                            </padding>
+                        </VBox>
+                    </children>
+                </HBox>
+                <Button mnemonicParsing="false" onAction="#handleHome" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="📈 Dashboard" textFill="WHITE">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                    <HBox.margin>
+                        <Insets left="40.0" top="15.0" />
+                    </HBox.margin>
+                </Button>
+                <Button mnemonicParsing="false" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🧑‍💻 Feed" textFill="WHITE">
+                    <HBox.margin>
+                        <Insets left="30.0" top="15.0" />
+                    </HBox.margin>
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                </Button>
+                <Button mnemonicParsing="false" onAction="#handleOpenExplore" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🧭Explore" textFill="WHITE">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                    <HBox.margin>
+                        <Insets left="30.0" top="15.0" />
+                    </HBox.margin>
+                </Button>
+                <TextField prefHeight="31.0" prefWidth="393.0" promptText="🔍 Search posts..." styleClass="search" stylesheets="@StyleSheets/DashboardUI.css">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                    <HBox.margin>
+                        <Insets left="100.0" top="18.0" />
+                    </HBox.margin>
+                </TextField>
+                <Button mnemonicParsing="false" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="👥 About Us" textFill="WHITE">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                    <HBox.margin>
+                        <Insets left="40.0" top="15.0" />
+                    </HBox.margin>
+                </Button>
+            </children>
+            <BorderPane.margin>
+                <Insets />
+            </BorderPane.margin>
+            <padding>
+                <Insets bottom="20.0" left="20.0" top="20.0" />
+            </padding>
+        </HBox>
+    </top>
+
+    <center>
+        <!-- Feed Content -->
+        <ScrollPane styleClass="custom-scroll" stylesheets="@StyleSheets/DashboardUI.css" BorderPane.alignment="CENTER">
+            <content>
+                <VBox prefWidth="1450.0" spacing="20" style="-fx-background-color: #10231c;">
+                    <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                    </padding>
+                    <children>
+                        <!-- Create Post Section -->
+                        <VBox spacing="15" style="-fx-background-color: #1a2f26; -fx-background-radius: 15; -fx-padding: 25;">
+                            <children>
+                                <Label style="-fx-font-size: 24; -fx-font-weight: bold;" text="Create New Post" textFill="WHITE" />
+
+                                <!-- Post Form -->
+                                <HBox alignment="CENTER_LEFT" spacing="15">
+                                    <children>
+                                        <Circle fill="#379172" radius="25" />
+                                        <Label fx:id="postAuthorName" style="-fx-font-size: 16; -fx-font-weight: bold;" text="Your Name" textFill="WHITE" />
+                                    </children>
+                                </HBox>
+
+                                <TextArea fx:id="captionArea" prefHeight="100" promptText="What's on your mind?"
+                                          style="-fx-background-color: #0d221c; -fx-text-fill: black; -fx-prompt-text-fill: gray; -fx-background-radius: 10;" />
+
+                                <HBox alignment="CENTER_LEFT" spacing="15">
+                                    <children>
+                                        <Button fx:id="addImageBtn" onAction="#handleAddImage" styleClass="musicPlay" stylesheets="@StyleSheets/DashboardUI.css" text="📸 Add Photo" />
+                                        <Label fx:id="selectedImageLabel" text="" textFill="#379172" />
+                                        <Button fx:id="postBtn" onAction="#handleCreatePost" styleClass="viewBtn" stylesheets="@StyleSheets/DashboardUI.css" text="✨ Post" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+
+                        <!-- Posts Feed -->
+                        <VBox fx:id="postsContainer" spacing="20" />
+                    </children>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+</BorderPane>

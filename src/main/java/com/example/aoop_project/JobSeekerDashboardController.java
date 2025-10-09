@@ -311,6 +311,12 @@ public class JobSeekerDashboardController implements Initializable {
 
 
     @FXML
+    private void handleFeed(ActionEvent e) {
+        getStartedApplication.launchScene("Feed.fxml");
+    }
+
+
+    @FXML
     public void handleTodolist(ActionEvent e){
         getStartedApplication.launchScene("TodoList.fxml");
     }

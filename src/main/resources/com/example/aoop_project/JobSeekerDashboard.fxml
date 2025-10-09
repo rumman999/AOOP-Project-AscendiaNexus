@@ -92,8 +92,8 @@
                   <Insets left="40.0" top="15.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🧑‍💻 Feed" textFill="WHITE">
-               <HBox.margin>
+            <Button mnemonicParsing="false" onAction="#handleFeed" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🧑‍💻 Feed" textFill="WHITE">
+            <HBox.margin>
                   <Insets left="30.0" top="15.0" />
                </HBox.margin>
                <font>
