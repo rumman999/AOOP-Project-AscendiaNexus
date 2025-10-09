@@ -16,103 +16,163 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="800" prefWidth="1200" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.AdminJobManagerController">
+<BorderPane prefHeight="800" prefWidth="1200" style="-fx-background-color: #10231c;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.AdminJobManagerController">
 
     <!-- Top section -->
     <top>
-        <HBox alignment="CENTER_LEFT" spacing="10">
+        <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-background-color: #10231c;">
             <padding>
-                <Insets bottom="10" left="10" right="10" top="10" />
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
             </padding>
             <children>
-                <Button onAction="#handleBack" style="-fx-font-size:14px;" text="◀ Back" />
-                <Label fx:id="lblPageTitle" alignment="CENTER" style="-fx-font-size:20px;" text="Job Management" HBox.hgrow="ALWAYS" />
+                <Button onAction="#handleBack" style="-fx-font-size:14px;" styleClass="backButton" stylesheets="@StyleSheets/admin-job-manager.css" text="◀ Back" />
+                <Label fx:id="lblPageTitle" alignment="CENTER" style="-fx-font-size: 23px; -fx-font-weight: bold;" text="Job Management" textFill="#e67e22" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font size="23.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="15.0" />
+               </HBox.margin></Label>
             </children>
         </HBox>
     </top>
 
     <!-- Center with SplitPane -->
     <center>
-        <SplitPane dividerPositions="0.6">
+        <SplitPane dividerPositions="0.65" style="-fx-background-color: transparent;" stylesheets="@StyleSheets/admin-job-manager.css">
             <items>
 
-                <!-- Left pane: table -->
-                <AnchorPane>
+                      <!-- Left pane: table -->
+                <AnchorPane style="-fx-background-color: #10231c;">
                     <children>
-                        <TableView fx:id="tblJobs" AnchorPane.bottomAnchor="50" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+                        <TableView fx:id="tblJobs" layoutY="-4.8" prefHeight="698.0" prefWidth="722.0" style="-fx-background-color: #10231c; -fx-border-color: transparent;" stylesheets="@StyleSheets/admin-job-manager.css" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-6.0" AnchorPane.topAnchor="-5.0">
                             <columns>
-                                <TableColumn fx:id="colId" prefWidth="50" text="ID" />
-                                <TableColumn fx:id="colTitle" prefWidth="200" text="Title" />
-                                <TableColumn fx:id="colJobType" prefWidth="120" text="Job Type" />
-                                <TableColumn fx:id="colLocation" prefWidth="120" text="Location" />
-                                <TableColumn fx:id="colSalary" prefWidth="120" text="Salary" />
-                                <TableColumn fx:id="colPostedAt" prefWidth="150" text="Posted At" />
+                                <TableColumn fx:id="colId" prefWidth="50" style="-fx-background-color: transparent;" text="ID" />
+                                <TableColumn fx:id="colTitle" prefWidth="109.5999984741211" style="-fx-background-color: transparent;" text="Title" />
+                        <TableColumn fx:id="colCompany" prefWidth="108.00003051757812" style="-fx-background-color: transparent;" text="Company" />
+                                <TableColumn fx:id="colJobType" prefWidth="90.39996337890625" resizable="false" style="-fx-background-color: transparent;" text="Job Type" />
+                                <TableColumn fx:id="colLocation" prefWidth="117.60003662109375" style="-fx-background-color: transparent;" text="Location" />
+                                <TableColumn fx:id="colSalary" prefWidth="92.800048828125" style="-fx-background-color: transparent;" text="Salary" />
+                                <TableColumn fx:id="colPostedAt" prefWidth="111.199951171875" style="-fx-background-color: transparent;" text="Posted At" />
+                        <TableColumn fx:id="colPostedBy" prefWidth="109.0" sortable="false" style="-fx-background-color: transparent;" text="Posted by" />
                             </columns>
+                     <padding>
+                        <Insets bottom="20.0" right="20.0" />
+                     </padding>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
                         </TableView>
                         <HBox spacing="10" AnchorPane.bottomAnchor="10" AnchorPane.rightAnchor="10">
                             <children>
-                                <Button fx:id="btnViewApplications" onAction="#handleViewApplications" text="View Applications" disable="true" />
-                                <Button fx:id="btnDelete" onAction="#handleDelete" text="Delete Selected" />
+                                <Button fx:id="btnViewApplications" disable="true" onAction="#handleViewApplications" styleClass="backButton" stylesheets="@StyleSheets/admin-job-manager.css" text="View Applications" />
+                                <Button fx:id="btnDelete" onAction="#handleDelete" prefHeight="46.0" prefWidth="158.0" styleClass="DelButton" stylesheets="@StyleSheets/admin-job-manager.css" text="Delete Selected" />
                             </children>
                         </HBox>
                     </children>
                 </AnchorPane>
 
-                <!-- Right pane: form -->
-                <AnchorPane>
+                      <!-- Right pane: form -->
+                <AnchorPane style="-fx-background-color: #10231c;">
                     <children>
-                        <ScrollPane fitToWidth="true" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+                        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: #10231c;" vbarPolicy="NEVER" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
                             <content>
-                                <VBox spacing="15">
+                                <VBox prefHeight="980.0" prefWidth="416.0" spacing="15" style="-fx-background-color: #10231c; -fx-border-color: #10231c;">
                                     <padding>
                                         <Insets bottom="15" left="15" right="15" top="15" />
                                     </padding>
                                     <children>
-                                        <Label style="-fx-font-size:18px; -fx-font-weight:bold;" text="Add / Edit Job" />
+                                        <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" styleClass="title" stylesheets="@StyleSheets/admin-job-manager.css" text="Add / Edit Job" textFill="#e67e22">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
 
-                                        <GridPane hgap="10" vgap="15">
+                                        <GridPane hgap="10" style="-fx-background-color: #10231c;" vgap="15">
                                             <columnConstraints>
                                                 <ColumnConstraints minWidth="120" />
                                                 <ColumnConstraints hgrow="ALWAYS" />
                                             </columnConstraints>
                                             <rowConstraints>
-                                                <RowConstraints minHeight="30" />
-                                                <RowConstraints minHeight="30" />
-                                                <RowConstraints minHeight="30" />
-                                                <RowConstraints minHeight="30" />
-                                                <RowConstraints minHeight="30" />
-                                                <RowConstraints minHeight="100" />
-                                                <RowConstraints minHeight="100" />
+                                                <RowConstraints minHeight="30" /> <!-- JOB TITLE -->
+                                                <RowConstraints minHeight="30" /> <!-- COMPANY -->
+                                                <RowConstraints minHeight="30" /> <!-- POSTED BY -->
+                                                <RowConstraints minHeight="30" /> <!-- JOB TYPE -->
+                                                <RowConstraints minHeight="30" /> <!-- LOCATION -->
+                                                <RowConstraints minHeight="30" /> <!-- SALARY -->
+                                                <RowConstraints minHeight="30" /> <!-- TECH STACK -->
+                                                <RowConstraints minHeight="100" /> <!-- DESCRIPTION -->
+                                                <RowConstraints minHeight="100" /> <!-- REQUIREMENTS -->
                                             </rowConstraints>
                                             <children>
-                                                <Label text="Job Title:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                                                <TextField fx:id="fldTitle" promptText="e.g., Senior Java Developer" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-                                                <Label text="Job Type:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                                                <TextField fx:id="fldJobType" promptText="e.g., Full-time, Part-time, Contract" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                <!-- JOB TITLE -->
+                                                <Label styleClass="labelA" stylesheets="@StyleSheets/admin-job-manager.css" text="JOB TITLE" textFill="#e67e22" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                                    <font><Font size="18.0" /></font>
+                                                </Label>
+                                                <TextField fx:id="fldTitle" promptText="e.g., Senior Java Developer" style="-fx-background-color: #FFF7E0; -fx-border-color: orange; -fx-border-width: 1.2;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-                                                <Label text="Location:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                                                <TextField fx:id="fldLocation" promptText="e.g., Dhaka, Bangladesh or Remote" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                                <!-- COMPANY -->
+                                                <Label styleClass="labelA" stylesheets="@StyleSheets/admin-job-manager.css" text="COMPANY" textFill="#e67e22" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                                    <font><Font size="18.0" /></font>
+                                                </Label>
+                                                <TextField fx:id="fldCompany" promptText="Company name" style="-fx-background-color: #FFF7E0; -fx-border-color: orange; -fx-border-width: 1.2;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                                                <Label text="Salary Range:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-                                                <TextField fx:id="fldSalary" promptText="e.g., 50k - 80k BDT" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                                <!-- POSTED BY -->
+                                                <Label styleClass="labelA" stylesheets="@StyleSheets/admin-job-manager.css" text="POSTED BY" textFill="#e67e22" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                                                    <font><Font size="18.0" /></font>
+                                                </Label>
+                                                <TextField fx:id="fldPostedBy" promptText="Person who posted the job" style="-fx-background-color: #FFF7E0; -fx-border-color: orange; -fx-border-width: 1.2;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-                                                <Label text="Tech Stack:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-                                                <TextField fx:id="fldTechStack" promptText="e.g., Java, Spring Boot, MySQL, React" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                                <!-- JOB TYPE -->
+                                                <Label styleClass="labelA" stylesheets="@StyleSheets/admin-job-manager.css" text="JOB TYPE" textFill="#e67e22" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                                                    <font><Font size="18.0" /></font>
+                                                </Label>
+                                                <TextField fx:id="fldJobType" promptText="e.g., Full-time, Part-time, Contract" style="-fx-background-color: #FFF7E0; -fx-border-color: orange; -fx-border-width: 1.2;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-                                                <Label text="Description:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-                                                <TextArea fx:id="fldDescription" prefRowCount="6" promptText="Job description and responsibilities..." wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                                <!-- LOCATION -->
+                                                <Label styleClass="labelA" stylesheets="@StyleSheets/admin-job-manager.css" text="LOCATION" textFill="#e67e22" GridPane.columnIndex="0" GridPane.rowIndex="4">
+                                                    <font><Font size="18.0" /></font>
+                                                </Label>
+                                                <TextField fx:id="fldLocation" promptText="e.g., Dhaka, Bangladesh or Remote" style="-fx-background-color: #FFF7E0; -fx-border-color: orange; -fx-border-width: 1.2;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
-                                                <Label text="Requirements:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
-                                                <TextArea fx:id="fldRequirements" prefRowCount="6" promptText="Skills, experience, and qualifications required..." wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                                <!-- SALARY RANGE -->
+                                                <Label styleClass="labelA" stylesheets="@StyleSheets/admin-job-manager.css" text="SALARY RANGE" textFill="#e67e22" GridPane.columnIndex="0" GridPane.rowIndex="5">
+                                                    <font><Font size="18.0" /></font>
+                                                </Label>
+                                                <TextField fx:id="fldSalary" promptText="e.g., 50k - 80k BDT" style="-fx-background-color: #FFF7E0; -fx-border-color: orange; -fx-border-width: 1.2;" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+                                                <!-- TECH STACK -->
+                                                <Label styleClass="labelA" stylesheets="@StyleSheets/admin-job-manager.css" text="TECH STACK" textFill="#e67e22" GridPane.columnIndex="0" GridPane.rowIndex="6">
+                                                    <font><Font size="18.0" /></font>
+                                                </Label>
+                                                <TextField fx:id="fldTechStack" promptText="e.g., Java, Spring Boot, MySQL, React" style="-fx-background-color: #FFF7E0; -fx-border-color: orange; -fx-border-width: 1.2;" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+
+                                                <!-- DESCRIPTION -->
+                                                <Label styleClass="labelA" stylesheets="@StyleSheets/admin-job-manager.css" text="DESCRIPTION" textFill="#e67e22" GridPane.columnIndex="0" GridPane.rowIndex="7">
+                                                    <font><Font size="18.0" /></font>
+                                                </Label>
+                                                <TextArea fx:id="fldDescription" prefRowCount="6" promptText="Job description and responsibilities..." style="-fx-background-color: #FFF7E0; -fx-border-color: orange; -fx-border-width: 1.2;" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+
+                                                <!-- REQUIREMENTS -->
+                                                <Label styleClass="labelA" stylesheets="@StyleSheets/admin-job-manager.css" text="REQUIREMENTS" textFill="#e67e22" GridPane.columnIndex="0" GridPane.rowIndex="8">
+                                                    <font><Font size="18.0" /></font>
+                                                </Label>
+                                                <TextArea fx:id="fldRequirements" prefRowCount="6" promptText="Skills, experience, and qualifications required..." style="-fx-background-color: #FFF7E0; -fx-border-color: orange; -fx-border-width: 1.2;" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+
                                             </children>
                                         </GridPane>
 
-                                        <HBox alignment="CENTER_RIGHT" spacing="10">
+
+                                        <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-background-color: transparent;">
                                             <children>
-                                                <Button fx:id="btnClear" onAction="#handleClear" text="Clear" />
-                                                <Button fx:id="btnSave" onAction="#handleSave" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Post Job" />
+                                                <Button fx:id="btnClear" onAction="#handleClear" prefHeight="38.0" prefWidth="56.0" style="-fx-background-color: #e67e22; -fx-cursor: hand;" text="Clear" textFill="#10231c">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font></Button>
+                                                <Button onAction="#handleSave" prefHeight="40.0" prefWidth="79.0" styleClass="viewBtn" stylesheets="@StyleSheets/DashboardUI.css" text="Post Job" />
                                             </children>
                                         </HBox>
                                     </children>
@@ -122,7 +182,7 @@
                     </children>
                 </AnchorPane>
 
-            </items>
+                  </items>
         </SplitPane>
     </center>
 </BorderPane>

@@ -6,6 +6,8 @@ public class Job {
     private int id;
     private int posterId;
     private String title;
+    private String company;       // NEW
+    private String postedBy;      // NEW
     private String description;
     private String location;
     private String salaryRange;
@@ -17,11 +19,14 @@ public class Job {
     // Constructors
     public Job() {}
 
-    public Job(int id, int posterId, String title, String description, String location,
-               String salaryRange, String techStack, String jobType, String requirements, LocalDateTime postedAt) {
+    public Job(int id, int posterId, String title, String company, String postedBy, String description,
+               String location, String salaryRange, String techStack, String jobType,
+               String requirements, LocalDateTime postedAt) {
         this.id = id;
         this.posterId = posterId;
         this.title = title;
+        this.company = company;         // NEW
+        this.postedBy = postedBy;       // NEW
         this.description = description;
         this.location = location;
         this.salaryRange = salaryRange;
@@ -40,6 +45,12 @@ public class Job {
 
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
+
+    public String getCompany() { return company; }          // NEW
+    public void setCompany(String company) { this.company = company; }  // NEW
+
+    public String getPostedBy() { return postedBy; }        // NEW
+    public void setPostedBy(String postedBy) { this.postedBy = postedBy; } // NEW
 
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
@@ -68,6 +79,8 @@ public class Job {
                 "id=" + id +
                 ", posterId=" + posterId +
                 ", title='" + title + '\'' +
+                ", company='" + company + '\'' +       // NEW
+                ", postedBy='" + postedBy + '\'' +     // NEW
                 ", location='" + location + '\'' +
                 ", jobType='" + jobType + '\'' +
                 ", postedAt=" + postedAt +

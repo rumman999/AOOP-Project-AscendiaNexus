@@ -1,0 +1,192 @@
+/* ==============================
+   GLOBAL TABLEVIEW STYLE
+   ============================== */
+.table-view {
+    -fx-selection-bar: #e67e22;           /* selected row background */
+    -fx-selection-bar-non-focused: #e67e22; /* selected row when table is not focused */
+    -fx-background-color: #FFF7E0;
+    -fx-border-color: #e67e22;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #e67e22;
+    -fx-border-width: 0 0 1 0;
+}
+
+.table-view .column-header,
+.table-view .filler {
+    -fx-size: 36px;
+    -fx-alignment: CENTER;
+    -fx-font-weight: bold;
+    -fx-text-fill: black;
+}
+
+.table-view .table-row-cell {
+    -fx-cell-size: 34px;
+    -fx-background-color : #FFF7E0;
+    -fx-border-color: #e67e22;
+    -fx-padding: 4 10 4 10;
+    -fx-text-fill: black;
+}
+
+.table-view .table-cell {
+    -fx-alignment: CENTER;
+    -fx-padding: 4 10 4 10;
+}
+
+/* Hover effect */
+.table-row-cell:hover {
+    -fx-background-color: #e67e22;
+    -fx-text-fill: black;
+}
+
+/* Selection & Focus effect */
+.table-row-cell:filled:selected,
+.table-row-cell:focused:selected {
+    -fx-background-color: #e67e22;
+    -fx-text-fill: black;
+}
+
+.table-cell:focused {
+    -fx-border-color: #e67e22;
+    -fx-border-width: 1px;
+}
+
+.table-view {
+    -fx-selection-bar: #e67e22;           /* selected row background */
+    -fx-selection-bar-non-focused: #e67e22; /* selected row when table is not focused */
+    -fx-background-color: #FFF7E0;
+    -fx-border-color: #e67e22;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+}
+
+/* TableCell text color for selected/focused rows */
+.table-row-cell:selected .table-cell {
+    -fx-background-color : orange;
+    -fx-text-fill: black;   /* ensures text is black on selection */
+}
+
+/* Hover effect */
+.table-row-cell:hover {
+    -fx-background-color: #e67e22;
+    -fx-text-fill: black;
+}
+
+/* Optional: focused cell border */
+.table-cell:focused {
+    -fx-border-color: #e67e22;
+    -fx-border-width: 1px;
+}
+
+/* ==============================
+   BUTTONS
+   ============================== */
+
+
+
+
+/* ==============================
+   LABELS
+   ============================== */
+.label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #333;
+}
+
+#lblPageTitle {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+/* ==============================
+   TEXTFIELDS & TEXTAREAS
+   ============================== */
+.text-input, .text-area {
+    -fx-focus-color: #e67e22;
+    -fx-faint-focus-color: #FFF7E0;
+    -fx-text-fill: black;
+}
+
+/* ==============================
+   SCROLLPANE & SPLITPANE
+   ============================== */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.split-pane {
+    -fx-background-color: transparent;
+    -fx-divider-fill: transparent;
+}
+
+.split-pane:horizontal > .split-pane-divider {
+    -fx-divider-color: orange;
+    -fx-background-color: transparent;
+}
+
+/* ==============================
+   HBOX / VBOX PADDING
+   ============================== */
+.hbox, .vbox {
+    -fx-spacing: 10;
+}
+
+/* ==============================
+   BORDERPANE
+   ============================== */
+.border-pane {
+    -fx-background-color: transparent;
+    -fx-padding: 10;
+}
+
+/* ==============================
+   TABLE SPECIFIC PADDING
+   ============================== */
+#jobsTable .table-cell {
+    -fx-padding: 0 14 0 10;
+    -fx-alignment: CENTER_LEFT;
+}
+
+#jobsTable .column-header .label {
+    -fx-padding: 0 14 0 10;
+    -fx-alignment: CENTER_LEFT;
+}
+
+/* ==============================
+   TITLES
+   ============================== */
+.title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e67e22;
+}
+
+.labelA {
+    -fx-font-size: 15px;
+    -fx-text-fill: #e67e22;
+}
+.backButton{
+    -fx-font-size : 16px;
+    -fx-text-fill : #00F270;
+    -fx-border-radius : 12px;
+    -fx-padding : 8 20 8 20;
+    -fx-cursor : hand;
+    -fx-border-color : #00F270;
+    -fx-background-color : transparent;
+    -fx-border-width : 2;
+}
+.DelButton{
+    -fx-font-size : 16px;
+    -fx-text-fill : #b00000;
+    -fx-border-radius : 12px;
+    -fx-text-weight : bold;
+    -fx-padding : 8 20 8 20;
+    -fx-cursor : hand;
+    -fx-border-color : #b00000;
+    -fx-background-color : transparent;
+    -fx-border-width : 2;
+}

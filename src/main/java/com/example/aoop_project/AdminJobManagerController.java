@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -21,14 +22,16 @@ public class AdminJobManagerController {
 
     @FXML private TableView<Job> tblJobs;
     @FXML private TableColumn<Job, Integer> colId;
-    @FXML private TableColumn<Job, String> colTitle, colLocation, colSalary, colJobType;
+    @FXML private TableColumn<Job, String> colTitle, colLocation, colSalary, colJobType,colCompany,colPostedBy;
     @FXML private TableColumn<Job, LocalDateTime> colPostedAt;
 
-    @FXML private TextField fldTitle, fldLocation, fldSalary, fldJobType, fldTechStack;
+    @FXML private TextField fldTitle, fldLocation, fldSalary, fldJobType, fldTechStack,fldCompany,fldPostedBy;
     @FXML private TextArea fldDescription, fldRequirements;
 
     @FXML private Button btnSave, btnClear, btnDelete, btnViewApplications;
     @FXML private Label lblPageTitle;
+
+
 
     // DAO instances
     private final JobDAO jobDAO = new JobDAO();
@@ -51,6 +54,8 @@ public class AdminJobManagerController {
         if (colLocation == null) System.out.println("ERROR: colLocation is null");
         if (colSalary == null) System.out.println("ERROR: colSalary is null");
         if (colPostedAt == null) System.out.println("ERROR: colPostedAt is null");
+        if (colCompany == null) System.out.println("ERROR: colCompany is null");
+        if (colPostedBy == null) System.out.println("ERROR: colPostedBy is null");
 
         // Only configure columns if they exist
         if (colId != null) colId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -59,6 +64,8 @@ public class AdminJobManagerController {
         if (colSalary != null) colSalary.setCellValueFactory(new PropertyValueFactory<>("salaryRange"));
         if (colJobType != null) colJobType.setCellValueFactory(new PropertyValueFactory<>("jobType"));
         if (colPostedAt != null) colPostedAt.setCellValueFactory(new PropertyValueFactory<>("postedAt"));
+        if (colCompany != null) colCompany.setCellValueFactory(new PropertyValueFactory<>("company"));
+        if (colPostedBy != null) colPostedBy.setCellValueFactory(new PropertyValueFactory<>("postedBy"));
 
         // Bind list to table
         if (tblJobs != null) {
@@ -88,6 +95,7 @@ public class AdminJobManagerController {
         System.out.println("AdminJobManagerController initialized successfully");
     }
 
+
     private void onSelect(Job job) {
         if (job == null) {
             clearForm();
@@ -97,6 +105,8 @@ public class AdminJobManagerController {
         } else {
             selectedJob = job;
             if (fldTitle != null) fldTitle.setText(job.getTitle());
+            if (fldCompany != null) fldCompany.setText(job.getCompany());       // NEW
+            if (fldPostedBy != null) fldPostedBy.setText(job.getPostedBy());     // NEW
             if (fldLocation != null) fldLocation.setText(job.getLocation());
             if (fldSalary != null) fldSalary.setText(job.getSalaryRange());
             if (fldJobType != null) fldJobType.setText(job.getJobType());
@@ -107,6 +117,7 @@ public class AdminJobManagerController {
             if (btnViewApplications != null) btnViewApplications.setDisable(false);
         }
     }
+
 
     private void loadAllJobs() {
         try {
@@ -134,6 +145,8 @@ public class AdminJobManagerController {
     @FXML
     private void handleSave() {
         String title = fldTitle != null ? fldTitle.getText().trim() : "";
+        String company = fldCompany != null ? fldCompany.getText().trim() : "";         // NEW
+        String postedBy = fldPostedBy != null ? fldPostedBy.getText().trim() : "";      // NEW
         String location = fldLocation != null ? fldLocation.getText().trim() : "";
         String salary = fldSalary != null ? fldSalary.getText().trim() : "";
         String jobType = fldJobType != null ? fldJobType.getText().trim() : "";
@@ -152,16 +165,21 @@ public class AdminJobManagerController {
                 Job job = new Job();
                 job.setPosterId(Session.getLoggedInUserId());
                 job.setTitle(title);
+                job.setCompany(company);           // NEW
+                job.setPostedBy(postedBy);         // NEW
                 job.setLocation(location);
                 job.setSalaryRange(salary);
                 job.setJobType(jobType);
                 job.setTechStack(techStack);
                 job.setDescription(description);
                 job.setRequirements(requirements);
+                job.setPostedAt(LocalDateTime.now());
                 jobDAO.create(job);
             } else {
                 // Update existing job
                 selectedJob.setTitle(title);
+                selectedJob.setCompany(company);   // NEW
+                selectedJob.setPostedBy(postedBy); // NEW
                 selectedJob.setLocation(location);
                 selectedJob.setSalaryRange(salary);
                 selectedJob.setJobType(jobType);
@@ -171,7 +189,7 @@ public class AdminJobManagerController {
                 jobDAO.update(selectedJob);
             }
 
-            // Refresh the appropriate job list
+            // Refresh job list
             String userType = Session.getLoggedInUserType();
             if ("Admin".equals(userType)) {
                 loadAllJobs();
@@ -184,6 +202,7 @@ public class AdminJobManagerController {
             showAlert("Save failed: " + e.getMessage());
         }
     }
+
 
     @FXML
     private void handleDelete() {
@@ -272,6 +291,8 @@ public class AdminJobManagerController {
 
     private void clearForm() {
         if (fldTitle != null) fldTitle.clear();
+        if (fldCompany != null) fldCompany.clear();       // NEW
+        if (fldPostedBy != null) fldPostedBy.clear();     // NEW
         if (fldLocation != null) fldLocation.clear();
         if (fldSalary != null) fldSalary.clear();
         if (fldJobType != null) fldJobType.clear();
@@ -281,6 +302,7 @@ public class AdminJobManagerController {
         if (btnSave != null) btnSave.setText("Post Job");
         if (btnViewApplications != null) btnViewApplications.setDisable(true);
     }
+
 
     private void showAlert(String msg) {
         Alert alert = new Alert(Alert.AlertType.WARNING, msg, ButtonType.OK);
@@ -292,4 +314,6 @@ public class AdminJobManagerController {
         }
         alert.showAndWait();
     }
+
+
 }

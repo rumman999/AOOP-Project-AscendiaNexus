@@ -28,6 +28,7 @@ public class JobApplicationsController {
 
     @FXML
     public void initialize() {
+
         // Configure columns
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colApplicantName.setCellValueFactory(new PropertyValueFactory<>("applicantName"));

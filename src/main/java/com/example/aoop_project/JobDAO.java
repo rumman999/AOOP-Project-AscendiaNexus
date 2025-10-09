@@ -20,24 +20,27 @@ public class JobDAO {
     }
 
     public void create(Job job) throws SQLException {
-        String sql = "INSERT INTO jobs (poster_id, title, description, location, salary_range, tech_stack, job_type, requirements, posted_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
+        String sql = "INSERT INTO jobs (poster_id, title, company, posted_by, description, location, salary_range, tech_stack, job_type, requirements, posted_at) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = getConnection();
-             PreparedStatement pst = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            pst.setInt(1, job.getPosterId());
-            pst.setString(2, job.getTitle());
-            pst.setString(3, job.getDescription());
-            pst.setString(4, job.getLocation());
-            pst.setString(5, job.getSalaryRange());
-            pst.setString(6, job.getTechStack());
-            pst.setString(7, job.getJobType());
-            pst.setString(8, job.getRequirements());
-            pst.setTimestamp(9, Timestamp.valueOf(LocalDateTime.now()));
+            ps.setInt(1, job.getPosterId());
+            ps.setString(2, job.getTitle());
+            ps.setString(3, job.getCompany());      // NEW
+            ps.setString(4, job.getPostedBy());     // NEW
+            ps.setString(5, job.getDescription());
+            ps.setString(6, job.getLocation());
+            ps.setString(7, job.getSalaryRange());
+            ps.setString(8, job.getTechStack());
+            ps.setString(9, job.getJobType());
+            ps.setString(10, job.getRequirements());
+            ps.setTimestamp(11, Timestamp.valueOf(job.getPostedAt()));
+            ps.executeUpdate();
 
-            pst.executeUpdate();
+            ps.executeUpdate();
 
-            try (ResultSet rs = pst.getGeneratedKeys()) {
+            try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
                     job.setId(rs.getInt(1));
                 }
@@ -94,23 +97,26 @@ public class JobDAO {
     }
 
     public void update(Job job) throws SQLException {
-        String sql = "UPDATE jobs SET title = ?, description = ?, location = ?, salary_range = ?, tech_stack = ?, job_type = ?, requirements = ? WHERE id = ?";
+        String sql = "UPDATE jobs SET title = ?, company = ?, posted_by = ?, description = ?, location = ?, salary_range = ?, tech_stack = ?, job_type = ?, requirements = ? WHERE id = ?";
 
         try (Connection conn = getConnection();
              PreparedStatement pst = conn.prepareStatement(sql)) {
 
             pst.setString(1, job.getTitle());
-            pst.setString(2, job.getDescription());
-            pst.setString(3, job.getLocation());
-            pst.setString(4, job.getSalaryRange());
-            pst.setString(5, job.getTechStack());
-            pst.setString(6, job.getJobType());
-            pst.setString(7, job.getRequirements());
-            pst.setInt(8, job.getId());
+            pst.setString(2, job.getCompany());      // NEW
+            pst.setString(3, job.getPostedBy());     // NEW
+            pst.setString(4, job.getDescription());
+            pst.setString(5, job.getLocation());
+            pst.setString(6, job.getSalaryRange());
+            pst.setString(7, job.getTechStack());
+            pst.setString(8, job.getJobType());
+            pst.setString(9, job.getRequirements());
+            pst.setInt(10, job.getId());
 
             pst.executeUpdate();
         }
     }
+
 
     public void delete(int id) throws SQLException {
         String sql = "DELETE FROM jobs WHERE id = ?";
@@ -171,20 +177,17 @@ public class JobDAO {
     private Job mapResultSetToJob(ResultSet rs) throws SQLException {
         Job job = new Job();
         job.setId(rs.getInt("id"));
-        job.setPosterId(rs.getInt("poster_id"));
         job.setTitle(rs.getString("title"));
+        job.setCompany(rs.getString("company"));       // NEW
+        job.setPostedBy(rs.getString("posted_by"));    // NEW
         job.setDescription(rs.getString("description"));
         job.setLocation(rs.getString("location"));
         job.setSalaryRange(rs.getString("salary_range"));
         job.setTechStack(rs.getString("tech_stack"));
         job.setJobType(rs.getString("job_type"));
         job.setRequirements(rs.getString("requirements"));
-
-        Timestamp timestamp = rs.getTimestamp("posted_at");
-        if (timestamp != null) {
-            job.setPostedAt(timestamp.toLocalDateTime());
-        }
-
+        job.setPostedAt(rs.getTimestamp("posted_at").toLocalDateTime());
         return job;
     }
+
 }
