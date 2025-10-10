@@ -42,14 +42,36 @@ public class JobSearchController implements Initializable {
         // Add Apply button per row
         colAction.setCellFactory(col -> new TableCell<>() {
             private final Button btn = new Button("Apply");
+
             {
+                // Inline CSS styling
+                btn.setStyle(
+                        "-fx-background-color: #00F270;" +     // green background
+                                "-fx-text-fill: white;" +              // white text
+                                "-fx-font-weight: bold;" +             // bold text
+                                "-fx-background-radius: 8;" +          // rounded corners
+                                "-fx-cursor: hand;" +                  // hand cursor on hover
+                                "-fx-padding: 4 10 4 10;"              // top/right/bottom/left padding
+                );
+
+                // Optional: hover effect using pseudo-class
+                btn.setOnMouseEntered(e ->
+                        btn.setStyle("-fx-background-color: #45a049; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand; -fx-padding: 4 10 4 10;")
+                );
+                btn.setOnMouseExited(e ->
+                        btn.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand; -fx-padding: 4 10 4 10;")
+                );
+
                 btn.setOnAction(e -> apply(getTableView().getItems().get(getIndex())));
             }
-            @Override protected void updateItem(Void v, boolean empty) {
+
+            @Override
+            protected void updateItem(Void v, boolean empty) {
                 super.updateItem(v, empty);
                 setGraphic(empty ? null : btn);
             }
         });
+
 
         // Initial load: fetch all jobs
         try {
@@ -108,7 +130,22 @@ public class JobSearchController implements Initializable {
         }
     }
 
-
+    @FXML
+    private void handleClear(ActionEvent e){
+        fldKeyword.clear();
+        fldJobType.clear();
+        fldLocation.clear();
+        fldTechStack.clear();
+        refreshJobList();
+    }
+    private void refreshJobList() {
+        try {
+            List<Job> all = jobDAO.findAll();
+            results.setAll(all);
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.WARNING, "Failed to load jobs: " + e.getMessage()).showAndWait();
+        }
+    }
     @FXML
     private void handleClose(ActionEvent e) {
         getStartedApplication.launchScene("JobSeekerDashboard.fxml");

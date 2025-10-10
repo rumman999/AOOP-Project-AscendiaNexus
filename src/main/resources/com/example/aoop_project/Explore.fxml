@@ -1,50 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.web.WebView?>
 
-<BorderPane xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.aoop_project.ExploreController"
-            prefWidth="800" prefHeight="600">
+<BorderPane prefHeight="700" prefWidth="1200" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.ExploreController">
 
+    <!-- ================= LEFT SECTION: PLAYLISTS ================= -->
     <left>
-        <VBox spacing="10">
+        <VBox prefWidth="250" spacing="10">
             <padding>
-                <Insets top="10" right="10" bottom="10" left="10"/>
+                <Insets bottom="10" left="10" right="10" top="10" />
             </padding>
-            <HBox fx:id="adminControls" visible="false" spacing="5">
+            <HBox fx:id="adminControls" spacing="5" visible="false">
                 <children>
-                    <TextField fx:id="fldPlaylistName" promptText="Playlist Name" HBox.hgrow="ALWAYS"/>
-                    <TextField fx:id="fldPlaylistUrl" promptText="Playlist URL"  HBox.hgrow="ALWAYS"/>
-                    <Button text="Add" onAction="#handleAddPlaylist"/>
+                    <TextField fx:id="fldPlaylistName" promptText="Playlist Name" HBox.hgrow="ALWAYS" />
+                    <TextField fx:id="fldPlaylistUrl" promptText="Playlist URL" HBox.hgrow="ALWAYS" />
+                    <Button onAction="#handleAddPlaylist" text="Add" />
                 </children>
             </HBox>
-            <ListView fx:id="listPlaylists" />
+            <ListView fx:id="listPlaylists" VBox.vgrow="ALWAYS" />
         </VBox>
     </left>
 
+    <!-- ================= CENTER SECTION: MAIN CONTENT ================= -->
     <center>
-        <VBox>
+        <VBox spacing="10">
             <padding>
-                <Insets top="10" right="10" bottom="10" left="10"/>
+                <Insets bottom="10" left="10" right="10" top="10" />
             </padding>
-            <WebView fx:id="webView" VBox.vgrow="ALWAYS"/>
+            <WebView fx:id="webView" VBox.vgrow="ALWAYS" />
         </VBox>
     </center>
 
+    <!-- ================= RIGHT SECTION: EMBEDDED CHATBOT + TODOLIST ================= -->
+    <right>
+        <ScrollPane hbarPolicy="NEVER" vbarPolicy="NEVER">
+            <content>
+                <VBox prefWidth="350" spacing="15">
+                    <padding>
+                        <Insets bottom="10" left="10" right="10" top="10" />
+                    </padding>
+
+                    <!-- Mini Chatbot window -->
+                    <TitledPane expanded="true" text="Chatbot">
+                        <content>
+                            <!-- AnchorPane used for embedding Chatbot.fxml -->
+                            <AnchorPane fx:id="chatbotContainer" prefHeight="357.0" prefWidth="328.0" />
+                        </content>
+                    </TitledPane>
+
+                    <!-- Mini TodoList window -->
+                    <TitledPane expanded="true" text="To-Do List">
+                        <content>
+                            <!-- AnchorPane used for embedding TodoList.fxml -->
+                            <AnchorPane fx:id="todoContainer" prefHeight="314.0" prefWidth="328.0" />
+                        </content>
+                    </TitledPane>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </right>
+
+    <!-- ================= TOP BAR ================= -->
     <top>
         <HBox spacing="10">
             <padding>
-                <Insets top="10" right="10" bottom="10" left="10"/>
+                <Insets bottom="10" left="10" right="10" top="10" />
             </padding>
             <children>
-                <Button text="Back" onAction="#handleBack"/>
+                <Button onAction="#handleBack" text="Back" />
             </children>
         </HBox>
     </top>
