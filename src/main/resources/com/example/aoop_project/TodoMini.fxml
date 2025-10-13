@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.TextFlow?>
+
+<ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background: #10231c;" vbarPolicy="NEVER" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.TodoController">
+    <content>
+        <BorderPane prefHeight="400" prefWidth="600" style="-fx-background-color: #10231c;">
+
+            <!-- Top -->
+            <top>
+                <HBox alignment="CENTER_LEFT" spacing="6" style="-fx-padding: 10; -fx-background-color: #10231c;">
+                    <Label style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 18;" text="Welcome Back" />
+                    <Label>
+                        <graphic>
+                            <Label fx:id="emailLabel" style="-fx-text-fill: #1abc9c; -fx-font-size: 12;" />
+                        </graphic>
+                    </Label>
+                </HBox>
+            </top>
+
+            <!-- Center -->
+            <center>
+                <VBox spacing="8" style="-fx-padding: 10; -fx-background-color: #10231c;">
+                    <TextFlow>
+                        <children>
+                            <Label style="-fx-font-weight: bold; -fx-text-fill: white; -fx-font-size: 22;" text="Task" />
+                            <Label style="-fx-font-weight: bold; -fx-text-fill: #e67e22; -fx-font-size: 22;" text="Master" />
+                        </children>
+                    </TextFlow>
+
+                          <TableView fx:id="taskTable" style="-fx-background-color: #10231c;" stylesheets="@StyleSheets/admin-job-manager.css" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="doneColumn" prefWidth="60" text="✓" />
+                            <TableColumn fx:id="taskColumn" prefWidth="518.3999893188477" text="Task" />
+                        </columns>
+                  <styleClass>
+                     <String fx:value="mini-todo" />
+                     <String fx:value="scroll-pane" />
+                  </styleClass>
+                    </TableView>
+                </VBox>
+            </center>
+
+            <!-- Bottom -->
+            <bottom>
+                <HBox alignment="CENTER" spacing="8" style="-fx-padding: 8; -fx-background-color: #10231c;">
+                    <TextField fx:id="taskField" promptText="New task..." HBox.hgrow="ALWAYS" />
+                    <Button onAction="#handleAddTask" style="-fx-background-color: #1abc9c; -fx-text-fill: white; -fx-font-size: 12;" text="Add" />
+                    <Button onAction="#handleDeleteTask" style="-fx-background-color: red; -fx-text-fill: white; -fx-font-size: 12;" text="Del" />
+                </HBox>
+            </bottom>
+
+        </BorderPane>
+    </content>
+</ScrollPane>

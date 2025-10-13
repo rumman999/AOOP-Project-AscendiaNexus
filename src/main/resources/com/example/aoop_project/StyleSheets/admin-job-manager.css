@@ -2,17 +2,19 @@
    GLOBAL TABLEVIEW STYLE
    ============================== */
 .table-view {
-    -fx-selection-bar: #e67e22;           /* selected row background */
-    -fx-selection-bar-non-focused: #e67e22; /* selected row when table is not focused */
     -fx-background-color: #FFF7E0;
     -fx-border-color: #e67e22;
-    -fx-border-radius: 6px;
-    -fx-background-radius: 6px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-font-size: 14px;
+    -fx-selection-bar: #e67e22;
+    -fx-selection-bar-non-focused: #e67e22;
 }
 
 .table-view .column-header-background {
     -fx-background-color: #e67e22;
     -fx-border-width: 0 0 1 0;
+    -fx-border-color: transparent;
 }
 
 .table-view .column-header,
@@ -20,59 +22,42 @@
     -fx-size: 36px;
     -fx-alignment: CENTER;
     -fx-font-weight: bold;
-    -fx-text-fill: black;
+    -fx-text-fill: #fff;
+}
+
+.table-view .scroll-bar:horizontal,
+.table-view .scroll-bar:vertical {
+    -fx-opacity: 0;       /* invisible */
+    -fx-pref-width: 0;    /* remove track space */
+    -fx-pref-height: 0;
 }
 
 .table-view .table-row-cell {
-    -fx-cell-size: 34px;
-    -fx-background-color : #FFF7E0;
-    -fx-border-color: #e67e22;
-    -fx-padding: 4 10 4 10;
-    -fx-text-fill: black;
-}
-
-.table-view .table-cell {
-    -fx-alignment: CENTER;
-    -fx-padding: 4 10 4 10;
-}
-
-/* Hover effect */
-.table-row-cell:hover {
-    -fx-background-color: #e67e22;
-    -fx-text-fill: black;
-}
-
-/* Selection & Focus effect */
-.table-row-cell:filled:selected,
-.table-row-cell:focused:selected {
-    -fx-background-color: #e67e22;
-    -fx-text-fill: black;
-}
-
-.table-cell:focused {
-    -fx-border-color: #e67e22;
-    -fx-border-width: 1px;
-}
-
-.table-view {
-    -fx-selection-bar: #e67e22;           /* selected row background */
-    -fx-selection-bar-non-focused: #e67e22; /* selected row when table is not focused */
+    -fx-cell-size: 36px;
     -fx-background-color: #FFF7E0;
     -fx-border-color: #e67e22;
     -fx-border-radius: 6px;
     -fx-background-radius: 6px;
+    -fx-padding: 4 10 4 10;
+    -fx-text-fill: black;
+    -fx-transition: background-color 0.2s ease, -fx-text-fill 0.2s ease;
 }
 
-/* TableCell text color for selected/focused rows */
-.table-row-cell:selected .table-cell {
-    -fx-background-color : orange;
-    -fx-text-fill: black;   /* ensures text is black on selection */
+.table-view .table-cell {
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 4 10 4 10;
+    -fx-wrap-text: true; /* allows long text to wrap */
 }
 
-/* Hover effect */
 .table-row-cell:hover {
     -fx-background-color: #e67e22;
-    -fx-text-fill: black;
+    -fx-text-fill: white;
+}
+
+.table-row-cell:filled:selected,
+.table-row-cell:focused:selected {
+    -fx-background-color: #e67e22;
+    -fx-text-fill: white;
 }
 
 /* Optional: focused cell border */
@@ -84,9 +69,34 @@
 /* ==============================
    BUTTONS
    ============================== */
+.button, .backButton, .DelButton {
+    -fx-cursor: hand;
+    -fx-border-radius: 12px;
+    -fx-padding: 8 20 8 20;
+    -fx-font-size: 15px;
+    -fx-transition: all 0.2s ease;
+    -fx-font-weight: bold;
+}
 
+.backButton {
+    -fx-text-fill: #00F270;
+    -fx-border-color: #00F270;
+    -fx-background-color: transparent;
+}
 
+.backButton:hover {
+    -fx-background-color: #00F27033;
+}
 
+.DelButton {
+    -fx-text-fill: #b00000;
+    -fx-border-color: #b00000;
+    -fx-background-color: transparent;
+}
+
+.DelButton:hover {
+    -fx-background-color: #b0000033;
+}
 
 /* ==============================
    LABELS
@@ -97,8 +107,20 @@
 }
 
 #lblPageTitle {
-    -fx-font-size: 22px;
+    -fx-font-size: 24px;
     -fx-font-weight: bold;
+    -fx-text-fill: #e67e22;
+}
+
+.title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e67e22;
+}
+
+.labelA {
+    -fx-font-size: 15px;
+    -fx-text-fill: #e67e22;
 }
 
 /* ==============================
@@ -108,24 +130,16 @@
     -fx-focus-color: #e67e22;
     -fx-faint-focus-color: #FFF7E0;
     -fx-text-fill: black;
+    -fx-background-radius: 6px;
+    -fx-border-radius: 6px;
 }
 
 /* ==============================
-   SCROLLPANE & SPLITPANE
+   SCROLLPANE
    ============================== */
 .scroll-pane {
     -fx-background-color: transparent;
     -fx-padding: 0;
-}
-
-.split-pane {
-    -fx-background-color: transparent;
-    -fx-divider-fill: transparent;
-}
-
-.split-pane:horizontal > .split-pane-divider {
-    -fx-divider-color: orange;
-    -fx-background-color: transparent;
 }
 
 /* ==============================
@@ -144,49 +158,128 @@
 }
 
 /* ==============================
-   TABLE SPECIFIC PADDING
+   MINI TO-DO LIST
    ============================== */
-#jobsTable .table-cell {
-    -fx-padding: 0 14 0 10;
-    -fx-alignment: CENTER_LEFT;
+/* Mini To-Do container */
+.mini-todo {
+    -fx-background-color: #FFF7E0;
+    -fx-border-color: #e67e22;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 8;
 }
 
-#jobsTable .column-header .label {
-    -fx-padding: 0 14 0 10;
-    -fx-alignment: CENTER_LEFT;
+/* Individual To-Do item */
+.mini-todo .todo-item {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e67e22;
+    -fx-border-radius: 6px;
+    -fx-padding: 5 8;
+    -fx-font-size: 11px;              /* clean, compact font */
+    -fx-text-fill: #333333;
+    -fx-spacing: 5px;
+    -fx-wrap-text: true;              /* ✅ enable text wrapping */
+    -fx-transition: all 0.2s ease;
 }
 
-/* ==============================
-   TITLES
-   ============================== */
-.title {
-    -fx-font-size: 20px;
+/* Hover effect for To-Do items */
+.mini-todo .todo-item:hover {
+    -fx-background-color: #e67e22;
+    -fx-text-fill: white;
+}
+
+/* TitledPane header (simple orange, small, elegant) */
+.titled-pane > .title {
+    -fx-background-color: #e67e22;
+    -fx-text-fill: white;
+    -fx-font-weight: semi-bold;
+    -fx-font-size: 11px;
+    -fx-padding: 5 8;
+    -fx-border-radius: 6px 6px 0 0;
+    -fx-background-radius: 6px 6px 0 0;
+}
+
+/* TitledPane header label wrapping */
+.titled-pane > .title .label,
+.titled-pane > .title .text {
+    -fx-wrap-text: true;              /* ✅ allow multi-line titles */
+}
+
+/* Table header styling — smaller and soft */
+.table-view .column-header,
+.table-view .column-header-background {
+    -fx-background-color: #FFF7E0;
+    -fx-font-size: 11px;
     -fx-font-weight: bold;
-    -fx-text-fill: #e67e22;
+    -fx-text-fill: #333333;
+    -fx-border-color: #e67e22;
+    -fx-wrap-text: true;              /* ✅ wrap long column headers */
 }
 
-.labelA {
-    -fx-font-size: 15px;
-    -fx-text-fill: #e67e22;
+/* Table cells — compact and readable */
+.table-view .table-cell {
+    -fx-font-size: 10.5px;
+    -fx-text-fill: #333333;
+    -fx-wrap-text: true;              /* ✅ wrap long text inside cells */
 }
-.backButton{
-    -fx-font-size : 16px;
-    -fx-text-fill : #00F270;
-    -fx-border-radius : 12px;
-    -fx-padding : 8 20 8 20;
-    -fx-cursor : hand;
-    -fx-border-color : #00F270;
-    -fx-background-color : transparent;
-    -fx-border-width : 2;
+
+.others{
+    -fx-background-color: #e67e22;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
 }
-.DelButton{
-    -fx-font-size : 16px;
-    -fx-text-fill : #b00000;
-    -fx-border-radius : 12px;
-    -fx-text-weight : bold;
-    -fx-padding : 8 20 8 20;
-    -fx-cursor : hand;
-    -fx-border-color : #b00000;
-    -fx-background-color : transparent;
-    -fx-border-width : 2;
+/* ==============================
+   Chatbot TitledPane Styling
+   ============================== */
+/* header bar background only */
+#chatbotPane > .title {
+    -fx-background-color: #e67e22;     /* orange bar */
+    -fx-text-fill : white;
+    -fx-background-radius: 6 6 0 0;
+    -fx-padding: 6 12;
 }
+
+/* header text specifically (target the label/text inside the .title) */
+#chatbotPane > .title .label,
+#chatbotPane > .title .text {
+    -fx-text-fill: white;              /* make header text white */
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+}
+
+/* Force content area and its labels/text to keep white text (prevents inheritance/overrides) */
+#chatbotPane > .content,
+#chatbotPane > .content .label,
+#chatbotPane > .content .text,
+#chatbotPane > .content * {
+    -fx-text-fill: white;              /* ensures messages stay white */
+}
+
+/* If you want a subtle dividing border between header and content */
+#chatbotPane > .title {
+    -fx-border-color: rgba(0,0,0,0.12);
+    -fx-border-width: 0 0 1 0;         /* bottom border only */
+    -fx-border-radius: 6 6 0 0;
+}
+
+.scroll-pane {
+    -fx-padding: 0; /* remove default inset that reserves space for scrollbars */
+}
+
+.scroll-pane > .scroll-bar:horizontal {
+    -fx-background-color: transparent;
+    -fx-padding: -10 0 0 0; /* pull the bar upward slightly */
+    -fx-opacity: 0.6;
+}
+
+
+
+.scroll-pane > .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-padding: -10 0 0 0; /* pull the bar upward slightly */
+    -fx-opacity: 0.6;
+}
+
+
+

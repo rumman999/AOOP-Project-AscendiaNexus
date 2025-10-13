@@ -2,6 +2,7 @@ package com.example.aoop_project;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -34,9 +35,9 @@ public class TodoController {
         String loggedInName = Session.getLoggedInUserName();
 
         if (loggedInName != null && !loggedInName.isEmpty()) {
-            emailLabel.setText( " "+loggedInName+ "!");
+            emailLabel.setText(" " + loggedInName + "!");
         } else if (loggedInEmail != null && !loggedInEmail.isEmpty()) {
-            emailLabel.setText(" "+ loggedInEmail + "!");
+            emailLabel.setText(" " + loggedInEmail + "!");
         } else {
             emailLabel.setText("Welcome back!");
         }
@@ -53,7 +54,65 @@ public class TodoController {
 
         // Load from DB immediately
         loadTasksFromDB();
+
+    /* ----------------------------------------------
+       ✅ Add text wrapping for the taskColumn
+       ---------------------------------------------- */
+        taskColumn.setCellFactory(col -> {
+            TableCell<Task, String> cell = new TableCell<>() {
+                private final Label label = new Label();
+
+                {
+                    label.setWrapText(true);
+                    label.setStyle("-fx-font-size: 11px; -fx-text-fill: #333333;"); // safe explicit color & size
+                    setGraphic(label);
+                    setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+                }
+
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (empty || item == null) {
+                        label.setText(null);
+                        setGraphic(null);
+                        setPrefHeight(Control.USE_COMPUTED_SIZE);
+                    } else {
+                        label.setText(item);
+                        setGraphic(label);
+
+                        // 1) Ensure label width follows column width (subtract padding)
+                        if (getTableColumn() != null) {
+                            double padding = 16; // tweak if your cell has different horizontal padding
+                            label.setMaxWidth(getTableColumn().getWidth() - padding);
+
+                            // Keep label max width updated on column resize
+                            getTableColumn().widthProperty().addListener((obs, oldW, newW) -> {
+                                label.setMaxWidth(newW.doubleValue() - padding);
+                                // force recompute when column resizes
+                                Platform.runLater(() -> {
+                                    double prefH = label.prefHeight(label.getMaxWidth());
+                                    if (prefH > 0) setPrefHeight(prefH + 12);
+                                });
+                            });
+                        }
+
+                        // 2) After layout pass, compute pref height and set cell height
+                        Platform.runLater(() -> {
+                            double prefH = label.prefHeight(label.getMaxWidth());
+                            if (prefH > 0) setPrefHeight(prefH + 12); // + padding
+                        });
+                    }
+                }
+            };
+
+            // Defensive: disable cell caching (sometimes helps layout issues)
+            cell.setCache(false);
+
+            return cell;
+        });
     }
+
 
     @FXML
     private void handleAddTask() {
