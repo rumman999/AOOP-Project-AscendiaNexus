@@ -26,7 +26,7 @@
             </graphic>
          </Label>
          <Button mnemonicParsing="false" onAction="#handleDashboard" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="📈 Dashboard" />
-         <Button mnemonicParsing="false" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text=" 🧭Explore" />
+         <Button mnemonicParsing="false" onAction="#handleExplore" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text=" 🧭Explore" />
         </HBox>
     </top>
 
@@ -47,7 +47,7 @@
                </Label>
             </children>
          </TextFlow>
-            <TableView fx:id="taskTable" style="-fx-background-color: #10231c;" stylesheets="@StyleSheets/TableUI.css" VBox.vgrow="ALWAYS">
+            <TableView fx:id="taskTable" style="-fx-background-color: #10231c;" stylesheets="@StyleSheets/admin-job-manager.css" VBox.vgrow="ALWAYS">
                 <columns>
                     <!-- Checkbox column -->
                     <TableColumn fx:id="doneColumn" prefWidth="100" styleClass="doneColumn" text="Done" />
@@ -55,6 +55,9 @@
                                          <!-- Task text column -->
                     <TableColumn fx:id="taskColumn" prefWidth="1000" text="Task" />
                 </columns>
+            <columnResizePolicy>
+               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
             </TableView>
         </VBox>
     </center>

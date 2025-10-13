@@ -68,7 +68,7 @@
                         <HBox spacing="10" AnchorPane.bottomAnchor="10" AnchorPane.rightAnchor="10">
                             <children>
                                 <Button fx:id="btnViewApplications" disable="true" onAction="#handleViewApplications" styleClass="backButton" stylesheets="@StyleSheets/admin-job-manager.css" text="View Applications" />
-                                <Button fx:id="btnDelete" onAction="#handleDelete" prefHeight="46.0" prefWidth="158.0" styleClass="DelButton" stylesheets="@StyleSheets/admin-job-manager.css" text="Delete Selected" />
+                                <Button fx:id="btnDelete" onAction="#handleDelete" prefHeight="37.0" prefWidth="156.0" styleClass="DelButton" stylesheets="@StyleSheets/admin-job-manager.css" text="Delete Selected" />
                             </children>
                         </HBox>
                     </children>
@@ -168,11 +168,11 @@
 
                                         <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-background-color: transparent;">
                                             <children>
-                                                <Button fx:id="btnClear" onAction="#handleClear" prefHeight="38.0" prefWidth="56.0" style="-fx-background-color: #e67e22; -fx-cursor: hand;" text="Clear" textFill="#10231c">
+                                                <Button fx:id="btnClear" onAction="#handleClear" prefHeight="38.0" prefWidth="95.0" style="-fx-background-color: #e67e22; -fx-cursor: hand;" text="Clear" textFill="#10231c">
                                                     <font>
                                                         <Font size="14.0" />
                                                     </font></Button>
-                                                <Button onAction="#handleSave" prefHeight="40.0" prefWidth="79.0" styleClass="viewBtn" stylesheets="@StyleSheets/DashboardUI.css" text="Post Job" />
+                                                <Button onAction="#handleSave" prefHeight="40.0" prefWidth="110.0" styleClass="viewBtn" stylesheets="@StyleSheets/DashboardUI.css" text="Post Job" />
                                             </children>
                                         </HBox>
                                     </children>

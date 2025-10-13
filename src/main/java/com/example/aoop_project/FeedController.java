@@ -145,6 +145,16 @@ public class FeedController implements Initializable {
         return postCard;
     }
 
+    @FXML
+    private void handleDashboard(ActionEvent e){
+        getStartedApplication.launchScene("JobSeekerDashboard.fxml");
+    }
+
+    @FXML
+    private void handleOpenExplore(ActionEvent e){
+        getStartedApplication.launchScene("Explore.fxml");
+    }
+
 
     @FXML
     private void handleAddImage() {

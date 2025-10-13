@@ -81,7 +81,7 @@
                         </VBox>
                     </children>
                 </HBox>
-                <Button mnemonicParsing="false" onAction="#handleHome" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="📈 Dashboard" textFill="WHITE">
+                <Button mnemonicParsing="false" onAction="#handleDashboard" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="📈 Dashboard" textFill="WHITE">
                     <font>
                         <Font size="15.0" />
                     </font>
@@ -153,8 +153,7 @@
                                     </children>
                                 </HBox>
 
-                                <TextArea fx:id="captionArea" prefHeight="100" promptText="What's on your mind?"
-                                          style="-fx-background-color: #0d221c; -fx-text-fill: black; -fx-prompt-text-fill: gray; -fx-background-radius: 10;" />
+                                <TextArea fx:id="captionArea" prefHeight="100" promptText="What's on your mind?" style="-fx-background-color: #0d221c; -fx-text-fill: black; -fx-prompt-text-fill: gray; -fx-background-radius: 10;" />
 
                                 <HBox alignment="CENTER_LEFT" spacing="15">
                                     <children>

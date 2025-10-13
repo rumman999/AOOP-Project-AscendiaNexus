@@ -250,4 +250,7 @@ public class TodoController {
         for (TaskDTO d : list) out.add(new Task(d.task, d.done, null));
         return out;
     }
+    @FXML private void handleExplore(ActionEvent e){
+        getStartedApplication.launchScene("Explore.fxml");
+    }
 }

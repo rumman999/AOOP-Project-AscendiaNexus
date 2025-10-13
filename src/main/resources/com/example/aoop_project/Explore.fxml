@@ -26,22 +26,23 @@
                     </padding>
                     <children>
                         <Button onAction="#handleBack" styleClass="backButton" stylesheets="@StyleSheets/admin-job-manager.css" text="Back">
-                     <HBox.margin>
-                        <Insets right="3.0" />
-                     </HBox.margin></Button>
-                  <Label alignment="CENTER" style="-fx-font-weight: bold;" text="LET'S SKILL UP !" textFill="#e67e22">
-                     <font>
-                        <Font size="32.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets left="539.0" />
-                     </HBox.margin>
-                  </Label>
+                            <HBox.margin>
+                                <Insets right="3.0" />
+                            </HBox.margin>
+                        </Button>
+                        <Label alignment="CENTER" style="-fx-font-weight: bold;" text="LET'S SKILL UP !" textFill="#e67e22">
+                            <font>
+                                <Font size="32.0" />
+                            </font>
+                            <HBox.margin>
+                                <Insets left="539.0" />
+                            </HBox.margin>
+                        </Label>
                     </children>
                 </HBox>
             </top>
 
-            <!-- ============ LEFT SECTION (PLAYLISTS + ADMIN) ============ -->
+            <!-- ============ LEFT SECTION (PLAYLISTS + ADMIN + FOCUS MODE) ============ -->
             <left>
                 <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="840.0" prefWidth="330.0" style="-fx-background-color: #10231c;" vbarPolicy="AS_NEEDED">
                     <content>
@@ -62,18 +63,45 @@
                                     <ListView fx:id="listPlaylists" prefWidth="327.0" style="-fx-background-color: #10231c;" VBox.vgrow="ALWAYS" />
                                 </content>
                             </TitledPane>
+
+                            <!-- Focus Mode Controls -->
+                            <TitledPane expanded="true" style="-fx-background-color: #10231c; -fx-border-color: transparent;" styleClass="others" stylesheets="@StyleSheets/admin-job-manager.css" text="Focus Mode" VBox.vgrow="NEVER">
+                                <content>
+                                    <HBox alignment="CENTER_LEFT" spacing="6" style="-fx-padding: 6;">
+                                        <children>
+                                            <TextField fx:id="focusTimerField" prefWidth="80.0" promptText="Seconds" />
+                                            <Button fx:id="startFocusButton" onAction="#handleStartFocusMode" style="-fx-background-color: #e67e22; -fx-text-fill: white; -fx-font-size: 11px; -fx-font-weight: bold; -fx-background-radius: 6px; -fx-padding: 6 12;" text="Start" />
+                                        </children>
+                                    </HBox>
+                                </content>
+                            </TitledPane>
+
+                            <AnchorPane>
+                                <children>
+                                    <!-- Floating Focus Timer Counter -->
+                                    <Label fx:id="focusCounterLabel"
+                                           visible="false"
+                                           text="00:00"
+                                           style="-fx-background-color: #e67e22; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-padding: 8px; -fx-background-radius: 10px;"
+                                           prefWidth="120.0"
+                                           alignment="CENTER"
+                                           AnchorPane.topAnchor="20.0"
+                                           AnchorPane.leftAnchor="0.0"
+                                           AnchorPane.rightAnchor="0.0"/>
+                                </children>
+                            </AnchorPane>
+
                         </VBox>
                     </content>
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                    </padding>
                 </ScrollPane>
             </left>
 
             <!-- ============ CENTER SECTION (WEBVIEW PLAYER) ============ -->
             <center>
                 <VBox prefHeight="840.0" prefWidth="590.0" spacing="8" style="-fx-background-color: #10231c;" VBox.vgrow="ALWAYS">
-                    <!-- WebView wide and dominant -->
                     <WebView fx:id="webView" prefHeight="840.0" prefWidth="590.0" style="-fx-cursor: hand;" VBox.vgrow="ALWAYS" />
                 </VBox>
             </center>
@@ -98,9 +126,9 @@
                             </TitledPane>
                         </VBox>
                     </content>
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                    </padding>
                 </ScrollPane>
             </right>
 

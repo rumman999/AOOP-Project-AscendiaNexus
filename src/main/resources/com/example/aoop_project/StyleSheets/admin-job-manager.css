@@ -263,6 +263,11 @@
     -fx-border-radius: 6 6 0 0;
 }
 
+.split-pane .split-pane-divider {
+    -fx-background-color: transparent; /* makes divider invisible */
+    -fx-padding: 0;
+}
+
 .scroll-pane {
     -fx-padding: 0; /* remove default inset that reserves space for scrollbars */
 }

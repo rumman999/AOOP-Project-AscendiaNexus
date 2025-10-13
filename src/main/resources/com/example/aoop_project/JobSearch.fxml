@@ -19,13 +19,13 @@
                 <Insets bottom="10" left="10" right="10" top="10" />
             </padding>
             <children>
-                <Button onAction="#handleClose" styleClass="DelButton" stylesheets="@StyleSheets/admin-job-manager.css" text="Close">
+                <Button onAction="#handleClose" styleClass="backButton" stylesheets="@StyleSheets/admin-job-manager.css" text="Back">
                     <HBox.margin>
-                        <Insets left="20.0" />
+                        <Insets left="20.0" top="3.0" />
                     </HBox.margin></Button>
-                <Label style="-fx-font-size: 30; -fx-font-weight: bold;" text="Job Search" textFill="#e67e22">
+                <Label style="-fx-font-size: 30; -fx-font-weight: bold;" text="JOB SEARCH" textFill="#e67e22">
                     <HBox.margin>
-                        <Insets left="12.0" top="2.5" />
+                        <Insets left="20.0" top="2.5" />
                     </HBox.margin></Label>
             </children>
         </HBox>
@@ -37,17 +37,17 @@
                 <Insets bottom="10" left="10" right="10" top="10" />
             </padding>
 
-            <HBox spacing="8">
-                <TextField fx:id="fldKeyword" promptText="Keyword" style="-fx-background-color: #FFF7E0; -fx-font-size: 15;" />
-                <TextField fx:id="fldJobType" promptText="Job Type" style="-fx-background-color: #FFF7E0; -fx-font-size: 15;" />
-                <TextField fx:id="fldLocation" promptText="Location" style="-fx-background-color: #FFF7E0; -fx-font-size: 15;" />
-                <TextField fx:id="fldTechStack" promptText="Tech Stack" style="-fx-background-color: #FFF7E0; -fx-font-size: 15;" />
-                <Button onAction="#handleSearch" prefHeight="31.0" prefWidth="59.0" styleClass="viewBtn" text="Search">
+            <HBox alignment="CENTER" spacing="8">
+                <TextField fx:id="fldKeyword" prefHeight="38.0" prefWidth="200.0" promptText="Keyword" style="-fx-background-color: #FFF7E0; -fx-font-size: 15;" />
+                <TextField fx:id="fldJobType" prefHeight="38.0" prefWidth="200.0" promptText="Job Type" style="-fx-background-color: #FFF7E0; -fx-font-size: 15;" />
+                <TextField fx:id="fldLocation" prefHeight="38.0" prefWidth="200.0" promptText="Location" style="-fx-background-color: #FFF7E0; -fx-font-size: 15;" />
+                <TextField fx:id="fldTechStack" prefHeight="38.0" prefWidth="200.0" promptText="Tech Stack" style="-fx-background-color: #FFF7E0; -fx-font-size: 15;" />
+                <Button onAction="#handleSearch" prefHeight="30.0" prefWidth="92.0" styleClass="viewBtn" text="Search">
                     <stylesheets>
                         <URL value="@StyleSheets/admin-job-manager.css" />
                         <URL value="@StyleSheets/DashboardUI.css" />
                     </stylesheets></Button>
-                <Button onAction="#handleClear" prefHeight="31.0" prefWidth="51.0" style="-fx-background-color: orange;" styleClass="viewBtn" text="Clear">
+                <Button onAction="#handleClear" prefHeight="38.0" prefWidth="97.0" style="-fx-background-color: orange;" styleClass="viewBtn" text="Clear">
                     <stylesheets>
                         <URL value="@StyleSheets/admin-job-manager.css" />
                         <URL value="@StyleSheets/DashboardUI.css" />
