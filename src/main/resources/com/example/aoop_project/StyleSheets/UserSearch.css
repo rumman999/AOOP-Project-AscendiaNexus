@@ -1,0 +1,86 @@
+.dialog-layout {
+    -fx-background-color: #1e1e1e;
+    -fx-border-color: #f39c12;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+}
+
+.dialog-header {
+    -fx-background-color: #2b2b2b;
+}
+
+.dialog-title {
+    -fx-text-fill: #f39c12;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.search-field {
+    -fx-background-color: #2c2c2c;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: #aaaaaa;
+    -fx-background-radius: 6;
+    -fx-padding: 6;
+}
+
+.user-table {
+    -fx-background-color: #2b2b2b;
+    -fx-control-inner-background: #2b2b2b;
+    -fx-table-cell-border-color: #444;
+    -fx-border-color: #f39c12;
+    -fx-border-radius: 8;
+}
+
+.table-row-cell {
+    -fx-text-fill: white;
+}
+
+.table-column-header {
+    -fx-background-color: #f39c12;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.message-btn {
+    -fx-background-color: linear-gradient(to bottom right, #f39c12, #e67e22);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-padding: 4 12 4 12;
+}
+
+.message-btn:hover {
+    -fx-background-color: linear-gradient(to bottom right, #ffb347, #f39c12);
+}
+
+.confirm-btn {
+    -fx-background-color: #f39c12;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-padding: 6 14 6 14;
+}
+
+.clear-btn {
+    -fx-background-color: #555;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-padding: 6 14 6 14;
+}
+
+.clear-btn:hover {
+    -fx-background-color: #777;
+}
+
+.exit-btn {
+    -fx-background-color: #b33939;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-padding: 6 14 6 14;
+}
+
+.exit-btn:hover {
+    -fx-background-color: #d35454;
+}

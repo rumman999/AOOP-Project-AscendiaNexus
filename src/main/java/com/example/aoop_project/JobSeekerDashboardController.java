@@ -40,9 +40,11 @@ public class JobSeekerDashboardController implements Initializable {
     @FXML private ImageView dassprofilePicView;
     @FXML private Button ModerateContent;
     @FXML private Button postJobs;
+    @FXML private Button btnUserSearch;
 
     private static String profile; // stores user image path
     private static Image defaultImage; // default GIF
+    private Stage userSearchStage;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -335,4 +337,35 @@ public class JobSeekerDashboardController implements Initializable {
     public void handleMessages(ActionEvent e){
         getStartedApplication.launchScene("ChatUI.fxml");
     }
+
+    @FXML
+    private void handleUserSearch() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("UserSearch.fxml"));
+            Parent root = loader.load();
+
+            Stage owner = (Stage) btnUserSearch.getScene().getWindow();
+
+            Stage userSearchStage = new Stage();
+            userSearchStage.setScene(new Scene(root));
+            userSearchStage.setTitle("Search Users");
+            userSearchStage.setResizable(false);
+            userSearchStage.initOwner(owner);
+            userSearchStage.initModality(Modality.NONE);
+            userSearchStage.initStyle(StageStyle.UNDECORATED);
+            userSearchStage.setAlwaysOnTop(true);
+
+            // Center the popup relative to dashboard
+            double centerX = owner.getX() + (owner.getWidth() - 740) / 2;
+            double centerY = owner.getY() + (owner.getHeight() - 600) / 2;
+            userSearchStage.setX(centerX);
+            userSearchStage.setY(centerY);
+
+            userSearchStage.show();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
 }
