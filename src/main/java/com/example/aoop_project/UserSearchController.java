@@ -18,6 +18,7 @@ public class UserSearchController {
     @FXML private TableColumn<UserData, String> colEmail;
     @FXML private TableColumn<UserData, String> colType;
     @FXML private TableColumn<UserData, ImageView> colProfile;
+    @FXML private TableColumn<UserData, Void> colMessage;
 
     private ObservableList<UserData> userList = FXCollections.observableArrayList();
 
@@ -27,6 +28,7 @@ public class UserSearchController {
         colEmail.setCellValueFactory(data -> data.getValue().emailProperty());
         colType.setCellValueFactory(data -> data.getValue().accountTypeProperty());
         colProfile.setCellValueFactory(data -> data.getValue().profilePicProperty());
+        addMessageButtonToTable();
 
         loadAllUsers();
     }
@@ -101,4 +103,32 @@ public class UserSearchController {
         Stage stage = (Stage) searchField.getScene().getWindow();
         stage.close();
     }
+    private void addMessageButtonToTable() {
+        colMessage.setCellFactory(param -> new TableCell<>() {
+            private final Button btn = new Button("Message");
+
+            {
+                btn.setOnAction(event -> {
+                    UserData user = getTableView().getItems().get(getIndex());
+                    openMessagePopup(user.getFullName());
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(btn);
+                }
+            }
+        });
+    }
+
+    private void openMessagePopup(String fullName) {
+
+    }
+
+
 }
