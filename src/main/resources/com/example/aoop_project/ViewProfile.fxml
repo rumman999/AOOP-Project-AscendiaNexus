@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+
+
+<ScrollPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.ViewProfileController">
+   <content>
+      <AnchorPane prefHeight="700" prefWidth="900" style="-fx-background-color: #10231c;">
+      
+          <!-- Main left-aligned VBox -->
+          <VBox alignment="TOP_LEFT" layoutX="61.0" layoutY="40.0" spacing="20" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="61.0" AnchorPane.topAnchor="40.0">
+      
+              <!-- Profile Picture -->
+              <StackPane alignment="CENTER_LEFT">
+                  <ImageView fx:id="profilePicView" fitHeight="140" fitWidth="140" pickOnBounds="true" preserveRatio="false">
+                      <clip>
+                          <Circle centerX="70" centerY="70" radius="70" />
+                      </clip>
+                      <image>
+                          <Image url="@Images/chatbot2-unscreen.gif" />
+                      </image>
+                  </ImageView>
+                  <Circle fill="transparent" radius="70" stroke="#00f270" strokeWidth="3" />
+              </StackPane>
+      
+              <!-- Name and Account Info -->
+              <VBox alignment="TOP_LEFT" spacing="5">
+                  <Label fx:id="fullNameLabel" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #eeeeee;" text="Full Name" />
+                  <Label fx:id="usernameLabel" style="-fx-font-size: 16px; -fx-text-fill: #00f270;" />
+                  <Label fx:id="accountTypeLabel" style="-fx-font-size: 14px; -fx-text-fill: #e67e22;" text="Premium Account" />
+              </VBox>
+      
+              <!-- Stats Section -->
+              <HBox alignment="CENTER_LEFT" spacing="30">
+                  <VBox alignment="CENTER_LEFT">
+                      <Label fx:id="followersLabel" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #eeeeee;" text="120" />
+                      <Label style="-fx-font-size: 12px; -fx-text-fill: #aaaaaa;" text="Followers" />
+                  </VBox>
+                  <VBox alignment="CENTER_LEFT">
+                      <Label fx:id="followingLabel" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #eeeeee;" text="80" />
+                      <Label style="-fx-font-size: 12px; -fx-text-fill: #aaaaaa;" text="Following" />
+                  </VBox>
+                  <VBox alignment="CENTER_LEFT">
+                      <Label fx:id="coinsLabel" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #eeeeee;" text="300" />
+                      <Label style="-fx-font-size: 12px; -fx-text-fill: #aaaaaa;" text="Coins" />
+                  </VBox>
+              </HBox>
+      
+              <!-- Buttons -->
+              <HBox alignment="CENTER_LEFT" spacing="20">
+                  <Label fx:id="followLabel" style="-fx-font-size: 16px; -fx-text-fill: #00f270; -fx-border-color: #00f270; -fx-border-width: 2; -fx-padding: 5 20 5 20; -fx-border-radius: 12px; -fx-cursor: hand;" text="Follow" />
+                  <Label fx:id="backLabel" style="-fx-font-size: 16px; -fx-text-fill: #eeeeee; -fx-border-color: #eeeeee; -fx-border-width: 2; -fx-padding: 5 20 5 20; -fx-border-radius: 12px; -fx-cursor: hand;" text="Back" />
+              </HBox>
+      
+          </VBox>
+      
+      </AnchorPane>
+   </content>
+</ScrollPane>
