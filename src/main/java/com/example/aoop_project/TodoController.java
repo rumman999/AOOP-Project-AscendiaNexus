@@ -176,7 +176,7 @@ public class TodoController {
         }
 
         try (Connection con = DriverManager.getConnection(
-                "jdbc:mysql://localhost:4306/java_user_database", "root", "");
+                "jdbc:mysql://10.15.4.66:4306/java_user_database", "root", "");
              PreparedStatement pst = con.prepareStatement(
                      "SELECT todo_list FROM user WHERE email=?")) {
 

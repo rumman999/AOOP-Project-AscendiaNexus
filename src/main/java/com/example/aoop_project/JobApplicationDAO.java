@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID; // For generating unique file names
 
 public class JobApplicationDAO {
-    private static final String URL = "jdbc:mysql://localhost:4306/java_user_database";
+    private static final String URL = "jdbc:mysql://10.15.4.66:4306/java_user_database";
     private static final String USER = "root";
     private static final String PASS = "";
     // Define a directory for CV storage

@@ -119,7 +119,7 @@ public class ChatController {
     }
 
     private void setupClient() throws Exception {
-        client = new ChatClient("localhost", 12345,
+        client = new ChatClient("10.15.4.66", 12345,
                 Session.getLoggedInUserId(),
                 Session.getLoggedInUserName());
 
