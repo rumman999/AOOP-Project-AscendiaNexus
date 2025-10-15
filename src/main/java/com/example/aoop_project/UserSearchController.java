@@ -3,6 +3,8 @@ package com.example.aoop_project;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -18,7 +20,7 @@ public class UserSearchController {
     @FXML private TableColumn<UserData, String> colEmail;
     @FXML private TableColumn<UserData, String> colType;
     @FXML private TableColumn<UserData, ImageView> colProfile;
-    @FXML private TableColumn<UserData, Void> colMessage;
+    @FXML private TableColumn<UserData, Void> colMessage; // new message column
 
     private ObservableList<UserData> userList = FXCollections.observableArrayList();
 
@@ -28,7 +30,8 @@ public class UserSearchController {
         colEmail.setCellValueFactory(data -> data.getValue().emailProperty());
         colType.setCellValueFactory(data -> data.getValue().accountTypeProperty());
         colProfile.setCellValueFactory(data -> data.getValue().profilePicProperty());
-        addMessageButtonToTable();
+
+        addMessageButtonToTable(); // add message button
 
         loadAllUsers();
     }
@@ -103,6 +106,8 @@ public class UserSearchController {
         Stage stage = (Stage) searchField.getScene().getWindow();
         stage.close();
     }
+
+    /** Add Message button column */
     private void addMessageButtonToTable() {
         colMessage.setCellFactory(param -> new TableCell<>() {
             private final Button btn = new Button("Message");
@@ -110,7 +115,7 @@ public class UserSearchController {
             {
                 btn.setOnAction(event -> {
                     UserData user = getTableView().getItems().get(getIndex());
-                    openMessagePopup(user.getFullName());
+                    openMessagePopup(user.getFullName(), user.getEmail());
                 });
             }
 
@@ -126,9 +131,21 @@ public class UserSearchController {
         });
     }
 
-    private void openMessagePopup(String fullName) {
+    /** Open messenger popup */
+    private void openMessagePopup(String fullName, String targetEmail) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("UserMessagePopup.fxml"));
+            Stage stage = new Stage();
+            stage.setScene(new Scene(loader.load()));
 
+            // Pass target user info and optionally current user email
+            UserMessagePopupController controller = loader.getController();
+            controller.setTargetUser(fullName, targetEmail, Session.getLoggedInUserEmail()); // replace with actual current user email
+
+            stage.setTitle("Messenger");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-
-
 }

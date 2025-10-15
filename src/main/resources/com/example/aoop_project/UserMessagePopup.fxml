@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/23.0.1"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.aoop_project.UserMessagePopupController"
+      spacing="10" padding="10" prefWidth="400" prefHeight="500"
+      style="-fx-background-color: white;">
+
+    <Label fx:id="lblUser" text="Chat with User" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+
+    <ScrollPane fx:id="scrollPane" fitToWidth="true" prefHeight="380">
+        <VBox fx:id="chatBox" spacing="5" padding="5"/>
+    </ScrollPane>
+
+    <HBox spacing="5">
+        <TextField fx:id="txtMessage" promptText="Type a message..." HBox.hgrow="ALWAYS"/>
+        <Button text="Send" onAction="#handleSendMessage"/>
+    </HBox>
+</VBox>
