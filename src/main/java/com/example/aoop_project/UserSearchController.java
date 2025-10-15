@@ -1,5 +1,6 @@
 package com.example.aoop_project;
 
+import com.example.aoop_project.chat.DBUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -10,7 +11,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class UserSearchController {
 
@@ -20,7 +23,7 @@ public class UserSearchController {
     @FXML private TableColumn<UserData, String> colEmail;
     @FXML private TableColumn<UserData, String> colType;
     @FXML private TableColumn<UserData, ImageView> colProfile;
-    @FXML private TableColumn<UserData, Void> colMessage; // new message column
+    @FXML private TableColumn<UserData, Void> colMessage;
 
     private ObservableList<UserData> userList = FXCollections.observableArrayList();
 
@@ -31,22 +34,19 @@ public class UserSearchController {
         colType.setCellValueFactory(data -> data.getValue().accountTypeProperty());
         colProfile.setCellValueFactory(data -> data.getValue().profilePicProperty());
 
-        addMessageButtonToTable(); // add message button
-
+        addMessageButtonToTable();
         loadAllUsers();
     }
 
     /** Load all users from DB */
-    public void loadAllUsers() {
+    private void loadAllUsers() {
         userList.clear();
-        try (Connection con = DriverManager.getConnection(
-                "jdbc:mysql://localhost:4306/java_user_database","root","")) {
-
+        try (Connection con = DBUtils.getConnection()) {
             String query = "SELECT full_name,email,account_type,profile_pic FROM user";
             PreparedStatement pst = con.prepareStatement(query);
             ResultSet rs = pst.executeQuery();
 
-            while(rs.next()) {
+            while (rs.next()) {
                 String fullName = rs.getString("full_name");
                 String email = rs.getString("email");
                 String type = rs.getString("account_type");
@@ -55,15 +55,15 @@ public class UserSearchController {
                 ImageView imgView = new ImageView();
                 imgView.setFitHeight(40);
                 imgView.setFitWidth(40);
-                if(profile != null && !profile.isEmpty()){
+                if (profile != null && !profile.isEmpty()) {
                     imgView.setImage(new Image(profile, 40, 40, true, true));
                 }
 
-                userList.add(new UserData(fullName,email,type,imgView));
+                userList.add(new UserData(fullName, email, type, imgView));
             }
 
             userTable.setItems(userList);
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -72,28 +72,28 @@ public class UserSearchController {
     @FXML
     private void handleSearch() {
         String text = searchField.getText().trim().toLowerCase();
-        if(text.isEmpty()){
+        if (text.isEmpty()) {
             userTable.setItems(userList);
             return;
         }
 
         ObservableList<UserData> filtered = FXCollections.observableArrayList();
-        for(UserData u : userList){
-            if(u.getFullName().toLowerCase().contains(text) || u.getEmail().toLowerCase().contains(text)){
+        for (UserData u : userList) {
+            if (u.getFullName().toLowerCase().contains(text) || u.getEmail().toLowerCase().contains(text)) {
                 filtered.add(u);
             }
         }
         userTable.setItems(filtered);
     }
 
-    /** Clear search field and reset table */
+    /** Clear search field */
     @FXML
     private void handleClear() {
         searchField.clear();
         userTable.setItems(userList);
     }
 
-    /** Reload all users from DB */
+    /** Refresh users from DB */
     @FXML
     private void handleRefresh() {
         loadAllUsers();
@@ -122,11 +122,7 @@ public class UserSearchController {
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(btn);
-                }
+                setGraphic(empty ? null : btn);
             }
         });
     }
@@ -138,9 +134,8 @@ public class UserSearchController {
             Stage stage = new Stage();
             stage.setScene(new Scene(loader.load()));
 
-            // Pass target user info and optionally current user email
             UserMessagePopupController controller = loader.getController();
-            controller.setTargetUser(fullName, targetEmail, Session.getLoggedInUserEmail()); // replace with actual current user email
+            controller.setTargetUser(fullName, targetEmail, Session.getLoggedInUserEmail());
 
             stage.setTitle("Messenger");
             stage.show();

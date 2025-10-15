@@ -2,21 +2,45 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
 
 <VBox xmlns="http://javafx.com/javafx/23.0.1"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.example.aoop_project.UserMessagePopupController"
-      spacing="10" padding="10" prefWidth="400" prefHeight="500"
+      spacing="10" prefWidth="400" prefHeight="500"
       style="-fx-background-color: white;">
 
-    <Label fx:id="lblUser" text="Chat with User" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
 
+    <!-- Chat header -->
+    <Label fx:id="lblUser" text="Chat with User"
+           style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+    <!-- Chat messages scroll area -->
     <ScrollPane fx:id="scrollPane" fitToWidth="true" prefHeight="380">
-        <VBox fx:id="chatBox" spacing="5" padding="5"/>
+        <content>
+            <VBox fx:id="chatBox" spacing="5">
+                <padding>
+                    <Insets top="5" right="5" bottom="5" left="5"/>
+                </padding>
+            </VBox>
+        </content>
     </ScrollPane>
 
+    <!-- Message input -->
     <HBox spacing="5">
-        <TextField fx:id="txtMessage" promptText="Type a message..." HBox.hgrow="ALWAYS"/>
-        <Button text="Send" onAction="#handleSendMessage"/>
+        <TextField fx:id="txtMessage" promptText="Type a message..." HBox.hgrow="ALWAYS">
+            <font>
+                <Font size="14"/>
+            </font>
+        </TextField>
+        <Button text="Send" onAction="#handleSendMessage">
+            <font>
+                <Font size="14"/>
+            </font>
+        </Button>
     </HBox>
+
 </VBox>
