@@ -24,10 +24,11 @@
                     <children>
                         <Label fx:id="lblJobTitle" style="-fx-font-size: 18px; -fx-font-weight: bold;" styleClass="labelA" stylesheets="@StyleSheets/admin-job-manager.css" text="Job Applications" />
                         <Button onAction="#handleClose" styleClass="viewBtn" text="Close" HBox.hgrow="NEVER">
-                     <stylesheets>
-                        <URL value="@StyleSheets/admin-job-manager.css" />
-                        <URL value="@StyleSheets/DashboardUI.css" />
-                     </stylesheets></Button>
+                            <stylesheets>
+                                <URL value="@StyleSheets/admin-job-manager.css" />
+                                <URL value="@StyleSheets/DashboardUI.css" />
+                            </stylesheets>
+                        </Button>
                     </children>
                 </HBox>
             </children>
@@ -36,7 +37,6 @@
     <center>
         <SplitPane dividerPositions="0.6" orientation="VERTICAL" style="-fx-background-color: transparent;">
             <items>
-                <!-- Top: Applications Table -->
                 <TableView fx:id="tblApplications" prefHeight="351.0" prefWidth="798.0" stylesheets="@StyleSheets/admin-job-manager.css">
                     <columns>
                         <TableColumn fx:id="colId" prefWidth="50.0" text="ID" />
@@ -44,13 +44,12 @@
                         <TableColumn fx:id="colApplicantEmail" prefWidth="200.0" text="Email" />
                         <TableColumn fx:id="colStatus" prefWidth="100.0" text="Status" />
                         <TableColumn fx:id="colAppliedAt" prefWidth="150.0" text="Applied At" />
-                    </columns>
-               <columnResizePolicy>
-                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-               </columnResizePolicy>
+                        <TableColumn fx:id="colCvAction" prefWidth="100.0" text="CV" /> </columns>
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                    </columnResizePolicy>
                 </TableView>
 
-                <!-- Bottom: Application Details -->
                 <VBox prefHeight="232.0" prefWidth="798.0" spacing="15" style="-fx-background-color: #10231c;">
                     <padding>
                         <Insets bottom="15" left="15" right="15" top="15" />

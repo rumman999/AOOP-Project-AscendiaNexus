@@ -7,9 +7,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,10 +26,12 @@ public class JobSearchController implements Initializable {
     @FXML private TableColumn<Job, String> colTitle, colType, colLocation, colTech;
     @FXML private TableColumn<Job, LocalDateTime> colPosted;
     @FXML private TableColumn<Job, Void> colAction;
+    @FXML private Label lblCvFileName;
 
     private final JobDAO jobDAO = new JobDAO();
     private final JobApplicationDAO appDAO = new JobApplicationDAO();
     private final ObservableList<Job> results = FXCollections.observableArrayList();
+    private File selectedCvFile;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -44,17 +49,15 @@ public class JobSearchController implements Initializable {
             private final Button btn = new Button("Apply");
 
             {
-                // Inline CSS styling
                 btn.setStyle(
-                        "-fx-background-color: #00F270;" +     // green background
-                                "-fx-text-fill: white;" +              // white text
-                                "-fx-font-weight: bold;" +             // bold text
-                                "-fx-background-radius: 8;" +          // rounded corners
-                                "-fx-cursor: hand;" +                  // hand cursor on hover
-                                "-fx-padding: 4 10 4 10;"              // top/right/bottom/left padding
+                        "-fx-background-color: #00F270;" +
+                                "-fx-text-fill: white;" +
+                                "-fx-font-weight: bold;" +
+                                "-fx-background-radius: 8;" +
+                                "-fx-cursor: hand;" +
+                                "-fx-padding: 4 10 4 10;"
                 );
 
-                // Optional: hover effect using pseudo-class
                 btn.setOnMouseEntered(e ->
                         btn.setStyle("-fx-background-color: #45a049; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand; -fx-padding: 4 10 4 10;")
                 );
@@ -72,14 +75,8 @@ public class JobSearchController implements Initializable {
             }
         });
 
-
-        // Initial load: fetch all jobs
-        try {
-            List<Job> all = jobDAO.findAll();
-            results.setAll(all);
-        } catch (Exception e) {
-            new Alert(Alert.AlertType.WARNING, "Failed to load jobs: " + e.getMessage()).showAndWait();
-        }
+        // Initial load
+        refreshJobList();
     }
 
     @FXML
@@ -97,23 +94,50 @@ public class JobSearchController implements Initializable {
         }
     }
 
+    @FXML
+    private void handleUploadCv(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select CV File");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("PDF Files", "*.pdf"),
+                new FileChooser.ExtensionFilter("Word Documents", "*.docx", "*.doc"),
+                new FileChooser.ExtensionFilter("All Files", "*.*")
+        );
+        selectedCvFile = fileChooser.showOpenDialog(new Stage());
+        if (selectedCvFile != null) {
+            lblCvFileName.setText(selectedCvFile.getName());
+        } else {
+            lblCvFileName.setText("No file selected");
+        }
+    }
+
     private void apply(Job job) {
         try {
             int userId = Session.getLoggedInUserId();
 
             if (appDAO.hasUserApplied(job.getId(), userId)) {
                 Alert info = new Alert(Alert.AlertType.INFORMATION, "Already applied");
-                // modal to this window
                 info.initOwner(tblResults.getScene().getWindow());
                 info.initModality(Modality.WINDOW_MODAL);
                 info.showAndWait();
                 return;
             }
 
+            if (selectedCvFile == null) {
+                Alert warning = new Alert(Alert.AlertType.WARNING, "Please upload your CV before applying.");
+                warning.initOwner(tblResults.getScene().getWindow());
+                warning.initModality(Modality.WINDOW_MODAL);
+                warning.showAndWait();
+                return;
+            }
+
+            String cvPath = appDAO.saveCvFile(selectedCvFile);
+
             JobApplication app = new JobApplication();
             app.setJobId(job.getId());
             app.setApplicantId(userId);
-            app.setCoverLetter("");
+            app.setCoverLetter(""); // Default empty cover letter
+            app.setCvPath(cvPath);
 
             appDAO.create(app);
 
@@ -122,6 +146,14 @@ public class JobSearchController implements Initializable {
             success.initModality(Modality.WINDOW_MODAL);
             success.showAndWait();
 
+            selectedCvFile = null;
+            lblCvFileName.setText("No file selected");
+
+        } catch (IOException e) {
+            Alert error = new Alert(Alert.AlertType.ERROR, "Failed to upload CV: " + e.getMessage());
+            error.initOwner(tblResults.getScene().getWindow());
+            error.initModality(Modality.WINDOW_MODAL);
+            error.showAndWait();
         } catch (Exception ex) {
             Alert error = new Alert(Alert.AlertType.WARNING, "Apply failed: " + ex.getMessage());
             error.initOwner(tblResults.getScene().getWindow());
@@ -136,8 +168,11 @@ public class JobSearchController implements Initializable {
         fldJobType.clear();
         fldLocation.clear();
         fldTechStack.clear();
+        selectedCvFile = null;
+        lblCvFileName.setText("No file selected");
         refreshJobList();
     }
+
     private void refreshJobList() {
         try {
             List<Job> all = jobDAO.findAll();
@@ -146,8 +181,15 @@ public class JobSearchController implements Initializable {
             new Alert(Alert.AlertType.WARNING, "Failed to load jobs: " + e.getMessage()).showAndWait();
         }
     }
+
     @FXML
     private void handleClose(ActionEvent e) {
         getStartedApplication.launchScene("JobSeekerDashboard.fxml");
+    }
+
+    @FXML
+    public void handleCV(ActionEvent e){
+        // This will navigate to your CV builder screen
+        getStartedApplication.launchScene("CVBuilder.fxml");
     }
 }

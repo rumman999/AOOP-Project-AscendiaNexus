@@ -1,14 +1,36 @@
 package com.example.aoop_project;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID; // For generating unique file names
 
 public class JobApplicationDAO {
     private static final String URL = "jdbc:mysql://localhost:4306/java_user_database";
     private static final String USER = "root";
     private static final String PASS = "";
+    // Define a directory for CV storage
+    private static final String CV_STORAGE_DIR = "cv_uploads";
+
+    public JobApplicationDAO() {
+        // Ensure the CV storage directory exists
+        Path path = Paths.get(CV_STORAGE_DIR);
+        if (!Files.exists(path)) {
+            try {
+                Files.createDirectories(path);
+            } catch (IOException e) {
+                System.err.println("Failed to create CV storage directory: " + e.getMessage());
+                // Handle this error appropriately in a real application
+            }
+        }
+    }
 
     private Connection getConnection() throws SQLException {
         try {
@@ -19,8 +41,20 @@ public class JobApplicationDAO {
         }
     }
 
+    // Method to save the CV file and return its path
+    public String saveCvFile(File cvFile) throws IOException {
+        if (cvFile == null) {
+            return null;
+        }
+        String fileName = UUID.randomUUID().toString() + "_" + cvFile.getName();
+        Path destination = Paths.get(CV_STORAGE_DIR, fileName);
+        Files.copy(cvFile.toPath(), destination, StandardCopyOption.REPLACE_EXISTING);
+        return destination.toString();
+    }
+
     public void create(JobApplication application) throws SQLException {
-        String sql = "INSERT INTO job_applications (job_id, applicant_id, applied_at, status, cover_letter) VALUES (?, ?, ?, ?, ?)";
+        // Updated SQL to include cv_path
+        String sql = "INSERT INTO job_applications (job_id, applicant_id, applied_at, status, cover_letter, cv_path) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = getConnection();
              PreparedStatement pst = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -30,6 +64,7 @@ public class JobApplicationDAO {
             pst.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
             pst.setString(4, "pending");
             pst.setString(5, application.getCoverLetter());
+            pst.setString(6, application.getCvPath()); // Set CV path
 
             pst.executeUpdate();
 
@@ -42,6 +77,7 @@ public class JobApplicationDAO {
     }
 
     public List<JobApplication> findByJobId(int jobId) throws SQLException {
+        // Updated SQL to select cv_path
         String sql = """
             SELECT ja.*, j.title as job_title, u.full_name as applicant_name, u.email as applicant_email
             FROM job_applications ja
@@ -66,6 +102,7 @@ public class JobApplicationDAO {
     }
 
     public List<JobApplication> findByApplicantId(int applicantId) throws SQLException {
+        // Updated SQL to select cv_path
         String sql = """
             SELECT ja.*, j.title as job_title, u.full_name as applicant_name, u.email as applicant_email
             FROM job_applications ja
@@ -126,6 +163,7 @@ public class JobApplicationDAO {
         app.setApplicantId(rs.getInt("applicant_id"));
         app.setStatus(rs.getString("status"));
         app.setCoverLetter(rs.getString("cover_letter"));
+        app.setCvPath(rs.getString("cv_path")); // Retrieve CV path
         app.setJobTitle(rs.getString("job_title"));
         app.setApplicantName(rs.getString("applicant_name"));
         app.setApplicantEmail(rs.getString("applicant_email"));

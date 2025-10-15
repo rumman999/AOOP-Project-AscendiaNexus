@@ -9,6 +9,7 @@ public class JobApplication {
     private LocalDateTime appliedAt;
     private String status;
     private String coverLetter;
+    private String cvPath; // New field for CV path
 
     // Additional fields for display purposes
     private String jobTitle;
@@ -19,13 +20,14 @@ public class JobApplication {
     public JobApplication() {}
 
     public JobApplication(int id, int jobId, int applicantId, LocalDateTime appliedAt,
-                          String status, String coverLetter) {
+                          String status, String coverLetter, String cvPath) { // Added cvPath
         this.id = id;
         this.jobId = jobId;
         this.applicantId = applicantId;
         this.appliedAt = appliedAt;
         this.status = status;
         this.coverLetter = coverLetter;
+        this.cvPath = cvPath; // Initialize new field
     }
 
     // Getters and Setters
@@ -46,6 +48,10 @@ public class JobApplication {
 
     public String getCoverLetter() { return coverLetter; }
     public void setCoverLetter(String coverLetter) { this.coverLetter = coverLetter; }
+
+    // Getter and Setter for cvPath
+    public String getCvPath() { return cvPath; }
+    public void setCvPath(String cvPath) { this.cvPath = cvPath; }
 
     public String getJobTitle() { return jobTitle; }
     public void setJobTitle(String jobTitle) { this.jobTitle = jobTitle; }
