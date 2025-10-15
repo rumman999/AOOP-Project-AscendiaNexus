@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JobDAO {
-    private static final String URL = "jdbc:mysql://10.15.4.66:4306/java_user_database";
+    private static final String URL = "jdbc:mysql://localhost:4306/java_user_database";
     private static final String USER = "root";
     private static final String PASS = "";
 

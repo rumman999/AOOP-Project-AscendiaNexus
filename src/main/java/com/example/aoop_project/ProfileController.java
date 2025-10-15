@@ -48,7 +48,7 @@ public class ProfileController {
     }
 
     private Connection getConnection() throws SQLException {
-        String url = "jdbc:mysql://10.15.4.66:4306/java_user_database";
+        String url = "jdbc:mysql://localhost:4306/java_user_database";
         String user = "root";
         String pass = "";
         Connection conn = DriverManager.getConnection(url, user, pass);

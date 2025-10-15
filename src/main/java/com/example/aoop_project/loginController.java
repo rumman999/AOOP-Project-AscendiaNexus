@@ -89,7 +89,7 @@ public class loginController  {
         }
 
         String passDB = "";
-        String SUrl = "jdbc:mysql://10.15.4.66:4306/java_user_database"; // fix capitalization
+        String SUrl = "jdbc:mysql://localhost:4306/java_user_database"; // fix capitalization
         String SUser = "root";
         String SPass = "";
 

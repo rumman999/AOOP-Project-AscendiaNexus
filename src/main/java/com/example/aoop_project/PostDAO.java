@@ -9,7 +9,7 @@ public class PostDAO {
 
     private Connection getConnection() throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        return DriverManager.getConnection("jdbc:mysql://10.15.4.66:4306/java_user_database", "root", "");
+        return DriverManager.getConnection("jdbc:mysql://localhost:4306/java_user_database", "root", "");
     }
 
     public void createPost(Post post) throws Exception {
