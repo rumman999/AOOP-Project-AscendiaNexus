@@ -57,8 +57,14 @@ public class ViewProfileController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // --- Assume we are viewing the logged-in user's own profile ---
-        // To view *other* profiles, you would pass the user ID to this controller
-        this.profileOwnerUserId = Session.getLoggedInUserId();
+        // *** UPDATED LOGIC ***
+                // Check if a specific profile ID was set in the session
+                        int userIdToLoad = Session.getProfileToViewId();
+
+                        // If it's -1 (or 0), load the logged-in user. Otherwise, load the specified user.
+                                this.profileOwnerUserId = (userIdToLoad != -1) ? userIdToLoad : Session.getLoggedInUserId();
+        
+                        Session.setProfileToViewId(-1); // Reset the flag immediately after reading it
 
         loadUserInfo();
         loadUserStats(); // This will now also update the follow button

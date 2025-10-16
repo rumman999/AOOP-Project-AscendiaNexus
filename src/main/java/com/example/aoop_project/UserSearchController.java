@@ -41,12 +41,15 @@ public class UserSearchController {
     /** Load all users from DB */
     private void loadAllUsers() {
         userList.clear();
+        // *** MODIFIED: Added 'id' to the query ***
         try (Connection con = DBUtils.getConnection()) {
-            String query = "SELECT full_name,email,account_type,profile_pic FROM user";
+            String query = "SELECT id, full_name, email, account_type, profile_pic FROM user";
             PreparedStatement pst = con.prepareStatement(query);
             ResultSet rs = pst.executeQuery();
 
             while (rs.next()) {
+                // *** MODIFIED: Get the id ***
+                int id = rs.getInt("id");
                 String fullName = rs.getString("full_name");
                 String email = rs.getString("email");
                 String type = rs.getString("account_type");
@@ -59,7 +62,8 @@ public class UserSearchController {
                     imgView.setImage(new Image(profile, 40, 40, true, true));
                 }
 
-                userList.add(new UserData(fullName, email, type, imgView));
+                // *** FIXED: Pass the 'id' to the constructor ***
+                userList.add(new UserData(id, fullName, email, type, imgView));
             }
 
             userTable.setItems(userList);
@@ -144,3 +148,4 @@ public class UserSearchController {
         }
     }
 }
+

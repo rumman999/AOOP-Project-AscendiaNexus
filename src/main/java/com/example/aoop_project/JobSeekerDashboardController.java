@@ -1,15 +1,18 @@
 package com.example.aoop_project;
 
 import com.example.aoop_project.games.chess.Interface;
-import com.example.aoop_project.games.chess.Main;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField; // Import TextField
+import javafx.scene.control.ContextMenu; // Import ContextMenu
+import javafx.scene.control.MenuItem; // Import MenuItem
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -24,12 +27,12 @@ import javafx.stage.StageStyle;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
+import java.util.ArrayList; // Import ArrayList
+import java.util.List; // Import List
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors; // Import Collectors
 
 public class JobSeekerDashboardController implements Initializable {
 
@@ -41,10 +44,18 @@ public class JobSeekerDashboardController implements Initializable {
     @FXML private Button ModerateContent;
     @FXML private Button postJobs;
     @FXML private Button btnUserSearch;
+    @FXML private TextField searchUserField; // <-- Field for live search
+    @FXML private Button btnJobSearch;
 
-    private static String profile; // stores user image path
-    private static Image defaultImage; // default GIF
+    private static String profile;
+    private static Image defaultImage;
     private Stage userSearchStage;
+
+    // --- For Live Search ---
+    private ContextMenu searchResultsPopup;
+    private List<UserData> allUsersCache = new ArrayList<>();
+    // -------------------------
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -59,7 +70,6 @@ public class JobSeekerDashboardController implements Initializable {
             ModerateContent.setDisable(true);
         }
 
-        // Load default image safely
         if (defaultImage == null) {
             try {
                 defaultImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/example/aoop_project/Images/chatbot2-unscreen.gif")));
@@ -68,9 +78,12 @@ public class JobSeekerDashboardController implements Initializable {
             }
         }
 
-        loadUserDataFromDB(); // fetch logged-in user data automatically
+        loadUserDataFromDB();
 
-        // Set image: user's image if exists, else default
+        // *** ADDED: Setup live search ***
+        setupLiveUserSearch();
+        // ******************************
+
         Image imgToShow;
         if (profile != null && !profile.isEmpty()) {
             try {
@@ -83,33 +96,148 @@ public class JobSeekerDashboardController implements Initializable {
         }
         dassprofilePicView.setImage(imgToShow);
 
-        // Set image view properties
         double size = 72;
         dassprofilePicView.setFitWidth(size);
         dassprofilePicView.setFitHeight(size);
         dassprofilePicView.setPreserveRatio(false);
         dassprofilePicView.setSmooth(true);
 
-        // Clip image into circle
         Circle clip = new Circle(size / 2, size / 2, size / 2);
         dassprofilePicView.setClip(clip);
 
-        // Allow user to change profile picture
         dassprofilePicView.setOnMouseClicked(e -> handleUploadPic());
     }
+
+    private Connection getConnection() throws SQLException {
+        String SUrl = "jdbc:mysql://localhost:4306/java_user_database";
+        String SUser = "root";
+        String SPass = "";
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return DriverManager.getConnection(SUrl, SUser, SPass);
+    }
+
+    // --- NEW METHODS FOR LIVE SEARCH ---
+
+    /**
+     * Initializes the live search functionality on the search field.
+     */
+    private void setupLiveUserSearch() {
+        searchResultsPopup = new ContextMenu();
+        // Optional: Style the popup to match the search bar width
+        searchResultsPopup.setStyle("-fx-max-width: 393px; -fx-pref-width: 393px;");
+
+        loadAllUsersIntoCache();
+
+        searchUserField.textProperty().addListener((obs, oldVal, newVal) -> {
+            onSearchTextChanged(newVal);
+        });
+
+        // Hide popup if text field loses focus
+        searchUserField.focusedProperty().addListener((obs, oldVal, newVal) -> {
+            if (!newVal) {
+                // Use Platform.runLater to avoid immediate close
+                Platform.runLater(() -> searchResultsPopup.hide());
+            }
+        });
+    }
+
+    /**
+     * Fetches all users from the DB and stores them in a local list for fast filtering.
+     */
+    private void loadAllUsersIntoCache() {
+        allUsersCache.clear();
+        // We exclude the logged-in user from the search
+        String query = "SELECT id, full_name, email, account_type FROM user WHERE id != ?";
+
+        try (Connection con = getConnection();
+             PreparedStatement pst = con.prepareStatement(query)) {
+
+            pst.setInt(1, Session.getLoggedInUserId());
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+                // We pass null for the ImageView, as we don't need it for the dropdown
+                allUsersCache.add(new UserData(
+                        rs.getInt("id"),
+                        rs.getString("full_name"),
+                        rs.getString("email"),
+                        rs.getString("account_type"),
+                        null
+                ));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Called on every keystroke in the search field.
+     * Filters the local user cache and displays matching results in the popup.
+     */
+    private void onSearchTextChanged(String query) {
+        searchResultsPopup.getItems().clear();
+        if (query == null || query.isEmpty()) {
+            searchResultsPopup.hide();
+            return;
+        }
+
+        String lowerCaseQuery = query.toLowerCase();
+
+        // Filter users based on name or email
+        List<UserData> filteredUsers = allUsersCache.stream()
+                .filter(user -> user.getFullName().toLowerCase().contains(lowerCaseQuery) ||
+                        user.getEmail().toLowerCase().contains(lowerCaseQuery))
+                .limit(7) // Show only top 7 matches
+                .collect(Collectors.toList());
+
+        if (filteredUsers.isEmpty()) {
+            searchResultsPopup.getItems().add(new MenuItem("No users found."));
+        } else {
+            for (UserData user : filteredUsers) {
+                String itemText = user.getFullName() + " (" + user.getAccountType() + ")";
+                MenuItem item = new MenuItem(itemText);
+                // Set action to navigate when clicked
+                item.setOnAction(e -> onUserSelected(user));
+                searchResultsPopup.getItems().add(item);
+            }
+        }
+
+        // Show the dropdown popup anchored to the bottom of the search field
+        if (!searchResultsPopup.isShowing()) {
+            searchResultsPopup.show(searchUserField, Side.BOTTOM, 0, 0);
+        }
+    }
+
+    /**
+     * Called when a user is clicked from the search results dropdown.
+     * Sets the session flag and navigates to the profile scene.
+     */
+    private void onUserSelected(UserData user) {
+        System.out.println("Selected user: " + user.getFullName() + " (ID: " + user.getId() + ")");
+
+        // Set the ID for the ViewProfileController to pick up
+        Session.setProfileToViewId(user.getId());
+
+        // Navigate to the profile scene
+        getStartedApplication.launchScene("ViewProfile.fxml");
+
+        // Clear search field and hide popup
+        searchUserField.clear();
+        searchResultsPopup.hide();
+    }
+
+    // --- END OF NEW METHODS ---
+
 
     private void loadUserDataFromDB() {
         String userEmail = Session.getLoggedInUserEmail();
         if (userEmail == null || userEmail.isEmpty()) return;
 
-        String SUrl = "jdbc:mysql://localhost:4306/java_user_database";
-        String SUser = "root";
-        String SPass = "";
-
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection(SUrl, SUser, SPass);
-
+        try (Connection con = getConnection()) {
             String query = "SELECT full_name, account_type, profile_pic FROM user WHERE email=?";
             PreparedStatement pst = con.prepareStatement(query);
             pst.setString(1, userEmail);
@@ -128,27 +256,10 @@ public class JobSeekerDashboardController implements Initializable {
                 dashBoardName.setText(fullName);
                 accountDes.setText(accountType);
             }
-
             rs.close();
             pst.close();
-            con.close();
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-    // Allows user to upload a new profile picture
-    private void handleUploadPic() {
-        FileChooser chooser = new FileChooser();
-        chooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif")
-        );
-        File file = chooser.showOpenDialog(dassprofilePicView.getScene().getWindow());
-        if (file != null) {
-            profile = file.toURI().toString();
-            dassprofilePicView.setImage(new Image(profile));
-            // Optional: save this path to DB immediately or on next profile save
-            System.out.println("🖼 Selected profile image: " + profile);
         }
     }
 
@@ -158,7 +269,6 @@ public class JobSeekerDashboardController implements Initializable {
         getStartedApplication.launchScene("login.fxml");
     }
 
-    // Keep one reference
     private Stage chessStage;
 
     @FXML
@@ -168,19 +278,17 @@ public class JobSeekerDashboardController implements Initializable {
                 Stage owner = (Stage) ((Node) e.getSource()).getScene().getWindow();
 
                 chessStage = new Stage();
-                chessStage.initOwner(owner);       // tie to dashboard (z-order)
+                chessStage.initOwner(owner);
                 chessStage.initModality(Modality.NONE);
-                chessStage.setAlwaysOnTop(true);   // keep it above if desired
+                chessStage.setAlwaysOnTop(true);
                 chessStage.setResizable(false);
 
-                // Launch your chess UI
                 Interface chessApp = new Interface();
                 chessApp.start(chessStage);
 
-                // Instead of destroying the stage on close, just hide it
                 chessStage.setOnCloseRequest(event -> {
-                    event.consume();   // prevent default close
-                    chessStage.hide(); // just hide
+                    event.consume();
+                    chessStage.hide();
                 });
 
                 chessStage.show();
@@ -196,10 +304,6 @@ public class JobSeekerDashboardController implements Initializable {
         }
     }
 
-
-
-
-    // Chatbot popup
     private Stage chatStage;
     @FXML
     private void handleChatbot(ActionEvent e) {
@@ -248,9 +352,6 @@ public class JobSeekerDashboardController implements Initializable {
         getStartedApplication.launchScene("Explore.fxml");
     }
 
-
-
-    // Music popup
     private Stage musicStage;
     @FXML
     public void handleMusic(ActionEvent e) {
@@ -298,25 +399,20 @@ public class JobSeekerDashboardController implements Initializable {
         }
     }
 
-    @FXML private Button btnJobSearch;    // inject a button in your dashboard FXML
-
     @FXML
     private void handleJobSearch(ActionEvent e) {
         getStartedApplication.launchScene("JobSearch.fxml");
     }
-
 
     @FXML
     private void handlePostJobs(ActionEvent e) throws IOException {
         getStartedApplication.launchScene("AdminJobManager.fxml");
     }
 
-
     @FXML
     private void handleFeed(ActionEvent e) {
         getStartedApplication.launchScene("Feed.fxml");
     }
-
 
     @FXML
     public void handleTodolist(ActionEvent e){
@@ -330,6 +426,9 @@ public class JobSeekerDashboardController implements Initializable {
 
     @FXML
     public void handleProfile(ActionEvent e){
+        // This button should now go to *your own* profile.
+        // We set the ID to -1 so ViewProfileController knows to load the logged-in user.
+        Session.setProfileToViewId(-1); // -1 means "load self"
         getStartedApplication.launchScene("ViewProfile.fxml");
     }
 
@@ -340,6 +439,8 @@ public class JobSeekerDashboardController implements Initializable {
 
     @FXML
     private void handleUserSearch() {
+        // This button now opens the *old* user search popup.
+        // You can keep it or remove it.
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("UserSearch.fxml"));
             Parent root = loader.load();
@@ -355,7 +456,6 @@ public class JobSeekerDashboardController implements Initializable {
             userSearchStage.initStyle(StageStyle.UNDECORATED);
             userSearchStage.setAlwaysOnTop(true);
 
-            // Center the popup relative to dashboard
             double centerX = owner.getX() + (owner.getWidth() - 740) / 2;
             double centerY = owner.getY() + (owner.getHeight() - 600) / 2;
             userSearchStage.setX(centerX);
@@ -367,5 +467,36 @@ public class JobSeekerDashboardController implements Initializable {
         }
     }
 
+    @FXML
+    private void handleUploadPic() {
+        FileChooser chooser = new FileChooser();
+        chooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif")
+        );
+        File file = chooser.showOpenDialog(dassprofilePicView.getScene().getWindow());
+        if (file != null) {
+            profile = file.toURI().toString();
+            dassprofilePicView.setImage(new Image(profile));
+            // You must save this to the database
+            saveProfilePicToDB(profile);
+            System.out.println("🖼 Selected profile image: " + profile);
+        }
+    }
 
+    /**
+     * Utility method to save the new profile pic path to the database.
+     */
+    private void saveProfilePicToDB(String picPath) {
+        String sql = "UPDATE user SET profile_pic = ? WHERE id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, picPath);
+            stmt.setInt(2, Session.getLoggedInUserId());
+            stmt.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
