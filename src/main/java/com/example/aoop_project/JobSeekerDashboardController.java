@@ -269,38 +269,43 @@ public class JobSeekerDashboardController implements Initializable {
         getStartedApplication.launchScene("login.fxml");
     }
 
-    private Stage chessStage;
+    // Keep this stage reference, but it's for the selection menu now
+    private Stage gameSelectionStage;
 
     @FXML
     private void handleGame(ActionEvent e) {
         try {
-            if (chessStage == null) {
+            // Check if the game selection window is already open
+            if (gameSelectionStage == null || !gameSelectionStage.isShowing()) {
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("GameSelection.fxml"));
+                Parent root = loader.load();
+
                 Stage owner = (Stage) ((Node) e.getSource()).getScene().getWindow();
 
-                chessStage = new Stage();
-                chessStage.initOwner(owner);
-                chessStage.initModality(Modality.NONE);
-                chessStage.setAlwaysOnTop(true);
-                chessStage.setResizable(false);
+                gameSelectionStage = new Stage();
+                gameSelectionStage.setScene(new Scene(root));
+                gameSelectionStage.setTitle("Game Selection");
+                gameSelectionStage.initOwner(owner);
+                gameSelectionStage.initModality(Modality.WINDOW_MODAL); // Makes it block the main window
+                gameSelectionStage.setResizable(false);
 
-                Interface chessApp = new Interface();
-                chessApp.start(chessStage);
-
-                chessStage.setOnCloseRequest(event -> {
-                    event.consume();
-                    chessStage.hide();
+                // Center it on the owner window
+                gameSelectionStage.setOnShown(event -> {
+                    gameSelectionStage.setX(owner.getX() + (owner.getWidth() - gameSelectionStage.getWidth()) / 2);
+                    gameSelectionStage.setY(owner.getY() + (owner.getHeight() - gameSelectionStage.getHeight()) / 2);
                 });
 
-                chessStage.show();
+                gameSelectionStage.show();
+
             } else {
-                if (!chessStage.isShowing()) {
-                    chessStage.show();
-                }
-                chessStage.toFront();
-                chessStage.requestFocus();
+                // If it's already open, just bring it to the front
+                gameSelectionStage.toFront();
             }
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             ex.printStackTrace();
+            // Show an alert if the FXML fails to load
+            new Alert(Alert.AlertType.ERROR, "Could not load game selection window.").showAndWait();
         }
     }
 
