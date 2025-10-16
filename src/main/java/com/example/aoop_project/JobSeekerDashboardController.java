@@ -330,7 +330,7 @@ public class JobSeekerDashboardController implements Initializable {
 
     @FXML
     public void handleProfile(ActionEvent e){
-        getStartedApplication.launchScene("Profile.fxml");
+        getStartedApplication.launchScene("ViewProfile.fxml");
     }
 
     @FXML
