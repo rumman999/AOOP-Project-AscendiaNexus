@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -16,71 +15,68 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane style="-fx-background-color: #10231c;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.FeedController">
-    <!-- Main left-aligned VBox -->
-    <VBox alignment="TOP_LEFT" layoutX="61.0" layoutY="40.0" spacing="20" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="61.0" AnchorPane.topAnchor="40.0">
+<BorderPane style="-fx-background-color: #10231c;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.ViewProfileController">
 
-    <!-- Profile Picture -->
-    <StackPane alignment="CENTER_LEFT">
-        <ImageView fx:id="profilePicView" fitHeight="140" fitWidth="140" pickOnBounds="true" preserveRatio="false">
-            <clip>
-                <Circle centerX="70" centerY="70" radius="70" />
-            </clip>
-            <image>
-                <Image url="@Images/chatbot2-unscreen.gif" />
-            </image>
-        </ImageView>
-        <Circle fill="transparent" radius="70" stroke="#00f270" strokeWidth="3" />
-    </StackPane>
+    <left>
+        <VBox alignment="TOP_LEFT" spacing="20" style="-fx-padding: 40 0 0 60;">
+            <StackPane alignment="CENTER_LEFT">
+                <ImageView fx:id="profilePicView" fitHeight="140" fitWidth="140" pickOnBounds="true" preserveRatio="false">
+                    <clip>
+                        <Circle centerX="70" centerY="70" radius="70" />
+                    </clip>
+                    <image>
+                        <Image url="@Images/chatbot2-unscreen.gif" />
+                    </image>
+                </ImageView>
+                <Circle fill="transparent" radius="70" stroke="#00f270" strokeWidth="3" />
+            </StackPane>
 
-    <!-- Name and Account Info -->
-    <VBox alignment="TOP_LEFT" spacing="5">
-        <Label fx:id="fullNameLabel" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #eeeeee;" text="Full Name" />
-        <Label fx:id="usernameLabel" style="-fx-font-size: 16px; -fx-text-fill: #00f270;" />
-    </VBox>
+            <VBox alignment="TOP_LEFT" spacing="5">
+                <Label fx:id="fullNameLabel" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #eeeeee;" text="Full Name" />
+                <Label fx:id="usernameLabel" style="-fx-font-size: 16px; -fx-text-fill: #00f270;" text="\@username" />
+            </VBox>
 
-    <!-- Stats Section -->
-    <HBox alignment="CENTER_LEFT" spacing="30">
-        <VBox alignment="CENTER_LEFT">
-            <Label fx:id="followersLabel" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #eeeeee;" text="120" />
-            <Label style="-fx-font-size: 12px; -fx-text-fill: #aaaaaa;" text="Followers" />
+            <HBox alignment="CENTER_LEFT" spacing="30">
+                <VBox alignment="CENTER_LEFT">
+                    <Label fx:id="followersLabel" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #eeeeee;" text="0" />
+                    <Label style="-fx-font-size: 12px; -fx-text-fill: #aaaaaa;" text="Followers" />
+                </VBox>
+                <VBox alignment="CENTER_LEFT">
+                    <Label fx:id="followingLabel" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #eeeeee;" text="0" />
+                    <Label style="-fx-font-size: 12px; -fx-text-fill: #aaaaaa;" text="Following" />
+                </VBox>
+                <VBox alignment="CENTER_LEFT">
+                    <Label fx:id="coinsLabel" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #eeeeee;" text="0" />
+                    <Label style="-fx-font-size: 12px; -fx-text-fill: #aaaaaa;" text="Coins" />
+                </VBox>
+            </HBox>
+
+            <HBox alignment="CENTER_LEFT" spacing="20">
+                <Label fx:id="followLabel" style="-fx-font-size: 16px; -fx-text-fill: #00f270; -fx-border-color: #00f270; -fx-border-width: 2; -fx-padding: 5 20 5 20; -fx-border-radius: 12px; -fx-cursor: hand;" text="Follow" />
+                <Label fx:id="backLabel" style="-fx-font-size: 16px; -fx-text-fill: #eeeeee; -fx-border-color: #eeeeee; -fx-border-width: 2; -fx-padding: 5 20 5 20; -fx-border-radius: 12px; -fx-cursor: hand;" text="Back" />
+            </HBox>
         </VBox>
-        <VBox alignment="CENTER_LEFT">
-            <Label fx:id="followingLabel" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #eeeeee;" text="80" />
-            <Label style="-fx-font-size: 12px; -fx-text-fill: #aaaaaa;" text="Following" />
-        </VBox>
-        <VBox alignment="CENTER_LEFT">
-            <Label fx:id="coinsLabel" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #eeeeee;" text="300" />
-            <Label style="-fx-font-size: 12px; -fx-text-fill: #aaaaaa;" text="Coins" />
-        </VBox>
-    </HBox>
+    </left>
 
-    <!-- Buttons -->
-    <HBox alignment="CENTER_LEFT" spacing="20">
-        <Label fx:id="followLabel" style="-fx-font-size: 16px; -fx-text-fill: #00f270; -fx-border-color: #00f270; -fx-border-width: 2; -fx-padding: 5 20 5 20; -fx-border-radius: 12px; -fx-cursor: hand;" text="Follow" />
-        <Label fx:id="backLabel" style="-fx-font-size: 16px; -fx-text-fill: #eeeeee; -fx-border-color: #eeeeee; -fx-border-width: 2; -fx-padding: 5 20 5 20; -fx-border-radius: 12px; -fx-cursor: hand;" text="Back" />
-    </HBox>
 
     <top>
-        <!-- Same top bar as JobSeekerDashboard -->
         <HBox style="-fx-background-color: #10231c;" BorderPane.alignment="CENTER">
             <children>
                 <HBox alignment="CENTER_LEFT">
                     <children>
                         <StackPane>
                             <children>
-                                <Group>
-                                    <children>
-                                        <Circle fx:id="profileClip" fill="#ff852100" radius="36.0" stroke="#00f06c00" strokeType="INSIDE" />
-                                        <ImageView fx:id="profilePicView" fitHeight="61.0" fitWidth="70.0" layoutX="-35.0" layoutY="-36.0">
-                                            <image>
-                                                <Image url="@Images/chatbot2-unscreen.gif" />
-                                            </image>
-                                        </ImageView>
-                                    </children>
-                                </Group>
+                                <ImageView fx:id="topProfilePicView" fitHeight="60.0" fitWidth="60.0">
+                                    <image>
+                                        <Image url="@Images/chatbot2-unscreen.gif" />
+                                    </image>
+                                    <clip>
+                                        <Circle centerX="30.0" centerY="30.0" radius="30.0" />
+                                    </clip>
+                                </ImageView>
                             </children>
                         </StackPane>
+
                         <VBox prefHeight="64.0" prefWidth="302.0">
                             <children>
                                 <Label fx:id="UserName" prefHeight="30.0" prefWidth="218.0" textFill="WHITE">
@@ -151,7 +147,6 @@
     </top>
 
     <center>
-        <!-- Feed Content -->
         <ScrollPane styleClass="custom-scroll" stylesheets="@StyleSheets/DashboardUI.css" BorderPane.alignment="CENTER">
             <content>
                 <VBox prefWidth="1450.0" spacing="20" style="-fx-background-color: #10231c;">
@@ -159,12 +154,10 @@
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                     </padding>
                     <children>
-                        <!-- Create Post Section -->
                         <VBox spacing="15" style="-fx-background-color: #1a2f26; -fx-background-radius: 15; -fx-padding: 25;">
                             <children>
                                 <Label style="-fx-font-size: 24; -fx-font-weight: bold;" text="Create New Post" textFill="WHITE" />
 
-                                <!-- Post Form -->
                                 <HBox alignment="CENTER_LEFT" spacing="15">
                                     <children>
                                         <Circle fill="#379172" radius="25" />
@@ -172,7 +165,7 @@
                                     </children>
                                 </HBox>
 
-                                <TextArea fx:id="captionArea" prefHeight="100" promptText="What's on your mind?" style="-fx-background-color: #0d221c; -fx-text-fill: black; -fx-prompt-text-fill: gray; -fx-background-radius: 10;" />
+                                <TextArea fx:id="captionArea" prefHeight="100" promptText="What's on your mind?" style="-fx-background-color: #0d221c; -fx-text-fill: white; -fx-prompt-text-fill: gray; -fx-background-radius: 10;" />
 
                                 <HBox alignment="CENTER_LEFT" spacing="15">
                                     <children>
@@ -184,7 +177,6 @@
                             </children>
                         </VBox>
 
-                        <!-- Posts Feed -->
                         <VBox fx:id="postsContainer" spacing="20" />
                     </children>
                 </VBox>
