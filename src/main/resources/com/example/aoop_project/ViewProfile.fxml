@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-
 <ScrollPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.ViewProfileController">
    <content>
       <AnchorPane prefHeight="700" prefWidth="900" style="-fx-background-color: #10231c;">
@@ -35,7 +34,6 @@
               <VBox alignment="TOP_LEFT" spacing="5">
                   <Label fx:id="fullNameLabel" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #eeeeee;" text="Full Name" />
                   <Label fx:id="usernameLabel" style="-fx-font-size: 16px; -fx-text-fill: #00f270;" />
-                  <Label fx:id="accountTypeLabel" style="-fx-font-size: 14px; -fx-text-fill: #e67e22;" text="Premium Account" />
               </VBox>
       
               <!-- Stats Section -->
