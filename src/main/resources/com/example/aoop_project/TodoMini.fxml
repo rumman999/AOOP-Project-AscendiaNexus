@@ -38,7 +38,7 @@
                         </children>
                     </TextFlow>
 
-                          <TableView fx:id="taskTable" style="-fx-background-color: #10231c;" stylesheets="@StyleSheets/admin-job-manager.css" VBox.vgrow="ALWAYS">
+                          <TableView fx:id="taskTable" prefHeight="233.0" prefWidth="579.0" style="-fx-background-color: #10231c;" stylesheets="@StyleSheets/admin-job-manager.css" VBox.vgrow="ALWAYS">
                         <columns>
                             <TableColumn fx:id="doneColumn" prefWidth="60" text="✓" />
                             <TableColumn fx:id="taskColumn" prefWidth="518.3999893188477" text="Task" />
@@ -53,10 +53,10 @@
 
             <!-- Bottom -->
             <bottom>
-                <HBox alignment="CENTER" spacing="8" style="-fx-padding: 8; -fx-background-color: #10231c;">
-                    <TextField fx:id="taskField" promptText="New task..." HBox.hgrow="ALWAYS" />
-                    <Button onAction="#handleAddTask" style="-fx-background-color: #1abc9c; -fx-text-fill: white; -fx-font-size: 12;" text="Add" />
-                    <Button onAction="#handleDeleteTask" style="-fx-background-color: red; -fx-text-fill: white; -fx-font-size: 12;" text="Del" />
+                <HBox alignment="CENTER" prefHeight="45.0" prefWidth="600.0" spacing="8" style="-fx-padding: 8; -fx-background-color: #10231c;">
+                    <TextField fx:id="taskField" prefHeight="26.0" prefWidth="283.0" promptText="New task..." HBox.hgrow="ALWAYS" />
+                    <Button onAction="#handleAddTask" prefHeight="48.0" prefWidth="75.0" style="-fx-background-color: #1abc9c; -fx-text-fill: white; -fx-font-size: 12;" text="✔" wrapText="true" />
+                    <Button onAction="#handleDeleteTask" prefHeight="31.0" prefWidth="82.0" style="-fx-background-color: red; -fx-text-fill: white; -fx-font-size: 15;" text="🗑" wrapText="true" />
                 </HBox>
             </bottom>
 

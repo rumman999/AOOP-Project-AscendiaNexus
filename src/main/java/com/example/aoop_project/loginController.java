@@ -33,6 +33,78 @@ public class loginController  {
     @FXML private Label signUpError;
 
     @FXML
+    public void initialize() {
+        // --- LOGIN FORM NAVIGATION ---
+        loginEmailUI.setOnKeyPressed(event -> {
+            switch (event.getCode()) {
+                case ENTER, DOWN -> loginPasswordUI.requestFocus();
+            }
+        });
+
+        loginPasswordUI.setOnKeyPressed(event -> {
+            switch (event.getCode()) {
+                case ENTER, DOWN -> handleLogin(new ActionEvent()); // submit on Enter/Down
+                case UP -> loginEmailUI.requestFocus();
+            }
+        });
+
+        // --- SIGNUP FORM NAVIGATION ---
+        // Helper function for navigation
+        java.util.function.BiConsumer<TextField, TextField> nextPrevNav = (current, next) -> {
+            current.setOnKeyPressed(event -> {
+                switch (event.getCode()) {
+                    case ENTER, DOWN -> next.requestFocus();
+                }
+            });
+        };
+
+        // Navigate through signup text fields
+        nextPrevNav.accept(fnameUI, emailUI);
+        nextPrevNav.accept(emailUI, phoneNoUI);
+        nextPrevNav.accept(phoneNoUI, passwordUI);
+        nextPrevNav.accept(passwordUI, signUpConfirmPasswordFieldUI);
+
+        // Confirm password → ComboBox
+        signUpConfirmPasswordFieldUI.setOnKeyPressed(event -> {
+            switch(event.getCode()) {
+                case ENTER, DOWN -> accountTypeUI.requestFocus();
+                case UP -> passwordUI.requestFocus();
+            }
+        });
+
+        // AccountType ComboBox → SignUpButton
+        accountTypeUI.setOnKeyPressed(event -> {
+            switch(event.getCode()) {
+                case ENTER, DOWN -> handleSignup(new ActionEvent());
+                case UP -> signUpConfirmPasswordFieldUI.requestFocus();
+            }
+        });
+
+        // --- OPTIONAL: Arrow key navigation in signup form (Up/Down) ---
+        TextField[] signupFields = {fnameUI, emailUI, phoneNoUI, passwordUI, signUpConfirmPasswordFieldUI};
+        for (int i = 0; i < signupFields.length; i++) {
+            int prevIndex = i - 1;
+            int nextIndex = i + 1;
+            TextField current = signupFields[i];
+            current.setOnKeyPressed(event -> {
+                switch (event.getCode()) {
+                    case UP -> { if (prevIndex >= 0) signupFields[prevIndex].requestFocus(); }
+                    case DOWN -> { if (nextIndex < signupFields.length) signupFields[nextIndex].requestFocus(); }
+                }
+            });
+        }
+        fnameUI.setOnAction(e -> emailUI.requestFocus());
+        emailUI.setOnAction(e -> phoneNoUI.requestFocus());
+        phoneNoUI.setOnAction(e -> passwordUI.requestFocus());
+        passwordUI.setOnAction(e -> signUpConfirmPasswordFieldUI.requestFocus());
+        signUpConfirmPasswordFieldUI.setOnAction(e -> accountTypeUI.requestFocus());
+        accountTypeUI.setOnAction(e -> handleSignup(new ActionEvent()));
+    }
+
+
+
+
+    @FXML
     private void showSignupForm() {
         // Hide the login form
         loginForm.setVisible(false);

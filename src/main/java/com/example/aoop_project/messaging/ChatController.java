@@ -1,5 +1,6 @@
 package com.example.aoop_project.messaging;
 
+import com.example.aoop_project.ProfileController;
 import com.example.aoop_project.Session;
 import com.example.aoop_project.chat.ChatClient;
 import com.example.aoop_project.chat.DBUtils;
@@ -119,7 +120,7 @@ public class ChatController {
     }
 
     private void setupClient() throws Exception {
-        client = new ChatClient("10.15.4.66", 12345,
+        client = new ChatClient("localhost", 12345,
                 Session.getLoggedInUserId(),
                 Session.getLoggedInUserName());
 
@@ -351,62 +352,5 @@ public class ChatController {
             Platform.runLater(doHide);
         }
     }
-
-    public void openPrivateChatPopup(int targetUserId, String targetUserName) {
-        currentTargetType = "USER";
-        currentTargetId = targetUserId;
-        chatTitle.setText("Chat with " + targetUserName);
-        messageContainer.getChildren().clear();
-
-        // Optional: hide list views for clean popup
-        chatListView.setVisible(false);
-        groupListView.setVisible(false);
-
-        // Load previous messages
-        try (var rs = DBUtils.getPrivateMessages(Session.getLoggedInUserId(), targetUserId, 1000, null)) {
-            while (rs.next()) {
-                addMessage(
-                        rs.getString("sender_name"),
-                        rs.getString("message_text"),
-                        rs.getTimestamp("timestamp").getTime(),
-                        rs.getString("sender_name").equals(Session.getLoggedInUserName())
-                );
-            }
-            scrollToBottom();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        Platform.runLater(() -> messageField.requestFocus());
-    }
-
-    public void initForUser(String fullName) {
-        currentTargetType = "USER";
-        chatTitle.setText("Chat with " + fullName);
-        messageContainer.getChildren().clear();
-
-        // Load last 50 messages from DB
-        try (ResultSet rs = DBUtils.getPrivateMessages(
-                Session.getLoggedInUserId(),
-                currentTargetId,
-                50,
-                lastLoadedTimestamp
-        )) {
-            while (rs.next()) {
-                addMessage(
-                        rs.getString("sender_name"),
-                        rs.getString("message_text"),
-                        rs.getTimestamp("timestamp").getTime(),
-                        rs.getString("sender_name").equals(Session.getLoggedInUserName())
-                );
-                lastLoadedTimestamp = rs.getTimestamp("timestamp");
-            }
-            scrollToBottom();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
 
 }

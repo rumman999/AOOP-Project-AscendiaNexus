@@ -23,5 +23,4 @@ public class Message {
     public Integer getGroupId() { return groupId; }
     public String getText() { return text; }
     public long getTimestamp() { return timestamp; }
-
 }
