@@ -105,7 +105,7 @@
                             <FXCollections fx:factory="observableArrayList">
                                 <String fx:value="Jobseeker" />
                                 <String fx:value="Recruiter" />
-                                <String fx:value="Admin" />
+<!--                                <String fx:value="Admin" />-->
                             </FXCollections>
                         </items>
                   <VBox.margin>

@@ -1,6 +1,6 @@
 package com.example.aoop_project.messaging;
 
-// import com.example.aoop_project.ProfileController; // <-- REMOVED (Unused Import)
+import com.example.aoop_project.ProfileController;
 import com.example.aoop_project.Session;
 import com.example.aoop_project.chat.ChatClient;
 import com.example.aoop_project.chat.DBUtils;
@@ -149,7 +149,7 @@ public class ChatController {
     }
 
     private void setupClient() throws Exception {
-        client = new ChatClient("localhost", 12345, // Using "localhost" as in your file
+        client = new ChatClient("localhost", 12345,
                 Session.getLoggedInUserId(),
                 Session.getLoggedInUserName());
 
@@ -394,4 +394,5 @@ public class ChatController {
             Platform.runLater(doHide);
         }
     }
+
 }
