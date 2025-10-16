@@ -153,7 +153,7 @@
                                     </children>
                                 </HBox>
 
-                                <TextArea fx:id="captionArea" prefHeight="100" promptText="What's on your mind?" style="-fx-background-color: #0d221c; -fx-text-fill: black; -fx-prompt-text-fill: gray; -fx-background-radius: 10;" wrapText="true" />
+                                <TextArea fx:id="captionArea" prefHeight="100" promptText="What's on your mind?" style="-fx-text-fill: black; -fx-prompt-text-fill: gray; -fx-background-radius: 10;" wrapText="true" />
 
                                 <HBox alignment="CENTER_LEFT" spacing="15">
                                     <children>

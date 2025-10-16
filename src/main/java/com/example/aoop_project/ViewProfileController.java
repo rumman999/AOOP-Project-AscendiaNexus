@@ -2,8 +2,10 @@ package com.example.aoop_project;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -13,6 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage; // <-- ADDED IMPORT
 
 import java.io.File;
 import java.net.URL;
@@ -25,17 +28,17 @@ import java.util.ResourceBundle;
 public class ViewProfileController implements Initializable {
 
     // FXML Fields from the "Profile" VBox (Left)
-    @FXML private ImageView profilePicView; // The main, large profile picture
+    @FXML private ImageView profilePicView;
     @FXML private Label fullNameLabel;
     @FXML private Label usernameLabel;
     @FXML private Label followersLabel;
     @FXML private Label followingLabel;
     @FXML private Label coinsLabel;
     @FXML private Label followLabel;
-    @FXML private Label backLabel;
+    @FXML private Label messageLabel; // <-- CHANGED from backLabel
 
     // FXML Fields from the "Feed" BorderPane (Top Bar)
-    @FXML private ImageView topProfilePicView; // The small, top-bar profile picture
+    @FXML private ImageView topProfilePicView;
     @FXML private Label UserName;
     @FXML private Label accountDes;
 
@@ -49,34 +52,33 @@ public class ViewProfileController implements Initializable {
 
     // DAO Instances
     private final PostDAO postDAO = new PostDAO();
-    private final FollowDAO followDAO = new FollowDAO(); // <-- ADDED
+    private final FollowDAO followDAO = new FollowDAO();
 
     private String selectedImagePath = null;
     private int profileOwnerUserId; // The ID of the user whose profile is being viewed
+    private String profileOwnerEmail; // <-- ADDED: To be used for messaging
+    private String profileOwnerFullName; // <-- ADDED: To be used for messaging
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // --- Assume we are viewing the logged-in user's own profile ---
-        // *** UPDATED LOGIC ***
-                // Check if a specific profile ID was set in the session
-                        int userIdToLoad = Session.getProfileToViewId();
 
-                        // If it's -1 (or 0), load the logged-in user. Otherwise, load the specified user.
-                                this.profileOwnerUserId = (userIdToLoad != -1) ? userIdToLoad : Session.getLoggedInUserId();
-        
-                        Session.setProfileToViewId(-1); // Reset the flag immediately after reading it
+        // Check if a specific profile ID was set in the session
+        int userIdToLoad = Session.getProfileToViewId();
+
+        // If it's -1 (or 0), load the logged-in user. Otherwise, load the specified user.
+        this.profileOwnerUserId = (userIdToLoad > 0) ? userIdToLoad : Session.getLoggedInUserId();
+
+        Session.setProfileToViewId(-1); // Reset the flag immediately after reading it
 
         loadUserInfo();
-        loadUserStats(); // This will now also update the follow button
+        loadUserStats(); // This will now also update the action buttons
         loadUserPosts();
 
         // Set up the "create post" section to be by the logged-in user
         postAuthorName.setText(Session.getLoggedInUserName());
         captionArea.setStyle("-fx-text-fill: white; -fx-prompt-text-fill: gray;");
 
-        // Add click handlers to the labels used as buttons
-        backLabel.setOnMouseClicked(e -> handleDashboard(null));
-        followLabel.setOnMouseClicked(e -> handleFollow());
+        // Click handlers are now set dynamically in updateActionButtons()
     }
 
     private Connection getConnection() throws SQLException {
@@ -102,17 +104,18 @@ public class ViewProfileController implements Initializable {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                String fullName = rs.getString("full_name");
+                // Store user details for other methods
+                this.profileOwnerFullName = rs.getString("full_name");
+                this.profileOwnerEmail = rs.getString("email");
                 String accType = rs.getString("account_type");
-                String email = rs.getString("email");
                 String picPath = rs.getString("profile_pic");
 
                 // Set profile-specific labels
-                fullNameLabel.setText(fullName);
-                usernameLabel.setText("@" + email.split("@")[0]); // Example username
+                fullNameLabel.setText(this.profileOwnerFullName);
+                usernameLabel.setText("@" + this.profileOwnerEmail.split("@")[0]);
 
                 // Set top-bar labels
-                UserName.setText(fullName);
+                UserName.setText(this.profileOwnerFullName);
                 accountDes.setText(accType);
 
                 // Set profile picture
@@ -171,8 +174,8 @@ public class ViewProfileController implements Initializable {
                 }
             }
 
-            // *** NEW: Update the follow button status ***
-            updateFollowButton();
+            // *** NEW: Update the action buttons based on profile ***
+            updateActionButtons();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -181,33 +184,55 @@ public class ViewProfileController implements Initializable {
     }
 
     /**
-     * Checks if the logged-in user is following this profile and updates the button.
+     * Dynamically sets the action buttons based on whether the user is
+     * viewing their own profile or someone else's.
      */
-    private void updateFollowButton() {
-        // Disable button if viewing your own profile
+    private void updateActionButtons() {
+        // Case 1: Viewing your OWN profile
         if (this.profileOwnerUserId == Session.getLoggedInUserId()) {
-            followLabel.setText("Your Profile");
-            followLabel.setDisable(true);
-            followLabel.setStyle("-fx-font-size: 16px; -fx-text-fill: #aaaaaa; -fx-border-color: #aaaaaa; -fx-border-width: 2; -fx-padding: 5 20 5 20; -fx-border-radius: 12px;");
-        } else {
-            // Check follow status
+
+            // Button 1: "Edit Profile"
+            followLabel.setText("Edit Profile");
+            followLabel.setStyle("-fx-font-size: 16px; -fx-text-fill: #00f270; -fx-border-color: #00f270; -fx-border-width: 2; -fx-padding: 5 20 5 20; -fx-border-radius: 12px; -fx-cursor: hand;");
+            followLabel.setOnMouseClicked(e -> handleEditProfile());
+            followLabel.setDisable(false);
+
+            // Button 2: "Back" (to dashboard)
+            messageLabel.setText("Back");
+            // Use the original "Back" style (white border)
+            messageLabel.setStyle("-fx-font-size: 16px; -fx-text-fill: #eeeeee; -fx-border-color: #eeeeee; -fx-border-width: 2; -fx-padding: 5 20 5 20; -fx-border-radius: 12px; -fx-cursor: hand;");
+            messageLabel.setOnMouseClicked(e -> handleDashboard(null)); // Re-use existing dashboard handler
+            messageLabel.setDisable(false);
+
+        } else { // Case 2: Viewing SOMEONE ELSE'S profile
+
+            // Button 1: "Follow" / "Following"
             try {
                 boolean isFollowing = followDAO.isFollowing(Session.getLoggedInUserId(), this.profileOwnerUserId);
-                followLabel.setDisable(false); // Re-enable if it was disabled
                 if (isFollowing) {
                     followLabel.setText("Following");
-                    // Style for "Following"
+                    // Style for "Following" (Orange)
                     followLabel.setStyle("-fx-font-size: 16px; -fx-text-fill: #e67e22; -fx-border-color: #e67e22; -fx-border-width: 2; -fx-padding: 5 20 5 20; -fx-border-radius: 12px; -fx-cursor: hand;");
                 } else {
                     followLabel.setText("Follow");
-                    // Style for "Follow" (your original style)
+                    // Style for "Follow" (Green)
                     followLabel.setStyle("-fx-font-size: 16px; -fx-text-fill: #00f270; -fx-border-color: #00f270; -fx-border-width: 2; -fx-padding: 5 20 5 20; -fx-border-radius: 12px; -fx-cursor: hand;");
                 }
+                followLabel.setOnMouseClicked(e -> handleFollow());
+                followLabel.setDisable(false);
+
             } catch (Exception e) {
                 e.printStackTrace();
                 followLabel.setText("Error");
                 followLabel.setDisable(true);
             }
+
+            // Button 2: "Message"
+            messageLabel.setText("Message");
+            // Style for "Message" (Green)
+            messageLabel.setStyle("-fx-font-size: 16px; -fx-text-fill: #00f270; -fx-border-color: #00f270; -fx-border-width: 2; -fx-padding: 5 20 5 20; -fx-border-radius: 12px; -fx-cursor: hand;");
+            messageLabel.setOnMouseClicked(e -> handleMessage());
+            messageLabel.setDisable(false);
         }
     }
 
@@ -262,13 +287,14 @@ public class ViewProfileController implements Initializable {
     }
 
 
-    // --- This block of code is from FeedController.java ---
-    // --- It is needed to manage the post feed. ---
+    // --- Post Feed Methods (Unchanged) ---
 
     private VBox createPostCard(Post post) {
         VBox postCard = new VBox(15);
         postCard.setStyle("-fx-background-color: #1a2f26; -fx-background-radius: 15; -fx-padding: 25;");
+        // (Rest of this method is unchanged)
 
+        // 1) Header
         HBox header = new HBox(15);
         header.setAlignment(Pos.CENTER_LEFT);
         Circle avatar = new Circle(25, Color.web("#379172"));
@@ -281,6 +307,7 @@ public class ViewProfileController implements Initializable {
         info.getChildren().addAll(nameLbl, timeLbl);
         header.getChildren().addAll(avatar, info);
 
+        // 2) Content
         VBox content = new VBox(10);
         if (post.getCaption() != null && !post.getCaption().isBlank()) {
             Label cap = new Label(post.getCaption());
@@ -298,6 +325,7 @@ public class ViewProfileController implements Initializable {
             }
         }
 
+        // 3) Actions
         HBox actions = new HBox(20);
         actions.setAlignment(Pos.CENTER_LEFT);
         Button likeBtn = new Button("❤️ "+post.getLikesCount());
@@ -310,6 +338,7 @@ public class ViewProfileController implements Initializable {
 
         postCard.getChildren().addAll(header, content, actions);
 
+        // 4) Comments (Logic from FeedController)
         try {
             List<Comment> cmts = postDAO.getCommentsForPost(post.getId());
             if (!cmts.isEmpty()) {
@@ -340,6 +369,7 @@ public class ViewProfileController implements Initializable {
 
     @FXML
     private void handleAddImage() {
+        // (This method is unchanged)
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Select Image");
         chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files","*.png","*.jpg","*.jpeg","*.gif"));
@@ -352,6 +382,7 @@ public class ViewProfileController implements Initializable {
 
     @FXML
     private void handleCreatePost() {
+        // (This method is unchanged)
         String caption = captionArea.getText().trim();
         if (caption.isEmpty() && selectedImagePath == null) {
             showAlert("Please add some content to your post!");
@@ -359,14 +390,14 @@ public class ViewProfileController implements Initializable {
         }
         try {
             Post p = new Post();
-            p.setUserId(Session.getLoggedInUserId()); // Post as the logged-in user
+            p.setUserId(Session.getLoggedInUserId());
             p.setCaption(caption);
             p.setImagePath(selectedImagePath);
             postDAO.createPost(p);
             captionArea.clear();
             selectedImagePath = null;
             selectedImageLabel.setText("");
-            loadUserPosts(); // Reload this user's posts
+            loadUserPosts();
             showSuccessAlert("Post created successfully!");
         } catch (Exception e) {
             e.printStackTrace();
@@ -375,11 +406,12 @@ public class ViewProfileController implements Initializable {
     }
 
     private void handleLikePost(int postId) {
+        // (This method is unchanged)
         try {
             int userId = Session.getLoggedInUserId();
             if (postDAO.hasUserLikedPost(postId, userId)) postDAO.unlikePost(postId, userId);
             else postDAO.likePost(postId, userId);
-            loadUserPosts(); // Reload posts to show new like count
+            loadUserPosts();
         } catch (Exception e) {
             e.printStackTrace();
             showAlert("Error processing like: " + e.getMessage());
@@ -387,6 +419,7 @@ public class ViewProfileController implements Initializable {
     }
 
     private void handleCommentPost(int postId) {
+        // (This method is unchanged)
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Add Comment");
         dialog.setHeaderText("Write a comment:");
@@ -395,7 +428,7 @@ public class ViewProfileController implements Initializable {
             if (!c.trim().isEmpty()) {
                 try {
                     postDAO.addComment(postId, Session.getLoggedInUserId(), c);
-                    loadUserPosts(); // Reload posts to show new comment
+                    loadUserPosts();
                 } catch (Exception e) {
                     e.printStackTrace();
                     showAlert("Error adding comment: " + e.getMessage());
@@ -420,7 +453,7 @@ public class ViewProfileController implements Initializable {
     }
 
     /**
-     * This method is now fully implemented.
+     * This method is called when clicking "Follow" or "Following".
      */
     private void handleFollow() {
         if (this.profileOwnerUserId == Session.getLoggedInUserId()) {
@@ -432,10 +465,8 @@ public class ViewProfileController implements Initializable {
             int loggedInUserId = Session.getLoggedInUserId();
 
             if (followDAO.isFollowing(loggedInUserId, this.profileOwnerUserId)) {
-                // --- UNFOLLOW logic ---
                 followDAO.unfollow(loggedInUserId, this.profileOwnerUserId);
             } else {
-                // --- FOLLOW logic ---
                 followDAO.follow(loggedInUserId, this.profileOwnerUserId);
             }
         } catch (Exception e) {
@@ -443,8 +474,40 @@ public class ViewProfileController implements Initializable {
             showAlert("Error updating follow status: " + e.getMessage());
         }
 
-        // Refresh stats to show new follower count and update button text
-        loadUserStats();
+        loadUserStats(); // Refresh stats and update buttons
+    }
+
+    // *** NEW METHOD ***
+    /**
+     * Opens the dedicated Edit Profile page (Profile.fxml).
+     * This is called when a user clicks "Edit Profile" on their own page.
+     */
+    private void handleEditProfile() {
+        // This scene is controlled by ProfileController.java
+        getStartedApplication.launchScene("Profile.fxml");
+    }
+
+    // *** NEW METHOD ***
+    /**
+     * Opens the message popup to chat with this user.
+     * This is called when a user clicks "Message" on another user's page.
+     */
+    private void handleMessage() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("UserMessagePopup.fxml"));
+            Stage stage = new Stage();
+            stage.setScene(new Scene(loader.load()));
+
+            UserMessagePopupController controller = loader.getController();
+            // Use the stored details of the profile being viewed
+            controller.setTargetUser(this.profileOwnerFullName, this.profileOwnerEmail, Session.getLoggedInUserEmail());
+
+            stage.setTitle("Messenger");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Could not open message window.");
+        }
     }
 
 
