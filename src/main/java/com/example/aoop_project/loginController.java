@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 
 public class loginController  {
 
-    @FXML private VBox loginForm;   // Matches fx:id="loginForm"
+    @FXML private VBox loginForm;    // Matches fx:id="loginForm"
     @FXML private VBox signupForm;  // Matches fx:id="signupForm"
     @FXML private TextField fnameUI;
     @FXML private TextField emailUI;
@@ -111,7 +111,10 @@ public class loginController  {
                     Session.setLoggedInUserEmail(email);// store email globally
                     Session.setLoggedInUserName(rs.getString("full_name"));
                     Session.setLoggedInUserType(rs.getString("account_type"));
-                    Session.setLoggedInUserPassword(passDB);
+
+                    // *** THIS LINE WAS REMOVED TO FIX THE ERROR ***
+                    // Session.setLoggedInUserPassword(passDB);
+
                     // Use your existing scene launcher
                     getStartedApplication.launchScene("JobSeekerDashboard.fxml");
                 } else {
@@ -324,4 +327,3 @@ public class loginController  {
         }
     }
 }
-

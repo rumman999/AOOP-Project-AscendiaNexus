@@ -1,5 +1,6 @@
 package com.example.aoop_project.messaging;
 
+// import com.example.aoop_project.ProfileController; // <-- REMOVED (Unused Import)
 import com.example.aoop_project.Session;
 import com.example.aoop_project.chat.ChatClient;
 import com.example.aoop_project.chat.DBUtils;
@@ -48,14 +49,14 @@ public class ChatController {
     -fx-selection-bar-non-focused: orange;
 """;
 
-// Apply to both ListViews
+            // Apply to both ListViews
             chatListView.setStyle(listViewStyle);
             groupListView.setStyle(listViewStyle);
 
             hideScrollBars(chatListView);
             hideScrollBars(groupListView);
 
-// Cell factory for styling individual rows
+            // Cell factory for styling individual rows
             chatListView.setCellFactory(lv -> new ListCell<>() {
                 // listener created once per cell
                 private final javafx.beans.value.ChangeListener<Boolean> selectionListener =
@@ -101,25 +102,54 @@ public class ChatController {
                 }
             });
 
-
-
-
-// Apply same cell factory to groupListView
+            // Apply same cell factory to groupListView
             groupListView.setCellFactory(chatListView.getCellFactory());
-
-
 
             loadUsers();
             loadGroups();
             setupListHandlers();
             messageField.setOnAction(event -> handleSend());
+
+            // *** NEW: Check for chat target from ViewProfile ***
+            Platform.runLater(this::openChatFromSession);
+            // *************************************************
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * NEW METHOD
+     * Checks if a chat target was set in the Session and opens it.
+     */
+    private void openChatFromSession() {
+        int targetId = Session.getChatTargetId();
+        String targetName = Session.getChatTargetName();
+
+        // Check if valid target is set
+        if (targetId > 0 && targetName != null) {
+            String targetUserString = targetId + ": " + targetName;
+
+            // Check if user exists in the list
+            if (chatListView.getItems().contains(targetUserString)) {
+                // Select the user
+                chatListView.getSelectionModel().select(targetUserString);
+                // Programmatically trigger the chat load
+                selectUserChat();
+            } else {
+                // This can happen if the user is not in the "other users" list (e.g., self-chat)
+                // Or if the list hasn't loaded yet.
+                System.err.println("Could not find user " + targetUserString + " in chat list.");
+            }
+
+            // Clear the session flag so it doesn't re-open
+            Session.clearChatTarget();
+        }
+    }
+
     private void setupClient() throws Exception {
-        client = new ChatClient("10.15.4.66", 12345,
+        client = new ChatClient("localhost", 12345, // Using "localhost" as in your file
                 Session.getLoggedInUserId(),
                 Session.getLoggedInUserName());
 
@@ -137,8 +167,9 @@ public class ChatController {
 
                 // Only show if current chat is with this sender
                 if ("USER".equals(currentTargetType) && currentTargetId != null) {
-                    // extract sender ID from DB if needed or just match name
-                    if (sender.equals(chatListView.getSelectionModel().getSelectedItem().split(":")[1].trim())) {
+                    String selectedItem = chatListView.getSelectionModel().getSelectedItem();
+                    // Check if sender name matches the selected user's name
+                    if (selectedItem != null && sender.equals(selectedItem.split(": ")[1].trim())) {
                         showMessage = true;
                     }
                 }
@@ -214,6 +245,9 @@ public class ChatController {
         String selected = chatListView.getSelectionModel().getSelectedItem();
         if (selected == null) return;
 
+        // ** ADDED: Clear other list's selection **
+        groupListView.getSelectionModel().clearSelection();
+
         String[] parts = selected.split(":");
         currentTargetId = Integer.parseInt(parts[0].trim());
 
@@ -221,11 +255,14 @@ public class ChatController {
         chatTitle.setText("Chat with " + parts[1].trim());
         messageContainer.getChildren().clear();
 
+        // ** ADDED: Reset timestamp and query from beginning **
+        lastLoadedTimestamp = null;
+
         try (ResultSet rs = DBUtils.getPrivateMessages(
                 Session.getLoggedInUserId(),
                 currentTargetId,
-                50,
-                lastLoadedTimestamp
+                50, // Load 50 most recent messages
+                null // Pass null to get latest messages
         )) {
             while (rs.next()) {
                 addMessage(
@@ -234,6 +271,9 @@ public class ChatController {
                         rs.getTimestamp("timestamp").getTime(),
                         rs.getString("sender_name").equals(Session.getLoggedInUserName())
                 );
+                // Keep track of the *oldest* message loaded if loading in reverse,
+                // or the *newest* if loading chronologically.
+                // Assuming getPrivateMessages fetches ASC order, this is correct:
                 lastLoadedTimestamp = rs.getTimestamp("timestamp");
             }
             scrollToBottom();
@@ -245,6 +285,9 @@ public class ChatController {
     private void selectGroupChat() {
         String selected = groupListView.getSelectionModel().getSelectedItem();
         if (selected == null) return;
+
+        // ** ADDED: Clear other list's selection **
+        chatListView.getSelectionModel().clearSelection();
 
         String[] parts = selected.split(":");
         currentTargetId = Integer.parseInt(parts[0].trim());
@@ -351,62 +394,4 @@ public class ChatController {
             Platform.runLater(doHide);
         }
     }
-
-    public void openPrivateChatPopup(int targetUserId, String targetUserName) {
-        currentTargetType = "USER";
-        currentTargetId = targetUserId;
-        chatTitle.setText("Chat with " + targetUserName);
-        messageContainer.getChildren().clear();
-
-        // Optional: hide list views for clean popup
-        chatListView.setVisible(false);
-        groupListView.setVisible(false);
-
-        // Load previous messages
-        try (var rs = DBUtils.getPrivateMessages(Session.getLoggedInUserId(), targetUserId, 1000, null)) {
-            while (rs.next()) {
-                addMessage(
-                        rs.getString("sender_name"),
-                        rs.getString("message_text"),
-                        rs.getTimestamp("timestamp").getTime(),
-                        rs.getString("sender_name").equals(Session.getLoggedInUserName())
-                );
-            }
-            scrollToBottom();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        Platform.runLater(() -> messageField.requestFocus());
-    }
-
-    public void initForUser(String fullName) {
-        currentTargetType = "USER";
-        chatTitle.setText("Chat with " + fullName);
-        messageContainer.getChildren().clear();
-
-        // Load last 50 messages from DB
-        try (ResultSet rs = DBUtils.getPrivateMessages(
-                Session.getLoggedInUserId(),
-                currentTargetId,
-                50,
-                lastLoadedTimestamp
-        )) {
-            while (rs.next()) {
-                addMessage(
-                        rs.getString("sender_name"),
-                        rs.getString("message_text"),
-                        rs.getTimestamp("timestamp").getTime(),
-                        rs.getString("sender_name").equals(Session.getLoggedInUserName())
-                );
-                lastLoadedTimestamp = rs.getTimestamp("timestamp");
-            }
-            scrollToBottom();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
-
 }
