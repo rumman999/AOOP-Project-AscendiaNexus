@@ -53,7 +53,9 @@
 
             <HBox alignment="CENTER_LEFT" spacing="20">
                 <Label fx:id="followLabel" style="-fx-font-size: 16px; -fx-text-fill: #00f270; -fx-border-color: #00f270; -fx-border-width: 2; -fx-padding: 5 20 5 20; -fx-border-radius: 12px; -fx-cursor: hand;" text="Follow" />
-                <Label fx:id="backLabel" style="-fx-font-size: 16px; -fx-text-fill: #eeeeee; -fx-border-color: #eeeeee; -fx-border-width: 2; -fx-padding: 5 20 5 20; -fx-border-radius: 12px; -fx-cursor: hand;" text="Back" />
+
+                <Label fx:id="messageLabel" style="-fx-font-size: 16px; -fx-text-fill: #00f270; -fx-border-color: #00f270; -fx-border-width: 2; -fx-padding: 5 20 5 20; -fx-border-radius: 12px; -fx-cursor: hand;" text="Message" />
+
             </HBox>
         </VBox>
     </left>
