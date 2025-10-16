@@ -5,8 +5,19 @@ public class Session {
     private static String loggedInUserEmail;
     private static String loggedInUserName;
     private static String loggedInUserPassword;
+    private static int profileToViewId = -1;
     private static String pic="";
     private static String s;
+
+
+    // ===== Profile to View =====
+    public static void setProfileToViewId(int id) {
+                profileToViewId = id;
+            }
+
+            public static int getProfileToViewId() {
+               return profileToViewId;    }
+
     // ===== User ID =====
     public static void setLoggedInUserId(int id) {
         loggedInUserId = id;
@@ -51,6 +62,7 @@ public class Session {
         loggedInUserId = 0;          // reset to default
         loggedInUserEmail = null;
         loggedInUserName = null;
+        profileToViewId = -1;
     }
 
     public static void setLoggedInUserType(String accountType) {

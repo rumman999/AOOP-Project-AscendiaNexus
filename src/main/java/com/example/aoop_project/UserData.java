@@ -5,15 +5,19 @@ import javafx.beans.property.StringProperty;
 import javafx.scene.image.ImageView;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 public class UserData {
 
+    private final IntegerProperty id;
     private final StringProperty fullName;
     private final StringProperty email;
     private final StringProperty accountType;
     private final ObjectProperty<ImageView> profilePic;
 
-    public UserData(String fullName, String email, String accountType, ImageView profilePic){
+    public UserData(int id, String fullName, String email, String accountType, ImageView profilePic){
+        this.id = new SimpleIntegerProperty(id);
         this.fullName = new SimpleStringProperty(fullName);
         this.email = new SimpleStringProperty(email);
         this.accountType = new SimpleStringProperty(accountType);
@@ -31,4 +35,7 @@ public class UserData {
 
     public ImageView getProfilePic(){ return profilePic.get(); }
     public ObjectProperty<ImageView> profilePicProperty(){ return profilePic; }
+
+    public int getId(){ return id.get(); }
+    public IntegerProperty idProperty(){ return id; }
 }

@@ -109,7 +109,8 @@
                   <Insets left="30.0" top="15.0" />
                </HBox.margin>
             </Button>
-            <TextField prefHeight="31.0" prefWidth="393.0" promptText="🔍 Search" styleClass="search" stylesheets="@StyleSheets/DashboardUI.css">
+            <TextField fx:id="searchUserField" prefHeight="31.0" prefWidth="393.0" promptText="🔍 Search users..." styleClass="search"
+                       stylesheets="@StyleSheets/DashboardUI.css">
                <font>
                   <Font size="15.0" />
                </font>
