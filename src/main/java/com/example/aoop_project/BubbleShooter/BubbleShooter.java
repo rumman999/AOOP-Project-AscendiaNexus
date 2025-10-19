@@ -8,13 +8,19 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.scene.media.AudioClip;
 
+import java.io.File;
+import java.net.URL;
 import java.util.*;
 
 public class BubbleShooter extends Application {
+    private MediaPlayer bgmPlayer;
 
     private final int WIDTH = 600;
     private final int HEIGHT = 700;
@@ -32,6 +38,8 @@ public class BubbleShooter extends Application {
     private double mouseX = WIDTH / 2.0;
     private double mouseY = HEIGHT / 2.0;
 
+    private AudioClip bgm; // Background music
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -48,14 +56,52 @@ public class BubbleShooter extends Application {
         stage.setScene(scene);
         stage.show();
 
+        // Initialize game objects
         initGame();
 
+        // Mouse & keyboard events
         scene.setOnMouseMoved(this::handleMouseMove);
         scene.setOnMouseClicked(e -> handleShoot());
         scene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.R && gameOver) initGame();
         });
 
+        // ---- Music Setup ----
+        try {
+            Media media = null;
+
+            // Try to load from resources (works after packaging)
+            URL resource = getClass().getResource("/com/example/aoop_project/Music/BubbleMusic.mp3");
+            if (resource != null) {
+                media = new Media(resource.toExternalForm());
+            } else {
+                // Fallback: load from file path (for IDE testing)
+                File file = new File("src/main/resources/com/example/aoop_project/Music/BubbleMusic.mp3");
+                if (file.exists()) {
+                    media = new Media(file.toURI().toString());
+                }
+            }
+
+            if (media != null) {
+                bgmPlayer = new MediaPlayer(media);
+                bgmPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+                bgmPlayer.play();
+            } else {
+                System.out.println("Music file not found!");
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        // Stop music when window is closed
+        stage.setOnCloseRequest(e -> {
+            if (bgmPlayer != null) {
+                bgmPlayer.stop();
+                bgmPlayer.dispose();
+            }
+        });
+
+        // ---- Game Loop ----
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -64,6 +110,25 @@ public class BubbleShooter extends Application {
             }
         };
         timer.start();
+    }
+
+
+
+
+    private void loadBGM() {
+        try {
+            // Use getResource with leading slash
+            URL resource = getClass().getResource("/com/example/aoop_project/Music/GameMusic.mp3");
+            if (resource != null) {
+                bgm = new AudioClip(resource.toString());
+                bgm.setCycleCount(AudioClip.INDEFINITE); // loop
+                bgm.play();
+            } else {
+                System.out.println("Music file not found!");
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     private void handleMouseMove(MouseEvent e) {
@@ -99,26 +164,16 @@ public class BubbleShooter extends Application {
             if (grid.checkGridCollision(flyingBubble)) {
                 grid.snapBubble(flyingBubble);
 
-                // Find and remove matches
                 ArrayList<Bubble> popped = grid.findMatches(flyingBubble.row, flyingBubble.col, flyingBubble.color);
-                for (Bubble b : popped) {
-                    grid.removeBubble(b);
-                }
+                for (Bubble b : popped) grid.removeBubble(b);
 
-                // Find and remove floating bubbles
                 int floatingCount = grid.findFloatingBubbles();
-
-                // Update score
                 score += popped.size() * 10 + floatingCount * 20;
 
                 flyingBubble = null;
 
-                // Add new row every 8 shots
-                if (shots % 8 == 0) {
-                    grid.addNewRow();
-                }
+                if (shots % 8 == 0) grid.addNewRow();
 
-                // Check win/lose conditions
                 if (grid.checkWin()) {
                     win = true;
                     gameOver = true;
@@ -136,10 +191,15 @@ public class BubbleShooter extends Application {
         gc.setFill(Color.web("#1a1a2e"));
         gc.fillRect(0, 0, WIDTH, HEIGHT);
 
+        // Instructions at top
+        gc.setFont(Font.font(20));
+        gc.setFill(Color.WHITE);
+        gc.fillText("Aim with Mouse, Click to Shoot, Press R to Restart", 50, 30);
+
         // Draw grid bubbles
         grid.draw(gc);
 
-        // Draw trajectory
+        // Draw trajectory line
         if (!gameOver && flyingBubble == null) {
             shooter.drawTrajectory(gc, mouseX, mouseY, WIDTH);
         }
@@ -155,22 +215,21 @@ public class BubbleShooter extends Application {
         // Draw UI
         gc.setFill(Color.WHITE);
         gc.setFont(Font.font(24));
-        gc.fillText("Score: " + score, 20, 30);
+        gc.fillText("Score: " + score, 20, 60);
         gc.setFont(Font.font(20));
-        gc.fillText("Next Row In: " + (8 - (shots % 8)), 450, 30);
+        gc.fillText("Next Row In: " + (8 - (shots % 8)), 450, 60);
 
         if (gameOver) {
             gc.setFont(Font.font(50));
             gc.setFill(win ? Color.GREEN : Color.RED);
-            gc.fillText(win ? "YOU WIN!" : "GAME OVER", WIDTH / 2.0 - 150, HEIGHT / 2.0);
+            gc.fillText(win ? "YOU WIN!" : "GAME OVER", WIDTH / 2.0 - 150, 120);
             gc.setFont(Font.font(30));
             gc.setFill(Color.WHITE);
-            gc.fillText("Press R to Restart", WIDTH / 2.0 - 120, HEIGHT / 2.0 + 50);
+            gc.fillText("Press R to Restart", WIDTH / 2.0 - 120, 160);
         }
     }
 
     // -------------------- Nested Classes --------------------
-
     class Bubble {
         double x, y;
         Color color;
@@ -207,15 +266,13 @@ public class BubbleShooter extends Application {
         }
 
         void checkWallCollision(double width) {
-            // Left wall
             if (x - radius <= 0) {
                 x = radius;
-                vx = Math.abs(vx); // Force positive (move right)
+                vx = Math.abs(vx); // bounce right
             }
-            // Right wall
             if (x + radius >= width) {
                 x = width - radius;
-                vx = -Math.abs(vx); // Force negative (move left)
+                vx = -Math.abs(vx); // bounce left
             }
         }
     }
@@ -234,8 +291,9 @@ public class BubbleShooter extends Application {
         }
 
         void draw(GraphicsContext gc, double targetX, double targetY) {
-            // Draw shooter triangle pointing to mouse
             double angle = Math.atan2(targetY - y, targetX - x);
+
+            // Draw shooter triangle
             gc.setFill(Color.WHITE);
             gc.setStroke(Color.BLACK);
             gc.setLineWidth(2);
@@ -253,12 +311,12 @@ public class BubbleShooter extends Application {
             gc.fillPolygon(xs, ys, 3);
             gc.strokePolygon(xs, ys, 3);
 
-            // Current bubble at shooter position
+            // Current bubble
             currentBubble.x = x;
             currentBubble.y = y;
             currentBubble.draw(gc);
 
-            // Next bubble preview (smaller, below)
+            // Next bubble preview
             gc.setFill(nextBubble.color);
             gc.fillOval(x - 12.5, y + 35, 25, 25);
             gc.setStroke(Color.BLACK);
@@ -296,7 +354,6 @@ public class BubbleShooter extends Application {
                 tempX += vx;
                 tempY += vy;
 
-                // Check wall bounce
                 if (tempX - 20 < 0) {
                     tempX = 20;
                     vx = -vx;
@@ -307,8 +364,7 @@ public class BubbleShooter extends Application {
                 }
 
                 gc.fillOval(tempX - 2, tempY - 2, 4, 4);
-
-                if (tempY < 50) break; // Stop at top
+                if (tempY < 50) break;
             }
 
             gc.setLineDashes(0);
@@ -319,14 +375,13 @@ public class BubbleShooter extends Application {
         ArrayList<Bubble> bubbles = new ArrayList<>();
         final int cols = 10;
         final double startX = 50;
-        final double startY = 50;
+        final double startY = 100;
         final double spacing = 45;
 
         Grid() {
             Random rand = new Random();
             Color[] colors = {Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.PURPLE};
 
-            // Create initial 5 rows
             for (int r = 0; r < 5; r++) {
                 for (int c = 0; c < cols; c++) {
                     double offset = r % 2 == 1 ? spacing / 2 : 0;
@@ -341,43 +396,30 @@ public class BubbleShooter extends Application {
         }
 
         void draw(GraphicsContext gc) {
-            for (Bubble b : bubbles) {
-                b.draw(gc);
-            }
+            for (Bubble b : bubbles) b.draw(gc);
         }
 
         boolean checkGridCollision(FlyingBubble fb) {
-            // Check collision with existing bubbles (check distance from center to center)
             for (Bubble b : bubbles) {
                 double dx = fb.x - b.x;
                 double dy = fb.y - b.y;
                 double distance = Math.sqrt(dx * dx + dy * dy);
-                // Collision when bubbles are touching or overlapping (radius + radius = 40)
                 if (distance <= 40) return true;
             }
-
-            // Check if hit top (allow bubble to reach just below the top edge)
-            if (fb.y - fb.radius <= startY - spacing / 2) return true;
-
-            return false;
+            return fb.y - fb.radius <= startY - spacing / 2;
         }
 
         void snapBubble(FlyingBubble fb) {
-            // Find closest valid grid position
             int bestRow = -1;
             int bestCol = -1;
             double minDist = Double.MAX_VALUE;
 
-            // Determine which rows to check based on flying bubble position
             int centerRow = Math.max(0, (int)Math.round((fb.y - startY) / spacing));
             int rowStart = Math.max(0, centerRow - 2);
             int rowEnd = Math.min(14, centerRow + 2);
 
-            // Check nearby rows only
             for (int r = rowStart; r <= rowEnd; r++) {
                 double offset = r % 2 == 1 ? spacing / 2 : 0;
-
-                // Determine column range to check
                 int centerCol = Math.max(0, Math.min(cols - 1,
                         (int)Math.round((fb.x - startX - offset) / spacing)));
                 int colStart = Math.max(0, centerCol - 2);
@@ -387,65 +429,32 @@ public class BubbleShooter extends Application {
                     double gx = startX + c * spacing + offset;
                     double gy = startY + r * spacing;
 
-                    // Check if this position is empty
                     boolean occupied = false;
-                    for (Bubble b : bubbles) {
-                        if (b.row == r && b.col == c) {
-                            occupied = true;
-                            break;
-                        }
-                    }
+                    for (Bubble b : bubbles) if (b.row == r && b.col == c) occupied = true;
 
                     if (!occupied) {
-                        // Check if at least one neighbor exists (can't float in air)
-                        boolean hasNeighbor = false;
-
-                        // If it's row 0, it's always valid (attached to ceiling)
-                        if (r == 0) {
-                            hasNeighbor = true;
-                        } else {
-                            // Check for neighboring bubbles
-                            int[][] neighborOffsets;
-                            if (r % 2 == 0) {
-                                neighborOffsets = new int[][]{
-                                        {-1, -1}, {-1, 0}, {0, -1}, {0, 1}, {1, -1}, {1, 0}
-                                };
-                            } else {
-                                neighborOffsets = new int[][]{
-                                        {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, 0}, {1, 1}
-                                };
-                            }
-
-                            for (int[] nOffset : neighborOffsets) {
-                                int nRow = r + nOffset[0];
-                                int nCol = c + nOffset[1];
-
-                                for (Bubble b : bubbles) {
-                                    if (b.row == nRow && b.col == nCol) {
-                                        hasNeighbor = true;
-                                        break;
-                                    }
-                                }
-                                if (hasNeighbor) break;
+                        boolean hasNeighbor = r == 0;
+                        if (!hasNeighbor) {
+                            int[][] neighborOffsets = r % 2 == 0 ?
+                                    new int[][]{{-1,-1},{-1,0},{0,-1},{0,1},{1,-1},{1,0}} :
+                                    new int[][]{{-1,0},{-1,1},{0,-1},{0,1},{1,0},{1,1}};
+                            for (int[] off : neighborOffsets) {
+                                int nr = r + off[0], nc = c + off[1];
+                                for (Bubble b : bubbles) if (b.row==nr && b.col==nc) hasNeighbor=true;
                             }
                         }
-
-                        if (hasNeighbor) {
-                            double dx = fb.x - gx;
-                            double dy = fb.y - gy;
-                            double dist = Math.sqrt(dx * dx + dy * dy);
-
-                            if (dist < minDist) {
-                                minDist = dist;
-                                bestRow = r;
-                                bestCol = c;
-                            }
+                        double dx = fb.x - gx;
+                        double dy = fb.y - gy;
+                        double dist = Math.sqrt(dx*dx + dy*dy);
+                        if (dist < minDist && hasNeighbor) {
+                            minDist = dist;
+                            bestRow = r;
+                            bestCol = c;
                         }
                     }
                 }
             }
 
-            // Snap to best position if found
             if (bestRow != -1 && bestCol != -1) {
                 double offset = bestRow % 2 == 1 ? spacing / 2 : 0;
                 fb.row = bestRow;
@@ -460,46 +469,22 @@ public class BubbleShooter extends Application {
             HashSet<Bubble> visited = new HashSet<>();
             ArrayList<Bubble> matched = new ArrayList<>();
             Queue<Bubble> queue = new LinkedList<>();
-
-            // Find starting bubble
             Bubble start = null;
-            for (Bubble b : bubbles) {
-                if (b.row == row && b.col == col) {
-                    start = b;
-                    break;
-                }
-            }
-
-            if (start == null) return matched;
-
+            for (Bubble b : bubbles) if (b.row==row && b.col==col) start=b;
+            if (start==null) return matched;
             queue.add(start);
             visited.add(start);
 
-            while (!queue.isEmpty()) {
+            while(!queue.isEmpty()) {
                 Bubble current = queue.poll();
                 matched.add(current);
-
-                // Get neighbors in honeycomb pattern
-                int[][] neighborOffsets;
-                if (current.row % 2 == 0) {
-                    // Even row
-                    neighborOffsets = new int[][]{
-                            {-1, -1}, {-1, 0}, {0, -1}, {0, 1}, {1, -1}, {1, 0}
-                    };
-                } else {
-                    // Odd row
-                    neighborOffsets = new int[][]{
-                            {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, 0}, {1, 1}
-                    };
-                }
-
-                for (int[] offset : neighborOffsets) {
-                    int newRow = current.row + offset[0];
-                    int newCol = current.col + offset[1];
-
-                    for (Bubble b : bubbles) {
-                        if (b.row == newRow && b.col == newCol &&
-                                b.color.equals(color) && !visited.contains(b)) {
+                int[][] neighborOffsets = current.row %2==0 ?
+                        new int[][]{{-1,-1},{-1,0},{0,-1},{0,1},{1,-1},{1,0}} :
+                        new int[][]{{-1,0},{-1,1},{0,-1},{0,1},{1,0},{1,1}};
+                for(int[] off:neighborOffsets) {
+                    int nr=current.row+off[0], nc=current.col+off[1];
+                    for(Bubble b:bubbles) {
+                        if(b.row==nr && b.col==nc && b.color.equals(color) && !visited.contains(b)) {
                             visited.add(b);
                             queue.add(b);
                         }
@@ -507,48 +492,23 @@ public class BubbleShooter extends Application {
                 }
             }
 
-            // Only return if 3 or more matched
-            if (matched.size() < 3) {
-                matched.clear();
-            }
-
+            if(matched.size()<3) matched.clear();
             return matched;
         }
 
         int findFloatingBubbles() {
             HashSet<Bubble> connected = new HashSet<>();
             Queue<Bubble> queue = new LinkedList<>();
-
-            // Start from all bubbles in row 0 (connected to ceiling)
-            for (Bubble b : bubbles) {
-                if (b.row == 0) {
-                    queue.add(b);
-                    connected.add(b);
-                }
-            }
-
-            // BFS to find all connected bubbles
-            while (!queue.isEmpty()) {
+            for(Bubble b:bubbles) if(b.row==0) {queue.add(b); connected.add(b);}
+            while(!queue.isEmpty()) {
                 Bubble current = queue.poll();
-
-                // Get neighbors
-                int[][] neighborOffsets;
-                if (current.row % 2 == 0) {
-                    neighborOffsets = new int[][]{
-                            {-1, -1}, {-1, 0}, {0, -1}, {0, 1}, {1, -1}, {1, 0}
-                    };
-                } else {
-                    neighborOffsets = new int[][]{
-                            {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, 0}, {1, 1}
-                    };
-                }
-
-                for (int[] offset : neighborOffsets) {
-                    int newRow = current.row + offset[0];
-                    int newCol = current.col + offset[1];
-
-                    for (Bubble b : bubbles) {
-                        if (b.row == newRow && b.col == newCol && !connected.contains(b)) {
+                int[][] neighborOffsets = current.row %2==0 ?
+                        new int[][]{{-1,-1},{-1,0},{0,-1},{0,1},{1,-1},{1,0}} :
+                        new int[][]{{-1,0},{-1,1},{0,-1},{0,1},{1,0},{1,1}};
+                for(int[] off:neighborOffsets) {
+                    int nr=current.row+off[0], nc=current.col+off[1];
+                    for(Bubble b:bubbles) {
+                        if(b.row==nr && b.col==nc && !connected.contains(b)) {
                             connected.add(b);
                             queue.add(b);
                         }
@@ -556,55 +516,33 @@ public class BubbleShooter extends Application {
                 }
             }
 
-            // Remove floating bubbles (not connected)
             ArrayList<Bubble> toRemove = new ArrayList<>();
-            for (Bubble b : bubbles) {
-                if (!connected.contains(b)) {
-                    toRemove.add(b);
-                }
-            }
-
-            for (Bubble b : toRemove) {
-                bubbles.remove(b);
-            }
-
+            for(Bubble b:bubbles) if(!connected.contains(b)) toRemove.add(b);
+            for(Bubble b:toRemove) bubbles.remove(b);
             return toRemove.size();
         }
 
-        void removeBubble(Bubble b) {
-            bubbles.remove(b);
-        }
-
-        boolean checkWin() {
-            return bubbles.isEmpty();
-        }
-
-        boolean checkLose(double height) {
-            for (Bubble b : bubbles) {
-                if (b.y > height - 100) return true;
-            }
-            return false;
-        }
+        void removeBubble(Bubble b) {bubbles.remove(b);}
+        boolean checkWin() {return bubbles.isEmpty();}
+        boolean checkLose(double height) {for(Bubble b:bubbles) if(b.y>height-100) return true; return false;}
 
         void addNewRow() {
             Random rand = new Random();
             Color[] colors = {Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.PURPLE};
 
-            // Shift all bubbles down by 1 row
-            for (Bubble b : bubbles) {
+            for(Bubble b:bubbles) {
                 b.row++;
-                double offset = b.row % 2 == 1 ? spacing / 2 : 0;
-                b.y = startY + b.row * spacing;
-                b.x = startX + b.col * spacing + offset;
+                double offset = b.row % 2 ==1 ? spacing/2:0;
+                b.y = startY + b.row*spacing;
+                b.x = startX + b.col*spacing + offset;
             }
 
-            // Add new row at top (row 0)
-            for (int c = 0; c < cols; c++) {
-                double x = startX + c * spacing;
+            for(int c=0;c<cols;c++) {
+                double x = startX + c*spacing;
                 double y = startY;
-                Bubble newB = new Bubble(x, y, colors[rand.nextInt(colors.length)]);
-                newB.row = 0;
-                newB.col = c;
+                Bubble newB = new Bubble(x,y,colors[rand.nextInt(colors.length)]);
+                newB.row=0;
+                newB.col=c;
                 bubbles.add(newB);
             }
         }

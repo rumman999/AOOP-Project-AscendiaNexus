@@ -36,8 +36,8 @@
                         <TextField fx:id="fldJobType" promptText="Job Type" HBox.hgrow="ALWAYS" />
                         <TextField fx:id="fldLocation" promptText="Location" HBox.hgrow="ALWAYS" />
                         <TextField fx:id="fldTechStack" promptText="Tech Stack" HBox.hgrow="ALWAYS" />
-                        <Button onAction="#handleSearch" text="Search" styleClass="viewBtn" stylesheets="@StyleSheets/DashboardUI.css" />
-                        <Button onAction="#handleClear" text="Clear" styleClass="viewBtn" stylesheets="@StyleSheets/DashboardUI.css" />
+                        <Button onAction="#handleSearch" styleClass="viewBtn" stylesheets="@StyleSheets/DashboardUI.css" text="Search" />
+                        <Button onAction="#handleClear" styleClass="viewBtn" stylesheets="@StyleSheets/DashboardUI.css" text="Clear" />
                     </children>
                 </HBox>
             </children>
@@ -61,21 +61,21 @@
                     </columnResizePolicy>
                 </TableView>
 
-                <VBox prefHeight="150.0" prefWidth="798.0" spacing="10" style="-fx-background-color: #10231c;">
+                <VBox alignment="CENTER" prefHeight="150.0" prefWidth="798.0" spacing="10" style="-fx-background-color: #10231c;">
                     <padding>
                         <Insets bottom="10" left="15" right="15" top="10" />
                     </padding>
                     <children>
                         <Label alignment="CENTER" maxWidth="Infinity" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #00F270;" text="Create your own CV in seconds!" />
 
+                                <Button onAction="#handleCV" styleClass="viewBtn" stylesheets="@StyleSheets/DashboardUI.css" text="Create CV" />
+
                         <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" styleClass="labelA" stylesheets="@StyleSheets/admin-job-manager.css" text="Upload your CV:" />
-                        <HBox alignment="CENTER_LEFT" spacing="10">
+                        <HBox alignment="CENTER" spacing="10">
                             <children>
-                                <Button onAction="#handleUploadCv" text="Select CV File" styleClass="viewBtn" stylesheets="@StyleSheets/DashboardUI.css" />
+                                <Button onAction="#handleUploadCv" styleClass="viewBtn" stylesheets="@StyleSheets/DashboardUI.css" text="Select CV File" />
 
-                                <Button onAction="#handleCV" text="Create CV" styleClass="viewBtn" stylesheets="@StyleSheets/DashboardUI.css" />
-
-                                <Label fx:id="lblCvFileName" text="No file selected" styleClass="labelA" stylesheets="@StyleSheets/admin-job-manager.css" HBox.hgrow="ALWAYS" />
+                                      <Label fx:id="lblCvFileName" styleClass="labelA" stylesheets="@StyleSheets/admin-job-manager.css" text="No file selected" HBox.hgrow="ALWAYS" />
                             </children>
                         </HBox>
                     </children>

@@ -41,7 +41,7 @@ public class JobSeekerDashboardController implements Initializable {
     @FXML private Label accountDes;
     @FXML private Button logout_button;
     @FXML private ImageView dassprofilePicView;
-    @FXML private Button ModerateContent;
+    //@FXML private Button ModerateContent;
     @FXML private Button postJobs;
     @FXML private Button btnUserSearch;
     @FXML private TextField searchUserField; // <-- Field for live search
@@ -63,11 +63,11 @@ public class JobSeekerDashboardController implements Initializable {
         String acc = Session.getLoggedInUserType();
         if(acc.equals("Jobseeker")){
             postJobs.setDisable(true);
-            ModerateContent.setDisable(true);
+//            ModerateContent.setDisable(true);
         }
 
         if(acc.equals("Recruiter")){
-            ModerateContent.setDisable(true);
+//            ModerateContent.setDisable(true);
         }
 
         if (defaultImage == null) {
@@ -309,6 +309,11 @@ public class JobSeekerDashboardController implements Initializable {
         }
     }
 
+    @FXML
+    private void handleHome(ActionEvent e){
+        getStartedApplication.launchScene("JobSeekerDashboard.fxml");
+    }
+
     private Stage chatStage;
     @FXML
     private void handleChatbot(ActionEvent e) {
@@ -442,35 +447,35 @@ public class JobSeekerDashboardController implements Initializable {
         getStartedApplication.launchScene("ChatUI.fxml");
     }
 
-    @FXML
-    private void handleUserSearch() {
-        // This button now opens the *old* user search popup.
-        // You can keep it or remove it.
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("UserSearch.fxml"));
-            Parent root = loader.load();
-
-            Stage owner = (Stage) btnUserSearch.getScene().getWindow();
-
-            Stage userSearchStage = new Stage();
-            userSearchStage.setScene(new Scene(root));
-            userSearchStage.setTitle("Search Users");
-            userSearchStage.setResizable(false);
-            userSearchStage.initOwner(owner);
-            userSearchStage.initModality(Modality.NONE);
-            userSearchStage.initStyle(StageStyle.UNDECORATED);
-            userSearchStage.setAlwaysOnTop(true);
-
-            double centerX = owner.getX() + (owner.getWidth() - 740) / 2;
-            double centerY = owner.getY() + (owner.getHeight() - 600) / 2;
-            userSearchStage.setX(centerX);
-            userSearchStage.setY(centerY);
-
-            userSearchStage.show();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
+//    @FXML
+//    private void handleUserSearch() {
+//        // This button now opens the *old* user search popup.
+//        // You can keep it or remove it.
+//        try {
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("UserSearch.fxml"));
+//            Parent root = loader.load();
+//
+//            Stage owner = (Stage) btnUserSearch.getScene().getWindow();
+//
+//            Stage userSearchStage = new Stage();
+//            userSearchStage.setScene(new Scene(root));
+//            userSearchStage.setTitle("Search Users");
+//            userSearchStage.setResizable(false);
+//            userSearchStage.initOwner(owner);
+//            userSearchStage.initModality(Modality.NONE);
+//            userSearchStage.initStyle(StageStyle.UNDECORATED);
+//            userSearchStage.setAlwaysOnTop(true);
+//
+//            double centerX = owner.getX() + (owner.getWidth() - 740) / 2;
+//            double centerY = owner.getY() + (owner.getHeight() - 600) / 2;
+//            userSearchStage.setX(centerX);
+//            userSearchStage.setY(centerY);
+//
+//            userSearchStage.show();
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
+//    }
 
     @FXML
     private void handleUploadPic() {

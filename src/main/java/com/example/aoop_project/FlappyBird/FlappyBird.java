@@ -11,10 +11,12 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.scene.media.AudioClip;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
+import java.net.URL;
 
 public class FlappyBird extends Application {
 
@@ -40,12 +42,33 @@ public class FlappyBird extends Application {
     private Text scoreText;
     private Text gameOverText;
     private Text restartText;
+    private Text instructionsText;
+
+    // --- Singleton stage and BGM ---
+    private static Stage flappyBirdStage;
+    private AudioClip bgm;
 
     @Override
     public void start(Stage stage) {
+        // Ensure single instance
+        if (flappyBirdStage != null) {
+            flappyBirdStage.toFront();
+            return;
+        }
+        flappyBirdStage = stage;
+
+        // Stop music when window is closed
+        stage.setOnHiding(e -> {
+            if (bgm != null) {
+                bgm.stop();  // Stop music
+                bgm = null;  // Dereference so it can be garbage collected
+            }
+            flappyBirdStage = null;
+        });
+
         root = new Pane();
         root.setPrefSize(WIDTH, HEIGHT);
-        root.setStyle("-fx-background-color: #87CEEB;"); // Sky blue
+        root.setStyle("-fx-background-color: linear-gradient(to bottom, #87CEEB, #1E90FF);"); // nicer sky gradient
 
         initGameObjects();
 
@@ -62,7 +85,20 @@ public class FlappyBird extends Application {
 
         stage.setScene(scene);
         stage.setTitle("Flappy Bird");
+        stage.setResizable(false);
         stage.show();
+
+        // Load background music
+        try {
+            URL resource = getClass().getResource("/com/example/aoop_project/Music/GameMusic.mp3");
+            if (resource != null) {
+                bgm = new AudioClip(resource.toString());
+                bgm.setCycleCount(AudioClip.INDEFINITE);
+                bgm.play();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         AnimationTimer timer = new AnimationTimer() {
             @Override
@@ -84,20 +120,35 @@ public class FlappyBird extends Application {
 
         // Score text
         scoreText = new Text(10, 40, "Score: 0");
-        scoreText.setFont(Font.font(30));
-        scoreText.setFill(Color.BLACK);
+        scoreText.setFont(Font.font(28));
+        scoreText.setFill(Color.WHITE);
+        scoreText.setStroke(Color.BLACK);
+        scoreText.setStrokeWidth(1.5);
         root.getChildren().add(scoreText);
 
+        // Instructions on top
+        instructionsText = new Text(WIDTH / 2 - 120, 50, "Press SPACE to jump");
+        instructionsText.setFont(Font.font(20));
+        instructionsText.setFill(Color.WHITE);
+        instructionsText.setStroke(Color.BLACK);
+        instructionsText.setStrokeWidth(1);
+        root.getChildren().add(instructionsText);
+
         // Game over text
-        gameOverText = new Text(WIDTH / 2 - 120, HEIGHT / 2 - 20, "GAME OVER");
-        gameOverText.setFont(Font.font(40));
+        gameOverText = new Text(WIDTH / 2 - 100, 100, "GAME OVER");
+        gameOverText.setFont(Font.font(36));
         gameOverText.setFill(Color.RED);
+        gameOverText.setStroke(Color.BLACK);
+        gameOverText.setStrokeWidth(2);
         gameOverText.setVisible(false);
         root.getChildren().add(gameOverText);
 
-        restartText = new Text(WIDTH / 2 - 150, HEIGHT / 2 + 30, "Press SPACE to restart");
+        // Restart text on top
+        restartText = new Text(WIDTH / 2 - 150, 140, "Press SPACE to restart");
         restartText.setFont(Font.font(20));
-        restartText.setFill(Color.RED);
+        restartText.setFill(Color.YELLOW);
+        restartText.setStroke(Color.BLACK);
+        restartText.setStrokeWidth(1);
         restartText.setVisible(false);
         root.getChildren().add(restartText);
     }
@@ -111,19 +162,16 @@ public class FlappyBird extends Application {
                 Pipe pipe = iterator.next();
                 pipe.update();
 
-                // Check for score
                 if (!pipe.passed && pipe.x + PIPE_WIDTH < bird.x) {
                     score++;
                     pipe.passed = true;
                 }
 
-                // Check collision
                 if (pipe.collidesWith(bird)) {
                     gameOver = true;
                     showGameOver();
                 }
 
-                // Remove off-screen pipes
                 if (pipe.x < -PIPE_WIDTH) {
                     root.getChildren().remove(pipe.topRect);
                     root.getChildren().remove(pipe.bottomRect);
@@ -131,12 +179,10 @@ public class FlappyBird extends Application {
                 }
             }
 
-            // Spawn new pipe
             if (pipes.isEmpty() || pipes.get(pipes.size() - 1).x <= 200) {
                 spawnPipe();
             }
 
-            // Check collision with ceiling or floor
             if (bird.y - BIRD_SIZE / 2 < 0 || bird.y + BIRD_SIZE / 2 > HEIGHT) {
                 gameOver = true;
                 showGameOver();
@@ -166,12 +212,10 @@ public class FlappyBird extends Application {
     }
 
     private void resetGame() {
-        // Reset bird
         bird.x = 100;
         bird.y = 300;
         bird.velocity = 0;
 
-        // Remove pipes
         for (Pipe pipe : pipes) {
             root.getChildren().remove(pipe.topRect);
             root.getChildren().remove(pipe.bottomRect);
@@ -187,7 +231,6 @@ public class FlappyBird extends Application {
     }
 
     // ===== Nested Classes =====
-
     private class Bird {
         double x, y;
         double velocity = 0;
@@ -199,6 +242,8 @@ public class FlappyBird extends Application {
             shape = new Circle(BIRD_SIZE / 2, Color.YELLOW);
             shape.setCenterX(x);
             shape.setCenterY(y);
+            shape.setStroke(Color.ORANGE);
+            shape.setStrokeWidth(2);
         }
 
         void jump() {
@@ -225,8 +270,8 @@ public class FlappyBird extends Application {
         Pipe(double x, int topHeight) {
             this.x = x;
             this.topHeight = topHeight;
-            topRect = new Rectangle(PIPE_WIDTH, topHeight, Color.GREEN);
-            bottomRect = new Rectangle(PIPE_WIDTH, HEIGHT - topHeight - PIPE_GAP, Color.GREEN);
+            topRect = new Rectangle(PIPE_WIDTH, topHeight, Color.DARKGREEN);
+            bottomRect = new Rectangle(PIPE_WIDTH, HEIGHT - topHeight - PIPE_GAP, Color.DARKGREEN);
             topRect.setX(x);
             topRect.setY(0);
             bottomRect.setX(x);
@@ -243,7 +288,6 @@ public class FlappyBird extends Application {
         }
 
         boolean collidesWith(Bird bird) {
-            // Check collision with top and bottom pipe
             return bird.x + BIRD_SIZE / 2 > x &&
                     bird.x - BIRD_SIZE / 2 < x + PIPE_WIDTH &&
                     (bird.y - BIRD_SIZE / 2 < topHeight ||

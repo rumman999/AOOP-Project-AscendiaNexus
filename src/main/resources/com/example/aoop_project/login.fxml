@@ -28,10 +28,10 @@
             <!-- Left Column -->
             <VBox alignment="CENTER_LEFT" prefHeight="520.0" prefWidth="475.0" spacing="20" style="-fx-padding: 20;" stylesheets="@StyleSheets/DashboardUI.css" GridPane.columnIndex="0">
                 <TextFlow>
-                    <Text fx:id="textSkill" fill="WHITE" fontSmoothingType="LCD" style="-fx-font-size: 72px; -fx-font-weight: bold;" text="SkillPlus" />
-                    <Text fx:id="textPlus" style="-fx-font-size:72px;-fx-font-weight:bold;-fx-fill:#e67e22;" text="Plus" />
+                    <Text fx:id="textSkill" fill="WHITE" fontSmoothingType="LCD" style="-fx-font-size: 56px; -fx-font-weight: bold;" text="Ascendia" />
+                    <Text fx:id="textPlus" style="-fx-font-size: 56; -fx-font-weight: bold; -fx-fill: #e67e22;" text="Nexus" wrappingWidth="433.3883056640625" />
                 </TextFlow>
-                <Label prefWidth="350" text="Your gateway to learning, hiring, and career growth" textFill="#4ef5c6" wrapText="true">
+                <Label prefWidth="350" text="Connect, Learn, and Rise - Unlock Your Potential and Reach New Heights" textFill="#4ef5c6" wrapText="true">
                <font>
                   <Font size="20.0" />
                </font></Label>

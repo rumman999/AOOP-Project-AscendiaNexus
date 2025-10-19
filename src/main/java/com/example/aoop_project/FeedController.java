@@ -2,8 +2,12 @@ package com.example.aoop_project;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -12,9 +16,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -26,7 +33,7 @@ public class FeedController implements Initializable {
     @FXML private Circle profileClip;
     @FXML private ImageView profilePicView;
     @FXML private TextArea captionArea;
-    @FXML private Button addImageBtn, postBtn;
+    @FXML private Button addImageBtn, postBtn,handleMusic,handleMessages,handleTodo,handleChatbot,handleGames,handleJobSearch,handleCV,handleProfile,logout_button,home;
     @FXML private VBox postsContainer;
 
     private final PostDAO postDAO = new PostDAO();
@@ -151,6 +158,11 @@ public class FeedController implements Initializable {
     }
 
     @FXML
+    private void handleHome(ActionEvent e){
+        getStartedApplication.launchScene("JobSeekerDashboard.fxml");
+    }
+
+    @FXML
     private void handleOpenExplore(ActionEvent e){
         getStartedApplication.launchScene("Explore.fxml");
     }
@@ -224,17 +236,164 @@ public class FeedController implements Initializable {
 
     // Navigation stubs
     @FXML private void handleHome() {}
-    @FXML private void handleMusic() {}
+    private Stage musicStage;
+    @FXML
+    public void handleMusic(ActionEvent e) {
+        try {
+            if (musicStage == null) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/aoop_project/LofiMusic.fxml"));
+                Parent root = loader.load();
+
+                musicStage = new Stage();
+                musicStage.setScene(new Scene(root));
+                musicStage.initOwner(((Node) e.getSource()).getScene().getWindow());
+                musicStage.initModality(Modality.NONE);
+                musicStage.setWidth(420);
+                musicStage.setHeight(200);
+                musicStage.setResizable(false);
+                musicStage.initStyle(StageStyle.UNDECORATED);
+                musicStage.setAlwaysOnTop(true);
+
+                musicStage.setOnCloseRequest(event -> {
+                    Boolean forceClose = Boolean.TRUE.equals(musicStage.getProperties().get("forceClose"));
+                    if (!forceClose) {
+                        event.consume();
+                        musicStage.hide();
+                    }
+                });
+
+                musicStage.setOnHidden(evt -> {
+                    Boolean forceClose = Boolean.TRUE.equals(musicStage.getProperties().get("forceClose"));
+                    if (Boolean.TRUE.equals(forceClose)) {
+                        musicStage.getProperties().remove("forceClose");
+                        musicStage = null;
+                    }
+                });
+
+                LofiMusicController controller = loader.getController();
+                controller.initStage(musicStage);
+
+                musicStage.show();
+            } else {
+                if (!musicStage.isShowing()) musicStage.show();
+                else musicStage.toFront();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
     @FXML private void handleMessages() {}
     @FXML private void handleTodolist() {}
-    @FXML private void handleChatbot() {}
-    @FXML private void handleGame() {}
-    @FXML private void handleJobSearch() {}
-    @FXML private void handleCV() {}
-    @FXML private void handleProfile() {}
-    @FXML private void handleLogout() {}
-    @FXML private void handlePostJobs() {}
+    private Stage chatStage;
+    @FXML
+    private void handleChatbot(ActionEvent e) {
+        try {
+            if (chatStage != null) {
+                if (!chatStage.isShowing()) chatStage.show();
+                chatStage.toFront();
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ChatBot.fxml"));
+            Parent root = loader.load();
+
+            Stage owner = (Stage) ((Node) e.getSource()).getScene().getWindow();
+
+            chatStage = new Stage(StageStyle.UNDECORATED);
+            chatStage.setTitle("Skill Buddy");
+            chatStage.setScene(new Scene(root, 450, 550));
+            chatStage.setResizable(false);
+            chatStage.initOwner(owner);
+            chatStage.initModality(Modality.NONE);
+            chatStage.setAlwaysOnTop(true);
+
+            Runnable positionChat = () -> {
+                double x = owner.getX() + owner.getWidth() - chatStage.getWidth() - 20;
+                double y = owner.getY() + owner.getHeight() - chatStage.getHeight() - 35;
+                chatStage.setX(x);
+                chatStage.setY(y);
+            };
+
+            chatStage.setOnShown(ev -> positionChat.run());
+            owner.xProperty().addListener((obs, o, n) -> positionChat.run());
+            owner.yProperty().addListener((obs, o, n) -> positionChat.run());
+            owner.widthProperty().addListener((obs, o, n) -> positionChat.run());
+            owner.heightProperty().addListener((obs, o, n) -> positionChat.run());
+
+            chatStage.setOnCloseRequest(ev -> chatStage = null);
+            chatStage.show();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    private Stage gameSelectionStage;
+
+    @FXML
+    private void handleGame(ActionEvent e) {
+        try {
+            // Check if the game selection window is already open
+            if (gameSelectionStage == null || !gameSelectionStage.isShowing()) {
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("GameSelection.fxml"));
+                Parent root = loader.load();
+
+                Stage owner = (Stage) ((Node) e.getSource()).getScene().getWindow();
+
+                gameSelectionStage = new Stage();
+                gameSelectionStage.setScene(new Scene(root));
+                gameSelectionStage.setTitle("Game Selection");
+                gameSelectionStage.initOwner(owner);
+                gameSelectionStage.initModality(Modality.WINDOW_MODAL); // Makes it block the main window
+                gameSelectionStage.setResizable(false);
+
+                // Center it on the owner window
+                gameSelectionStage.setOnShown(event -> {
+                    gameSelectionStage.setX(owner.getX() + (owner.getWidth() - gameSelectionStage.getWidth()) / 2);
+                    gameSelectionStage.setY(owner.getY() + (owner.getHeight() - gameSelectionStage.getHeight()) / 2);
+                });
+
+                gameSelectionStage.show();
+
+            } else {
+                // If it's already open, just bring it to the front
+                gameSelectionStage.toFront();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            // Show an alert if the FXML fails to load
+            new Alert(Alert.AlertType.ERROR, "Could not load game selection window.").showAndWait();
+        }
+    }
+    @FXML
+    private void handleJobSearch(ActionEvent e) {
+        getStartedApplication.launchScene("JobSearch.fxml");
+    }
+    @FXML
+    public void handleCV(ActionEvent e){
+        getStartedApplication.launchScene("CVBuilder.fxml");
+    }
+    @FXML
+    public void handleProfile(ActionEvent e){
+        // This button should now go to *your own* profile.
+        // We set the ID to -1 so ViewProfileController knows to load the logged-in user.
+        Session.setProfileToViewId(-1); // -1 means "load self"
+        getStartedApplication.launchScene("ViewProfile.fxml");
+    }
+    @FXML
+    private void handleLogout(ActionEvent e) {
+        Session.clear(); // clear logged-in user
+        getStartedApplication.launchScene("login.fxml");
+    }
+    //@FXML private void handlePostJobs() {}
     @FXML private void handleOpenExplore() {}
+    @FXML
+    public void handleMessages(ActionEvent e){
+        getStartedApplication.launchScene("ChatUI.fxml");
+    }
+    @FXML
+    public void handleTodolist(ActionEvent e){
+        getStartedApplication.launchScene("TodoList.fxml");
+    }
 
     private void showAlert(String msg) {
         new Alert(Alert.AlertType.WARNING, msg, ButtonType.OK).showAndWait();

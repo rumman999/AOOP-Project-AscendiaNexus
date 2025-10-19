@@ -25,21 +25,18 @@
          <children>
 
             <!-- Navigation Buttons -->
-            <Button alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🏠      Home" textFill="WHITE" />
+            <Button fx:id="home" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleHome" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🏠      Home" textFill="WHITE" />
             <Button fx:id="LofiMusic" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleMusic" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🎧      Lo-Fi Music" textFill="WHITE" />
             <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleMessages" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="💬     Messages" textFill="WHITE" />
             <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleTodolist" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="📝      Todo-List" textFill="WHITE" />
-            <Button alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🛒      Shop" textFill="WHITE" />
             <Button fx:id="chatDock" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleChatbot" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🤖      ChatBot" textFill="WHITE" />
             <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleGame" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🎮      Games" textFill="WHITE" />
             <Button fx:id="btnJobSearch" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleJobSearch" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="💼      Job Search" textFill="WHITE" />
 <!--            <Button alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🎯      Focus Mode" textFill="WHITE" />-->
             <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleCV" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="📄      CV Builder" textFill="WHITE" />
             <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleProfile" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="👤      Profile" textFill="WHITE" />
-            <Button fx:id="btnUserSearch" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleUserSearch" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="👥       Users" textFill="WHITE" />
             <Button fx:id="logout_button" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleLogout" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🚶‍♂️     Logout" textFill="WHITE" />
             <Button fx:id="postJobs" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handlePostJobs" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🔎     Post Jobs" textFill="WHITE" />
-            <Button fx:id="ModerateContent" alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="👮    Moderate Contents" textFill="WHITE" />
          </children>
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
@@ -109,8 +106,7 @@
                   <Insets left="30.0" top="15.0" />
                </HBox.margin>
             </Button>
-            <TextField fx:id="searchUserField" prefHeight="31.0" prefWidth="393.0" promptText="🔍 Search users..." styleClass="search"
-                       stylesheets="@StyleSheets/DashboardUI.css">
+            <TextField fx:id="searchUserField" prefHeight="31.0" prefWidth="393.0" promptText="🔍 Search users..." styleClass="search" stylesheets="@StyleSheets/DashboardUI.css">
                <font>
                   <Font size="15.0" />
                </font>

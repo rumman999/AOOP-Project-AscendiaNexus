@@ -178,16 +178,15 @@ public class loginController  {
                 // Check password
                 if(password.equals(passDB)) {
                     int id = rs.getInt("id");
-                    LoginErrorUI.setText(""); // Clear error
+                    // Show success message
+                    LoginErrorUI.setText("✅ Login successful! Welcome, " + rs.getString("full_name") + "!");
+
                     Session.setLoggedInUserId(id);
-                    Session.setLoggedInUserEmail(email);// store email globally
+                    Session.setLoggedInUserEmail(email); // store email globally
                     Session.setLoggedInUserName(rs.getString("full_name"));
                     Session.setLoggedInUserType(rs.getString("account_type"));
 
-                    // *** THIS LINE WAS REMOVED TO FIX THE ERROR ***
-                    // Session.setLoggedInUserPassword(passDB);
-
-                    // Use your existing scene launcher
+                    // Launch next scene
                     getStartedApplication.launchScene("JobSeekerDashboard.fxml");
                 } else {
                     LoginErrorUI.setText("❌ Incorrect Email or Password!");

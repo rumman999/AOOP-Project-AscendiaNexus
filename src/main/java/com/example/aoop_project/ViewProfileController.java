@@ -1,11 +1,13 @@
 package com.example.aoop_project;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader; // Import needed
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.Scene; // Import needed
+import javafx.geometry.Side;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,6 +26,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class ViewProfileController implements Initializable {
 
@@ -50,6 +53,11 @@ public class ViewProfileController implements Initializable {
     @FXML private Button postBtn;
     @FXML private VBox postsContainer;
 
+    // *** ADDED: Live Search Fields ***
+    @FXML private TextField searchUserField;
+    @FXML private Button btnUserSearch;
+    // *********************************
+
     // DAO Instances
     private final PostDAO postDAO = new PostDAO();
     private final FollowDAO followDAO = new FollowDAO();
@@ -58,6 +66,31 @@ public class ViewProfileController implements Initializable {
     private int profileOwnerUserId;
     private String profileOwnerEmail;
     private String profileOwnerFullName;
+
+    // *** ADDED: For Live Search ***
+    private ContextMenu searchResultsPopup;
+    private List<UserSearchData> allUsersCache = new ArrayList<>();
+
+    // Inner class for user search data
+    private static class UserSearchData {
+        private final int id;
+        private final String fullName;
+        private final String email;
+        private final String accountType;
+
+        public UserSearchData(int id, String fullName, String email, String accountType) {
+            this.id = id;
+            this.fullName = fullName;
+            this.email = email;
+            this.accountType = accountType;
+        }
+
+        public int getId() { return id; }
+        public String getFullName() { return fullName; }
+        public String getEmail() { return email; }
+        public String getAccountType() { return accountType; }
+    }
+    // ******************************
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -72,6 +105,12 @@ public class ViewProfileController implements Initializable {
 
         postAuthorName.setText(Session.getLoggedInUserName());
         captionArea.setStyle("-fx-text-fill: white; -fx-prompt-text-fill: gray;");
+
+        // *** ADDED: Setup live search ***
+        if (searchUserField != null) {
+            setupLiveUserSearch();
+        }
+        // ********************************
     }
 
     private Connection getConnection() throws SQLException {
@@ -85,6 +124,117 @@ public class ViewProfileController implements Initializable {
         }
         return DriverManager.getConnection(url, user, pass);
     }
+
+    // ===== LIVE SEARCH METHODS (ADDED) =====
+
+    /**
+     * Initializes the live search functionality on the search field.
+     */
+    private void setupLiveUserSearch() {
+        searchResultsPopup = new ContextMenu();
+        searchResultsPopup.setStyle("-fx-max-width: 393px; -fx-pref-width: 393px;");
+
+        loadAllUsersIntoCache();
+
+        searchUserField.textProperty().addListener((obs, oldVal, newVal) -> {
+            onSearchTextChanged(newVal);
+        });
+
+        // Hide popup if text field loses focus
+        searchUserField.focusedProperty().addListener((obs, oldVal, newVal) -> {
+            if (!newVal) {
+                Platform.runLater(() -> searchResultsPopup.hide());
+            }
+        });
+    }
+
+    /**
+     * Fetches all users from the DB and stores them in a local list for fast filtering.
+     */
+    private void loadAllUsersIntoCache() {
+        allUsersCache.clear();
+        String query = "SELECT id, full_name, email, account_type FROM user WHERE id != ?";
+
+        try (Connection con = getConnection();
+             PreparedStatement pst = con.prepareStatement(query)) {
+
+            pst.setInt(1, Session.getLoggedInUserId());
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+                allUsersCache.add(new UserSearchData(
+                        rs.getInt("id"),
+                        rs.getString("full_name"),
+                        rs.getString("email"),
+                        rs.getString("account_type")
+                ));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error loading users into cache: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Called on every keystroke in the search field.
+     * Filters the local user cache and displays matching results in the popup.
+     */
+    private void onSearchTextChanged(String query) {
+        searchResultsPopup.getItems().clear();
+        if (query == null || query.isEmpty()) {
+            searchResultsPopup.hide();
+            return;
+        }
+
+        String lowerCaseQuery = query.toLowerCase();
+
+        // Filter users based on name or email
+        List<UserSearchData> filteredUsers = allUsersCache.stream()
+                .filter(user -> user.getFullName().toLowerCase().contains(lowerCaseQuery) ||
+                        user.getEmail().toLowerCase().contains(lowerCaseQuery))
+                .limit(7) // Show only top 7 matches
+                .collect(Collectors.toList());
+
+        if (filteredUsers.isEmpty()) {
+            MenuItem noResult = new MenuItem("No users found.");
+            noResult.setDisable(true);
+            searchResultsPopup.getItems().add(noResult);
+        } else {
+            for (UserSearchData user : filteredUsers) {
+                String itemText = user.getFullName() + " (" + user.getAccountType() + ")";
+                MenuItem item = new MenuItem(itemText);
+                item.setOnAction(e -> onUserSelected(user));
+                searchResultsPopup.getItems().add(item);
+            }
+        }
+
+        // Show the dropdown popup anchored to the bottom of the search field
+        if (!searchResultsPopup.isShowing()) {
+            searchResultsPopup.show(searchUserField, Side.BOTTOM, 0, 0);
+        }
+    }
+
+    /**
+     * Called when a user is clicked from the search results dropdown.
+     * Sets the session flag and reloads the profile data.
+     */
+    private void onUserSelected(UserSearchData user) {
+        System.out.println("Selected user: " + user.getFullName() + " (ID: " + user.getId() + ")");
+
+        // Set the new profile owner ID
+        this.profileOwnerUserId = user.getId();
+
+        // Reload the profile data
+        loadUserInfo();
+        loadUserStats();
+        loadUserPosts();
+
+        // Clear search field and hide popup
+        searchUserField.clear();
+        searchResultsPopup.hide();
+    }
+
+    // ===== END OF LIVE SEARCH METHODS =====
 
     private void loadUserInfo() {
         try (Connection conn = getConnection();
@@ -218,7 +368,6 @@ public class ViewProfileController implements Initializable {
     }
 
     public List<Post> getPostsByUserId(int userId) throws Exception {
-        // (Method unchanged)
         String sql = """
             SELECT p.*, u.full_name as user_name
             FROM posts p
@@ -249,7 +398,6 @@ public class ViewProfileController implements Initializable {
     }
 
     private VBox createPostCard(Post post) {
-        // (Method unchanged)
         VBox postCard = new VBox(15);
         postCard.setStyle("-fx-background-color: #1a2f26; -fx-background-radius: 15; -fx-padding: 25;");
 
@@ -324,7 +472,6 @@ public class ViewProfileController implements Initializable {
 
     @FXML
     private void handleAddImage() {
-        // (Method unchanged)
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Select Image");
         chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files","*.png","*.jpg","*.jpeg","*.gif"));
@@ -337,7 +484,6 @@ public class ViewProfileController implements Initializable {
 
     @FXML
     private void handleCreatePost() {
-        // (Method unchanged)
         String caption = captionArea.getText().trim();
         if (caption.isEmpty() && selectedImagePath == null) {
             showAlert("Please add some content to your post!");
@@ -361,7 +507,6 @@ public class ViewProfileController implements Initializable {
     }
 
     private void handleLikePost(int postId) {
-        // (Method unchanged)
         try {
             int userId = Session.getLoggedInUserId();
             if (postDAO.hasUserLikedPost(postId, userId)) postDAO.unlikePost(postId, userId);
@@ -374,7 +519,6 @@ public class ViewProfileController implements Initializable {
     }
 
     private void handleCommentPost(int postId) {
-        // (Method unchanged)
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Add Comment");
         dialog.setHeaderText("Write a comment:");
@@ -405,7 +549,6 @@ public class ViewProfileController implements Initializable {
     }
 
     private void handleFollow() {
-        // (Method unchanged)
         if (this.profileOwnerUserId == Session.getLoggedInUserId()) {
             showAlert("You cannot follow yourself!");
             return;
@@ -425,7 +568,6 @@ public class ViewProfileController implements Initializable {
     }
 
     private void handleEditProfile() {
-        // (Method unchanged)
         getStartedApplication.launchScene("Profile.fxml");
     }
 
@@ -434,19 +576,13 @@ public class ViewProfileController implements Initializable {
      */
     private void handleMessage() {
         try {
-            // *** THIS IS THE FIX for Error 2 ***
-            // Pass the User ID (int) and Full Name (String)
             Session.setChatTarget(this.profileOwnerUserId, this.profileOwnerFullName);
-
-            // Navigate to the main chat scene
             getStartedApplication.launchScene("ChatUI.fxml");
-
         } catch (Exception e) {
             e.printStackTrace();
             showAlert("Could not open chat scene.");
         }
     }
-
 
     // --- Utility Methods ---
 
@@ -457,4 +593,26 @@ public class ViewProfileController implements Initializable {
     private void showSuccessAlert(String msg) {
         new Alert(Alert.AlertType.INFORMATION, msg, ButtonType.OK).showAndWait();
     }
+
+    @FXML
+    private void handleFeed(ActionEvent e) {
+        getStartedApplication.launchScene("Feed.fxml");
+    }
+
+    /**
+     * Optional: Manual search button handler (if you want to keep the button).
+     * The live search works without this, but this provides an alternative way to search.
+     */
+    @FXML
+    private void handleUserSearch(ActionEvent e) {
+        String query = searchUserField.getText();
+        if (query == null || query.trim().isEmpty()) {
+            showAlert("Please enter a search term.");
+            return;
+        }
+        // The live search already handles this automatically,
+        // but we can manually trigger it here if needed
+        onSearchTextChanged(query);
+    }
+
 }
