@@ -105,7 +105,7 @@
                   <Font size="15.0" />
                </font>
                <HBox.margin>
-                  <Insets left="100.0" top="18.0" />
+                  <Insets left="80.0" top="18.0" />
                </HBox.margin>
                <opaqueInsets>
                   <Insets />
@@ -205,7 +205,7 @@
                               </VBox>
                            </children>
                         </VBox>
-                        <Region HBox.hgrow="ALWAYS" />
+                        <Region prefHeight="150.0" prefWidth="393.0" />
                         <ImageView fitHeight="150.0" fitWidth="200.0" preserveRatio="true">
                            <image>
                               <Image url="@Images/img.png" />
