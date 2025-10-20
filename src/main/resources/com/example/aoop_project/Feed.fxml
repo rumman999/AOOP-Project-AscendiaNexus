@@ -15,6 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.TextFlow?>
 
 <BorderPane style="-fx-background-color: #10231c;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.FeedController">
     <left>
@@ -77,7 +78,7 @@
                         </VBox>
                     </children>
                 </HBox>
-                <Button mnemonicParsing="false" onAction="#handleDashboard" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="📈 Dashboard" textFill="WHITE">
+                <Button mnemonicParsing="false" onAction="#handleDashboard" prefHeight="40.0" prefWidth="162.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="📈 Dashboard" textFill="WHITE">
                     <font>
                         <Font size="15.0" />
                     </font>
@@ -85,7 +86,7 @@
                         <Insets left="40.0" top="15.0" />
                     </HBox.margin>
                 </Button>
-                <Button mnemonicParsing="false" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🧑‍💻 Feed" textFill="WHITE">
+                <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="111.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🧑‍💻 Feed" textFill="WHITE">
                     <HBox.margin>
                         <Insets left="30.0" top="15.0" />
                     </HBox.margin>
@@ -93,7 +94,7 @@
                         <Font size="15.0" />
                     </font>
                 </Button>
-                <Button mnemonicParsing="false" onAction="#handleOpenExplore" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🧭Explore" textFill="WHITE">
+                <Button mnemonicParsing="false" onAction="#handleOpenExplore" prefHeight="40.0" prefWidth="130.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🧭Explore" textFill="WHITE">
                     <font>
                         <Font size="15.0" />
                     </font>
@@ -109,20 +110,29 @@
                         <Insets left="100.0" top="18.0" />
                     </HBox.margin>
                 </TextField>
-                <Button mnemonicParsing="false" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="👥 About Us" textFill="WHITE">
-                    <font>
-                        <Font size="15.0" />
-                    </font>
-                    <HBox.margin>
-                        <Insets left="40.0" top="15.0" />
-                    </HBox.margin>
-                </Button>
+            <TextFlow prefHeight="72.0" prefWidth="214.0" textAlignment="CENTER">
+               <children>
+                  <Label text="Asendia" textFill="WHITE">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Label>
+                  <Label text="Nexus" textFill="#e67e22">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets top="15.0" />
+               </padding>
+            </TextFlow>
             </children>
             <BorderPane.margin>
                 <Insets />
             </BorderPane.margin>
             <padding>
-                <Insets bottom="20.0" left="20.0" top="20.0" />
+                <Insets bottom="20.0" left="15.0" top="20.0" />
             </padding>
         </HBox>
     </top>

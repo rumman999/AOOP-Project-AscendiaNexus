@@ -14,6 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.TextFlow?>
 
 <BorderPane style="-fx-background-color: #10231c;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.ViewProfileController">
 
@@ -130,14 +131,23 @@
                         <Insets left="100.0" top="18.0" />
                     </HBox.margin>
                 </TextField>
-                <Button mnemonicParsing="false" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="👥 About Us" textFill="WHITE">
-                    <font>
-                        <Font size="15.0" />
-                    </font>
-                    <HBox.margin>
-                        <Insets left="40.0" top="15.0" />
-                    </HBox.margin>
-                </Button>
+            <TextFlow prefHeight="72.0" prefWidth="222.0" textAlignment="CENTER">
+               <children>
+                  <Label style="-fx-font-weight: bold;" text="Asendia" textFill="WHITE">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Label>
+                  <Label style="-fx-font-weight: bold;" text="Nexus" textFill="#e67e22">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets top="15.0" />
+               </padding>
+            </TextFlow>
             </children>
             <BorderPane.margin>
                 <Insets />
@@ -167,7 +177,7 @@
                                     </children>
                                 </HBox>
 
-                                <TextArea fx:id="captionArea" prefHeight="100" promptText="What's on your mind?" style="-fx-background-color: #0d221c; -fx-text-fill: white; -fx-prompt-text-fill: gray; -fx-background-radius: 10;" />
+                                <TextArea fx:id="captionArea" prefHeight="100" promptText="What's on your mind?" style="-fx-background-color: #0d221c; -fx-text-fill: black; -fx-prompt-text-fill: gray; -fx-background-radius: 10;" />
 
                                 <HBox alignment="CENTER_LEFT" spacing="15">
                                     <children>

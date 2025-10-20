@@ -15,6 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.TextFlow?>
 
 <BorderPane style="-fx-background-color: #10231c;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.JobSeekerDashboardController">
    <left>
@@ -110,14 +111,26 @@
                   <Insets />
                </opaqueInsets>
             </TextField>
-            <Button mnemonicParsing="false" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="👥 About Us" textFill="WHITE">
-               <font>
-                  <Font size="15.0" />
-               </font>
-               <HBox.margin>
-                  <Insets left="40.0" top="15.0" />
-               </HBox.margin>
-            </Button>
+            <TextFlow prefHeight="57.0" prefWidth="226.0" textAlignment="CENTER">
+               <children>
+                  <Label style="-fx-font-weight: bold;" text="Asendia" textFill="WHITE">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                     <padding>
+                        <Insets top="15.0" />
+                     </padding>
+                  </Label>
+                  <Label style="-fx-font-weight: bold;" text="Nexus" textFill="#e67e22">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                     <padding>
+                        <Insets top="15.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </TextFlow>
          </children>
          <BorderPane.margin>
             <Insets />
@@ -128,7 +141,7 @@
       </HBox>
    </top>
    <right>
-      <ScrollPane fitToWidth="true" styleClass="custom-scroll" stylesheets="@StyleSheets/DashboardUI.css" BorderPane.alignment="CENTER">
+      <ScrollPane fitToWidth="false" hbarPolicy="NEVER" styleClass="custom-scroll" stylesheets="@StyleSheets/DashboardUI.css" vbarPolicy="NEVER" BorderPane.alignment="CENTER">
          <content>
             <VBox minHeight="900.0" prefWidth="1450.0" spacing="20" style="-fx-background-color: #10231c;">
                <padding>
@@ -164,7 +177,7 @@
                      </children>
                   </HBox>
 
-                  <HBox alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="1323.0" spacing="20">
+                        <HBox alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="1323.0" spacing="20">
                      <children>
                         <VBox prefHeight="154.0" prefWidth="453.0">
                            <children>
@@ -206,7 +219,7 @@
                      </VBox.margin>
                   </HBox>
 
-                  <Label text="Recent Feed Posts" textFill="WHITE">
+                        <Label text="Recent Feed Posts" textFill="WHITE">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -215,9 +228,9 @@
                      </VBox.margin>
                   </Label>
 
-                  <VBox fx:id="postsContainerDashboard" spacing="20" />
+                        <VBox fx:id="postsContainerDashboard" spacing="20" />
 
-                  <HBox alignment="CENTER">
+                        <HBox alignment="CENTER">
                      <Button onAction="#handleFeed" styleClass="viewBtn" stylesheets="@StyleSheets/DashboardUI.css" text="View More Posts...">
                         <HBox.margin>
                            <Insets bottom="20.0" top="15.0" />
@@ -225,7 +238,7 @@
                      </Button>
                   </HBox>
 
-                  <HBox prefHeight="26.0" prefWidth="1323.0">
+                        <HBox prefHeight="26.0" prefWidth="1323.0">
                      <children>
                         <Label text="Learning resources" textFill="WHITE">
                            <font>
@@ -267,7 +280,7 @@
                               <Insets bottom="10.0" top="10.0" />
                            </HBox.margin>
                         </VBox>
-                        <Region HBox.hgrow="ALWAYS" />
+                        <Region prefHeight="171.0" prefWidth="536.0" />
                         <ImageView fitHeight="171.0" fitWidth="302.0">
                            <image>
                               <Image url="@Images/img_2.png" />
@@ -308,7 +321,7 @@
                               <Insets bottom="10.0" top="10.0" />
                            </HBox.margin>
                         </VBox>
-                        <Region HBox.hgrow="ALWAYS" />
+                        <Region prefHeight="171.0" prefWidth="538.0" />
                         <ImageView fitHeight="171.0" fitWidth="302.0">
                            <image>
                               <Image url="@Images/img_3.png" /> </image>
@@ -319,59 +332,59 @@
                      </VBox.margin>
                   </HBox>
 
-                <!--  <HBox prefHeight="26.0" prefWidth="1323.0">
+                      <!--  <HBox prefHeight="26.0" prefWidth="1323.0">
                      <children>
-                        <Label text="View Your Achievements &amp; Certificates" textFill="WHITE">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets bottom="10.0" top="20.0" />
-                           </HBox.margin>
-                        </Label>
-                     </children>
-                     <VBox.margin>
-                        <Insets top="20.0" />
-                     </VBox.margin>
-                  </HBox>-->
+                              <Label text="View Your Achievements &amp; Certificates" textFill="WHITE">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" top="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </HBox>-->
                  <!-- <HBox prefHeight="100.0" prefWidth="200.0" styleClass="Learn" stylesheets="@StyleSheets/DashboardUI.css">
                      <children>
-                        <VBox alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="425.0">
-                           <children>
-                              <Label prefHeight="27.0" prefWidth="202.0" text="Congratulations" textFill="WHITE">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                              </Label>
-                              <Label prefHeight="42.0" prefWidth="370.0" text="Here are your hard earned achievements. Will be looking forward for more till then happy learning !" textFill="WHITE" wrapText="true">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                              </Label>
-                              <Button contentDisplay="CENTER" mnemonicParsing="false" styleClass="viewBtn" stylesheets="@StyleSheets/DashboardUI.css" text="Have a look !">
-                                 <VBox.margin>
-                                    <Insets left="140.0" top="10.0" />
-                                 </VBox.margin>
-                              </Button>
+                              <VBox alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="425.0">
+                                 <children>
+                                    <Label prefHeight="27.0" prefWidth="202.0" text="Congratulations" textFill="WHITE">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                    </Label>
+                                    <Label prefHeight="42.0" prefWidth="370.0" text="Here are your hard earned achievements. Will be looking forward for more till then happy learning !" textFill="WHITE" wrapText="true">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Button contentDisplay="CENTER" mnemonicParsing="false" styleClass="viewBtn" stylesheets="@StyleSheets/DashboardUI.css" text="Have a look !">
+                                       <VBox.margin>
+                                          <Insets left="140.0" top="10.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                 </children>
+                                 <padding>
+                                    <Insets left="30.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" top="10.0" />
+                                 </HBox.margin>
+                              </VBox>
+                              <Region HBox.hgrow="ALWAYS" />
+                              <ImageView fitHeight="185.0" fitWidth="265.0">
+                                 <image>
+                                    <Image url="@Images/img_4.png" />
+                                 </image>
+                              </ImageView>
                            </children>
-                           <padding>
-                              <Insets left="30.0" />
-                           </padding>
-                           <HBox.margin>
-                              <Insets bottom="10.0" top="10.0" />
-                           </HBox.margin>
-                        </VBox>
-                        <Region HBox.hgrow="ALWAYS" />
-                        <ImageView fitHeight="185.0" fitWidth="265.0">
-                           <image>
-                              <Image url="@Images/img_4.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </HBox>-->
+                        </HBox>-->
                </children>
             </VBox>
          </content>
