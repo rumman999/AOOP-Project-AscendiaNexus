@@ -7,8 +7,6 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -50,11 +48,6 @@
                                 <Group>
                                     <children>
                                         <Circle fx:id="profileClip" fill="#ff852100" radius="36.0" stroke="#00f06c00" strokeType="INSIDE" />
-                                        <ImageView fx:id="profilePicView" fitHeight="61.0" fitWidth="70.0" layoutX="-35.0" layoutY="-36.0">
-                                            <image>
-                                                <Image url="@Images/chatbot2-unscreen.gif" />
-                                            </image>
-                                        </ImageView>
                                     </children>
                                 </Group>
                             </children>

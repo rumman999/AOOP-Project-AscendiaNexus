@@ -79,7 +79,7 @@ public class FeedController implements Initializable {
         VBox postCard = new VBox(15);
         postCard.setStyle("-fx-background-color: #1a2f26; -fx-background-radius: 15; -fx-padding: 25;");
 
-        // 1) Header
+        // --- 1) Header ---
         HBox header = new HBox(15);
         header.setAlignment(Pos.CENTER_LEFT);
         Circle avatar = new Circle(25, Color.web("#379172"));
@@ -92,7 +92,7 @@ public class FeedController implements Initializable {
         info.getChildren().addAll(nameLbl, timeLbl);
         header.getChildren().addAll(avatar, info);
 
-        // 2) Content
+        // --- 2) Content ---
         VBox content = new VBox(10);
         if (post.getCaption() != null && !post.getCaption().isBlank()) {
             Label cap = new Label(post.getCaption());
@@ -100,30 +100,44 @@ public class FeedController implements Initializable {
             cap.setStyle("-fx-text-fill: white; -fx-font-size: 14;");
             content.getChildren().add(cap);
         }
+
         if (post.getImagePath() != null && !post.getImagePath().isBlank()) {
+            ImageView img = new ImageView();
+            img.setPreserveRatio(true);
+            img.setSmooth(true);
+
             try {
-                ImageView img = new ImageView(new Image("file:" + post.getImagePath()));
-                img.setFitWidth(600); img.setPreserveRatio(true);
-                content.getChildren().add(img);
+                File f = new File(post.getImagePath());
+                Image image = f.exists() ? new Image(f.toURI().toString(), true) : null;
+                if (image != null) {
+                    img.setImage(image);
+                    img.setFitWidth(600); // feed width
+                } else {
+                    // fallback image
+                    img.setImage(new Image(getClass().getResource("/images/default_image.png").toExternalForm()));
+                    img.setFitWidth(600);
+                }
             } catch (Exception e) {
-                System.err.println("Image load error: "+e.getMessage());
+                System.err.println("Image load error: " + e.getMessage());
             }
+
+            content.getChildren().add(img);
         }
 
-        // 3) Actions
+        // --- 3) Actions ---
         HBox actions = new HBox(20);
         actions.setAlignment(Pos.CENTER_LEFT);
-        Button likeBtn = new Button("❤️ "+post.getLikesCount());
+        Button likeBtn = new Button("❤️ " + post.getLikesCount());
         likeBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #379172;");
         likeBtn.setOnAction(e -> handleLikePost(post.getId()));
-        Button commentBtn = new Button("💬 "+post.getCommentsCount());
+        Button commentBtn = new Button("💬 " + post.getCommentsCount());
         commentBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #379172;");
         commentBtn.setOnAction(e -> handleCommentPost(post.getId()));
         actions.getChildren().addAll(likeBtn, commentBtn);
 
         postCard.getChildren().addAll(header, content, actions);
 
-        // 4) Comments
+        // --- 4) Comments ---
         try {
             List<Comment> cmts = postDAO.getCommentsForPost(post.getId());
             if (!cmts.isEmpty()) {
@@ -132,7 +146,7 @@ public class FeedController implements Initializable {
                 for (Comment cm : cmts) {
                     HBox row = new HBox(8);
                     row.setAlignment(Pos.TOP_LEFT);
-                    Label user = new Label(cm.getUserName()+":");
+                    Label user = new Label(cm.getUserName() + ":");
                     user.setStyle("-fx-text-fill: #379172; -fx-font-weight: bold;");
                     Label txt = new Label(cm.getText());
                     txt.setWrapText(true);
@@ -151,6 +165,7 @@ public class FeedController implements Initializable {
 
         return postCard;
     }
+
 
     @FXML
     private void handleDashboard(ActionEvent e){
