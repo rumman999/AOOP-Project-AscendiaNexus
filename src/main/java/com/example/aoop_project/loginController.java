@@ -1,14 +1,13 @@
 package com.example.aoop_project;
 
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.GridPane;
+import javafx.util.Duration;
 
-import javax.swing.*;
-import java.io.IOException;
 import java.sql.*;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -16,8 +15,8 @@ import java.util.regex.Pattern;
 
 public class loginController  {
 
-    @FXML private VBox loginForm;    // Matches fx:id="loginForm"
-    @FXML private VBox signupForm;  // Matches fx:id="signupForm"
+    @FXML private VBox loginForm;
+    @FXML private VBox signupForm;
     @FXML private TextField fnameUI;
     @FXML private TextField emailUI;
     @FXML private TextField phoneNoUI;
@@ -34,7 +33,11 @@ public class loginController  {
 
     @FXML
     public void initialize() {
-        // --- LOGIN FORM NAVIGATION ---
+
+        // ✅ Hide signup msg initially
+        signUpError.setVisible(false);
+        signUpError.setManaged(false);
+
         loginEmailUI.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case ENTER, DOWN -> loginPasswordUI.requestFocus();
@@ -43,13 +46,11 @@ public class loginController  {
 
         loginPasswordUI.setOnKeyPressed(event -> {
             switch (event.getCode()) {
-                case ENTER, DOWN -> handleLogin(new ActionEvent()); // submit on Enter/Down
+                case ENTER, DOWN -> handleLogin(new ActionEvent());
                 case UP -> loginEmailUI.requestFocus();
             }
         });
 
-        // --- SIGNUP FORM NAVIGATION ---
-        // Helper function for navigation
         java.util.function.BiConsumer<TextField, TextField> nextPrevNav = (current, next) -> {
             current.setOnKeyPressed(event -> {
                 switch (event.getCode()) {
@@ -58,13 +59,12 @@ public class loginController  {
             });
         };
 
-        // Navigate through signup text fields
+        TextField[] signupFields = {fnameUI, emailUI, phoneNoUI, passwordUI, signUpConfirmPasswordFieldUI};
         nextPrevNav.accept(fnameUI, emailUI);
         nextPrevNav.accept(emailUI, phoneNoUI);
         nextPrevNav.accept(phoneNoUI, passwordUI);
         nextPrevNav.accept(passwordUI, signUpConfirmPasswordFieldUI);
 
-        // Confirm password → ComboBox
         signUpConfirmPasswordFieldUI.setOnKeyPressed(event -> {
             switch(event.getCode()) {
                 case ENTER, DOWN -> accountTypeUI.requestFocus();
@@ -72,7 +72,6 @@ public class loginController  {
             }
         });
 
-        // AccountType ComboBox → SignUpButton
         accountTypeUI.setOnKeyPressed(event -> {
             switch(event.getCode()) {
                 case ENTER, DOWN -> handleSignup(new ActionEvent());
@@ -80,8 +79,6 @@ public class loginController  {
             }
         });
 
-        // --- OPTIONAL: Arrow key navigation in signup form (Up/Down) ---
-        TextField[] signupFields = {fnameUI, emailUI, phoneNoUI, passwordUI, signUpConfirmPasswordFieldUI};
         for (int i = 0; i < signupFields.length; i++) {
             int prevIndex = i - 1;
             int nextIndex = i + 1;
@@ -93,6 +90,7 @@ public class loginController  {
                 }
             });
         }
+
         fnameUI.setOnAction(e -> emailUI.requestFocus());
         emailUI.setOnAction(e -> phoneNoUI.requestFocus());
         phoneNoUI.setOnAction(e -> passwordUI.requestFocus());
@@ -101,67 +99,40 @@ public class loginController  {
         accountTypeUI.setOnAction(e -> handleSignup(new ActionEvent()));
     }
 
-
-
-
     @FXML
     private void showSignupForm() {
-        // Hide the login form
         loginForm.setVisible(false);
         loginForm.setManaged(false);
-
-        // Show the signup form
         signupForm.setVisible(true);
         signupForm.setManaged(true);
 
-        // Apply the login form style to the left column (SkillPlusPlus pane)
-        VBox skillPlusPlusVBox = (VBox) ((GridPane) loginForm.getParent()).getChildren().get(0); // Access the left column
+        VBox skillPlusPlusVBox = (VBox) ((GridPane) loginForm.getParent()).getChildren().get(0);
         skillPlusPlusVBox.setStyle("-fx-border-color: blue; -fx-border-radius: 10; -fx-background-color: #B7E3F6; -fx-background-radius: 10;");
     }
 
-
-
     @FXML
     private void showLoginForm() {
-        // Hide the signup form
         signupForm.setVisible(false);
         signupForm.setManaged(false);
-
-        // Show the login form
         loginForm.setVisible(true);
         loginForm.setManaged(true);
 
-        // Revert the style to the original if needed, you can specify different styles here if desired
-        VBox skillPlusPlusVBox = (VBox) ((GridPane) loginForm.getParent()).getChildren().get(0); // Access the left column
+        VBox skillPlusPlusVBox = (VBox) ((GridPane) loginForm.getParent()).getChildren().get(0);
         skillPlusPlusVBox.setStyle("-fx-padding: 20;");
     }
 
-
     @FXML
-    private void handleLogin(ActionEvent event)  {
+    private void handleLogin(ActionEvent event) {
         String email = loginEmailUI.getText().trim();
         String password = loginPasswordUI.getText().trim();
 
-        // Basic input validations first
-        if(email.isEmpty()) {
-            LoginErrorUI.setText("❌ Email is required!");
-            return;
-        }
-        if(!validateEmailAddress2(email)) {
-            LoginErrorUI.setText("❌ Invalid Email address!");
-            return;
-        }
-        if(password.isEmpty()) {
-            LoginErrorUI.setText("❌ Password is required!");
-            return;
-        }
-        if(!validatePassword2(password)) {
-            LoginErrorUI.setText("❌ Password must have 6-15 chars, upper/lower & special.");
-            return;
-        }
+        if(email.isEmpty()) { LoginErrorUI.setText("❌ Email is required!"); return; }
+        if(!validateEmailAddress2(email)) { LoginErrorUI.setText("❌ Invalid Email address!"); return; }
+        if(password.isEmpty()) { LoginErrorUI.setText("❌ Password is required!"); return; }
+        if(!validatePassword2(password)) { LoginErrorUI.setText("❌ Password must have 6-15 chars, upper/lower & special."); return; }
 
         String passDB = "";
-        String SUrl = "jdbc:mysql://localhost:4306/java_user_database"; // fix capitalization
+        String SUrl = "jdbc:mysql://localhost:4306/java_user_database";
         String SUser = "root";
         String SPass = "";
 
@@ -175,18 +146,16 @@ public class loginController  {
 
             if(rs.next()) {
                 passDB = rs.getString("password");
-                // Check password
+
                 if(password.equals(passDB)) {
                     int id = rs.getInt("id");
-                    // Show success message
                     LoginErrorUI.setText("✅ Login successful! Welcome, " + rs.getString("full_name") + "!");
 
                     Session.setLoggedInUserId(id);
-                    Session.setLoggedInUserEmail(email); // store email globally
+                    Session.setLoggedInUserEmail(email);
                     Session.setLoggedInUserName(rs.getString("full_name"));
                     Session.setLoggedInUserType(rs.getString("account_type"));
 
-                    // Launch next scene
                     getStartedApplication.launchScene("JobSeekerDashboard.fxml");
                 } else {
                     LoginErrorUI.setText("❌ Incorrect Email or Password!");
@@ -203,9 +172,6 @@ public class loginController  {
             LoginErrorUI.setText("❌ Database connection error!");
         }
     }
-
-
-
 
     @FXML
     private void handleSignup(ActionEvent event) {
@@ -233,7 +199,6 @@ public class loginController  {
                 phone_number = phoneNoUI.getText().trim();
                 account_type = accountTypeUI.getValue().toString().trim();
 
-                // 🔎 Check for duplicates
                 String checkQuery = "SELECT * FROM user WHERE full_name=? OR email=? OR phone_number=?";
                 PreparedStatement checkStmt = con.prepareStatement(checkQuery);
                 checkStmt.setString(1, full_name);
@@ -243,7 +208,7 @@ public class loginController  {
                 ResultSet rs = checkStmt.executeQuery();
 
                 if (!rs.next()) {
-                    // ✅ No duplicates → insert
+
                     query = "INSERT INTO user(full_name,email,password,phone_number,account_type,UUID) VALUES(?,?,?,?,?,?)";
                     UUID id = UUID.randomUUID();
                     PreparedStatement insertStmt = con.prepareStatement(query);
@@ -253,11 +218,19 @@ public class loginController  {
                     insertStmt.setString(4, phone_number);
                     insertStmt.setString(5, account_type);
                     insertStmt.setString(6, id.toString());
-
                     insertStmt.executeUpdate();
+
+                    // ✅ SHOW GREEN MESSAGE
+                    signUpError.setVisible(true);
+                    signUpError.setManaged(true);
+                    signUpError.setStyle("-fx-text-fill: green;");
                     signUpError.setText("✅ User created successfully!");
 
-                    // clear fields
+                    // ✅ AUTO SWITCH TO LOGIN AFTER 2 SEC
+                    PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                    pause.setOnFinished(e -> showLoginForm());
+                    pause.play();
+
                     fnameUI.clear();
                     emailUI.clear();
                     phoneNoUI.clear();
@@ -267,7 +240,11 @@ public class loginController  {
 
                     insertStmt.close();
                 } else {
-                    // ❌ Duplicate found
+
+                    signUpError.setVisible(true);
+                    signUpError.setManaged(true);
+                    signUpError.setStyle("-fx-text-fill: red;");
+
                     if (rs.getString("full_name").equals(full_name)) {
                         signUpError.setText("❌ Username already exists!");
                     } else if (rs.getString("email").equals(email_address)) {
@@ -286,23 +263,23 @@ public class loginController  {
 
         } catch (Exception e) {
             e.printStackTrace();
+            signUpError.setVisible(true);
+            signUpError.setManaged(true);
+            signUpError.setStyle("-fx-text-fill: red;");
             signUpError.setText("⚠ Database error!");
         }
     }
 
     private boolean validateUsername(String s){
         if (s == null || s.isEmpty()) {
-            signUpError.setText("❌ Username is required !");
+            showError("❌ Username is required !");
             return false;
         }
-
-        // Regex to allow only letters (both uppercase and lowercase) and spaces
         String regex = "^[a-zA-Z ]+$";
         if (!s.matches(regex)) {
-            signUpError.setText("❌ Username can only contain letters !");
+            showError("❌ Username can only contain letters !");
             return false;
         }
-
         return true;
     }
 
@@ -311,90 +288,80 @@ public class loginController  {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(s);
         if(!matcher.matches()){
-            signUpError.setText("❌ Valid Email is required !");
+            showError("❌ Valid Email is required !");
             return false;
         }
-        else return true;
+        return true;
     }
-    private boolean validatePassword(String password) {
-        // Regex pattern to match the password requirements
-        String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[\\W_]).{6,15}$";
 
+    private boolean validatePassword(String password) {
+        String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[\\W_]).{6,15}$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(password);
-
         if (!matcher.matches()) {
-            signUpError.setText("❌ Password must have 6-15 chars, upper/lower & special");
+            showError("❌ Password must have 6-15 chars, upper/lower & special");
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
+
     private boolean validateConfirmPassword(String password, String confirmPassword) {
         if (confirmPassword.isEmpty()) {
-            signUpError.setText("❌ Confirm password is required !");
+            showError("❌ Confirm password is required !");
             return false;
         }
         if (!password.equals(confirmPassword)) {
-            signUpError.setText("❌ Password do not match !");
+            showError("❌ Password do not match !");
             return false;
         }
-        return true;  // ✅ no extra validation here
-    }
-    private boolean validatePhoneNo(String s) {
-        // Regular expression that ensures the number starts with one of the specified prefixes (013, 014, etc.)
-        String regex = "^(013|014|015|016|017|018|019)\\d{8}$";  // Ensures valid prefixes and 7 more digits
-
-        // Check if the phone number field is empty
-        if ("".equals(s)) {
-            signUpError.setText("❌ Please enter a valid 11 digit phone number !");
-            return false;
-        }
-
-        if(s.length()>11){
-            signUpError.setText("❌ Please enter a valid 11 digit phone number !");
-        }
-
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(s);
-
-        // If the number doesn't match the regex pattern
-        if (!matcher.matches()) {
-            signUpError.setText("❌ Phone must start with 013–019");
-            return false;
-        }
-
-
-        // If the number is valid, return true
         return true;
     }
-    private boolean validateComboBox(ComboBox c){
-        if(c.getSelectionModel().isEmpty()){
-            signUpError.setText("❌ Please select an option from the dropbox !");
+
+    private boolean validatePhoneNo(String s) {
+        String regex = "^(013|014|015|016|017|018|019)\\d{8}$";
+        if ("".equals(s)) {
+            showError("❌ Please enter a valid 11 digit phone number !");
             return false;
         }
-        else return true;
+        if(s.length()>11){
+            showError("❌ Please enter a valid 11 digit phone number !");
+        }
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(s);
+        if (!matcher.matches()) {
+            showError("❌ Phone must start with 013–019");
+            return false;
+        }
+        return true;
     }
+
+    private boolean validateComboBox(ComboBox c){
+        if(c.getSelectionModel().isEmpty()){
+            showError("❌ Please select an option from the dropbox !");
+            return false;
+        }
+        return true;
+    }
+
     private boolean validateEmailAddress2(String s){
         String regex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(s);
-        if(!matcher.matches()){
-            return false;
-        }
-        else return true;
+        return matcher.matches();
     }
-    private boolean validatePassword2(String password) {
-        // Regex pattern to match the password requirements
-        String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[\\W_]).{6,15}$";
 
+    private boolean validatePassword2(String password) {
+        String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[\\W_]).{6,15}$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(password);
+        return matcher.matches();
+    }
 
-        if (!matcher.matches()) {
-            return false;
-        } else {
-            return true;
-        }
+    // ✅ Helper to show red error messages
+    private void showError(String msg){
+        signUpError.setVisible(true);
+        signUpError.setManaged(true);
+        signUpError.setStyle("-fx-text-fill: red;");
+        signUpError.setText(msg);
     }
 }

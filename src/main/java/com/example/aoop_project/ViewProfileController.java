@@ -104,7 +104,7 @@ public class ViewProfileController implements Initializable {
         loadUserPosts();
 
         postAuthorName.setText(Session.getLoggedInUserName());
-        captionArea.setStyle("-fx-text-fill: white; -fx-prompt-text-fill: gray;");
+        captionArea.setStyle("-fx-text-fill: black; -fx-prompt-text-fill: gray;");
 
         // *** ADDED: Setup live search ***
         if (searchUserField != null) {

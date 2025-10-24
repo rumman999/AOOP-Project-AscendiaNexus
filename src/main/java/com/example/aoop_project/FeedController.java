@@ -50,6 +50,7 @@ public class FeedController implements Initializable {
         // Set user name in post form
         postAuthorName.setText(Session.getLoggedInUserName());
         captionArea.setStyle("-fx-text-fill: black; -fx-prompt-text-fill: gray;");
+
     }
 
     private void loadUserInfo() {

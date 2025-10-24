@@ -6,9 +6,9 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
@@ -71,6 +71,7 @@
                         </VBox>
                     </children>
                 </HBox>
+            <Region prefHeight="72.0" prefWidth="397.0" />
                 <Button mnemonicParsing="false" onAction="#handleDashboard" prefHeight="40.0" prefWidth="162.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="📈 Dashboard" textFill="WHITE">
                     <font>
                         <Font size="15.0" />
@@ -95,14 +96,6 @@
                         <Insets left="30.0" top="15.0" />
                     </HBox.margin>
                 </Button>
-                <TextField fx:id="searchUserField" prefHeight="31.0" prefWidth="393.0" promptText="🔍 Search posts..." styleClass="search" stylesheets="@StyleSheets/DashboardUI.css">
-                    <font>
-                        <Font size="15.0" />
-                    </font>
-                    <HBox.margin>
-                        <Insets left="100.0" top="18.0" />
-                    </HBox.margin>
-                </TextField>
             <TextFlow prefHeight="72.0" prefWidth="214.0" textAlignment="CENTER">
                <children>
                   <Label text="Asendia" textFill="WHITE">
