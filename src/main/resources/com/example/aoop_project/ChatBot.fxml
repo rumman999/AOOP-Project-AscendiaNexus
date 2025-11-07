@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<VBox alignment="CENTER" prefHeight="500" prefWidth="400" spacing="10" style="-fx-background-color: #0d221c; -fx-padding: 12; -fx-border-color: #e67e22; -fx-border-radius: 10;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.ChatBotController">
+<VBox alignment="CENTER" prefHeight="500" prefWidth="400" spacing="10" style="-fx-background-color: #0d221c; -fx-padding: 12; -fx-border-color: #e67e22; -fx-border-radius: 10;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.Controllers.ChatBotController">
 
     <!-- Header with title and internal close button -->
     <HBox alignment="CENTER_LEFT" spacing="8">
@@ -30,7 +30,7 @@
         </TextFlow>
       <ImageView fitHeight="109.0" fitWidth="115.0">
          <image>
-            <Image url="@Images/chatbot-unscreen.gif" />
+            <Image url="@images/chatbot-unscreen.gif" />
          </image>
       </ImageView>
     </HBox>

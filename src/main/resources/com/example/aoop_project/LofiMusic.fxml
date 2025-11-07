@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<VBox alignment="CENTER" prefHeight="359.0" prefWidth="420" spacing="25" style="-fx-background-color: #10231c;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.LofiMusicController">
+<VBox alignment="CENTER" prefHeight="359.0" prefWidth="420" spacing="25" style="-fx-background-color: #10231c;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.Controllers.LofiMusicController">
 
           <!-- Padding -->
     <padding>

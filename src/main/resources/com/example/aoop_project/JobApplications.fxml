@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.JobApplicationsController">
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.Controllers.JobApplicationsController">
     <top>
         <VBox spacing="10" style="-fx-background-color: #10231c;">
             <padding>
@@ -22,11 +22,11 @@
             <children>
                 <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-background-color: #10231c;">
                     <children>
-                        <Label fx:id="lblJobTitle" style="-fx-font-size: 18px; -fx-font-weight: bold;" styleClass="labelA" stylesheets="@StyleSheets/admin-job-manager.css" text="Job Applications" />
+                        <Label fx:id="lblJobTitle" style="-fx-font-size: 18px; -fx-font-weight: bold;" styleClass="labelA" stylesheets="@stylesheets/admin-job-manager.css" text="Job Applications" />
                         <Button onAction="#handleClose" styleClass="viewBtn" text="Close" HBox.hgrow="NEVER">
                             <stylesheets>
-                                <URL value="@StyleSheets/admin-job-manager.css" />
-                                <URL value="@StyleSheets/DashboardUI.css" />
+                                <URL value="@stylesheets/admin-job-manager.css" />
+                                <URL value="@stylesheets/DashboardUI.css" />
                             </stylesheets>
                         </Button>
                     </children>
@@ -37,7 +37,7 @@
     <center>
         <SplitPane dividerPositions="0.6" orientation="VERTICAL" style="-fx-background-color: transparent;">
             <items>
-                <TableView fx:id="tblApplications" prefHeight="351.0" prefWidth="798.0" stylesheets="@StyleSheets/admin-job-manager.css">
+                <TableView fx:id="tblApplications" prefHeight="351.0" prefWidth="798.0" stylesheets="@stylesheets/admin-job-manager.css">
                     <columns>
                         <TableColumn fx:id="colId" prefWidth="50.0" text="ID" />
                         <TableColumn fx:id="colApplicantName" prefWidth="150.0" text="Applicant Name" />
@@ -55,14 +55,14 @@
                         <Insets bottom="15" left="15" right="15" top="15" />
                     </padding>
                     <children>
-                        <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" styleClass="labelA" stylesheets="@StyleSheets/admin-job-manager.css" text="Cover Letter:" />
+                        <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" styleClass="labelA" stylesheets="@stylesheets/admin-job-manager.css" text="Cover Letter:" />
                         <TextArea fx:id="txtCoverLetter" editable="false" prefRowCount="6" style="-fx-background-color: #FFF7E0; -fx-region-background: #FFF7E0;" wrapText="true" />
 
                         <HBox alignment="CENTER_LEFT" spacing="15">
                             <children>
-                                <Label styleClass="labelA" stylesheets="@StyleSheets/admin-job-manager.css" text="Update Status:" />
+                                <Label styleClass="labelA" stylesheets="@stylesheets/admin-job-manager.css" text="Update Status:" />
                                 <ComboBox fx:id="cmbStatus" prefWidth="150.0" style="-fx-background-color: #FFF7E0;" />
-                                <Button fx:id="btnUpdateStatus" onAction="#handleUpdateStatus" styleClass="viewBtn" stylesheets="@StyleSheets/DashboardUI.css" text="Update Status" />
+                                <Button fx:id="btnUpdateStatus" onAction="#handleUpdateStatus" styleClass="viewBtn" stylesheets="@stylesheets/DashboardUI.css" text="Update Status" />
                             </children>
                         </HBox>
                     </children>

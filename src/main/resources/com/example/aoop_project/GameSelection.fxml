@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="400.0" prefWidth="500.0" spacing="30" style="-fx-background-color: #10231c; -fx-border-color: #e67e22; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.GameSelectionController">
+<VBox alignment="CENTER" prefHeight="400.0" prefWidth="500.0" spacing="30" style="-fx-background-color: #10231c; -fx-border-color: #e67e22; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.Controllers.GameSelectionController">
     <children>
         <Label style="-fx-font-size: 32px; -fx-font-weight: bold;" text="Select a Game" textFill="#e67e22">
             <font>
@@ -16,9 +16,9 @@
                 <Insets bottom="20.0" />
             </VBox.margin>
         </Label>
-        <Button fx:id="flappyBirdButton" onAction="#handleFlappyBird" prefHeight="60.0" prefWidth="300.0" style="-fx-font-weight: bold; -fx-font-size: 18px;" styleClass="viewBtnLogin" stylesheets="@StyleSheets/DashboardUI.css" text="Flappy Bird" />
-        <Button fx:id="bubbleShooterButton" onAction="#handleBubbleShooter" prefHeight="60.0" prefWidth="300.0" style="-fx-font-weight: bold; -fx-font-size: 18px;" styleClass="viewBtnLogin" stylesheets="@StyleSheets/DashboardUI.css" text="Bubble Shooter" />
-        <Button fx:id="backButton" onAction="#handleBack" prefHeight="40.0" prefWidth="150.0" style="-fx-font-size: 16px; -fx-background-color: #555; -fx-text-fill: white;" styleClass="viewBtnLogin" stylesheets="@StyleSheets/DashboardUI.css" text="Back">
+        <Button fx:id="flappyBirdButton" onAction="#handleFlappyBird" prefHeight="60.0" prefWidth="300.0" style="-fx-font-weight: bold; -fx-font-size: 18px;" styleClass="viewBtnLogin" stylesheets="@stylesheets/DashboardUI.css" text="Flappy Bird" />
+        <Button fx:id="bubbleShooterButton" onAction="#handleBubbleShooter" prefHeight="60.0" prefWidth="300.0" style="-fx-font-weight: bold; -fx-font-size: 18px;" styleClass="viewBtnLogin" stylesheets="@stylesheets/DashboardUI.css" text="Bubble Shooter" />
+        <Button fx:id="backButton" onAction="#handleBack" prefHeight="40.0" prefWidth="150.0" style="-fx-font-size: 16px; -fx-background-color: #555; -fx-text-fill: white;" styleClass="viewBtnLogin" stylesheets="@stylesheets/DashboardUI.css" text="Back">
             <VBox.margin>
                 <Insets top="30.0" />
             </VBox.margin>

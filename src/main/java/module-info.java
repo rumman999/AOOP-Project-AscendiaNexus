@@ -15,13 +15,19 @@ module com.example.aoop_project {
 
     opens com.example.aoop_project to javafx.fxml;
     opens com.example.aoop_project.games.chess to javafx.fxml;
-    opens com.example.aoop_project.messaging to javafx.fxml;
-    opens com.example.aoop_project.BubbleShooter to javafx.fxml;
+    opens com.example.aoop_project.games.bubbleshooter to javafx.fxml;
 
     exports com.example.aoop_project;
     exports com.example.aoop_project.games.chess;
-    exports com.example.aoop_project.messaging;
-    exports com.example.aoop_project.chat;
-    exports com.example.aoop_project.FlappyBird;
-    exports com.example.aoop_project.BubbleShooter;
+    exports com.example.aoop_project.games.flappybird;
+    exports com.example.aoop_project.games.bubbleshooter;
+    exports com.example.aoop_project.Controllers;
+    opens com.example.aoop_project.Controllers to javafx.fxml;
+    exports com.example.aoop_project.dao;
+    opens com.example.aoop_project.dao to javafx.fxml;
+    exports com.example.aoop_project.models;
+    opens com.example.aoop_project.models to javafx.fxml;
+    exports com.example.aoop_project.services;
+    exports com.example.aoop_project.utils;
+    opens com.example.aoop_project.utils to javafx.fxml;
 }

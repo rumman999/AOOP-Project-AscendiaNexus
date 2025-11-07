@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.web.WebView?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.ExploreController">
+<ScrollPane fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.Controllers.ExploreController">
     <content>
         <BorderPane prefHeight="900.0" prefWidth="1300.0" style="-fx-border-color: #10231c;">
 
@@ -25,7 +25,7 @@
                         <Insets bottom="10.0" left="10.0" top="10.0" />
                     </padding>
                     <children>
-                        <Button onAction="#handleBack" styleClass="backButton" stylesheets="@StyleSheets/admin-job-manager.css" text="Back">
+                        <Button onAction="#handleBack" styleClass="backButton" stylesheets="@stylesheets/admin-job-manager.css" text="Back">
                             <HBox.margin>
                                 <Insets right="3.0" />
                             </HBox.margin>
@@ -58,7 +58,7 @@
                             </HBox>
 
                             <!-- Playlist List -->
-                            <TitledPane expanded="true" style="-fx-font-size: 15;" styleClass="others" stylesheets="@StyleSheets/admin-job-manager.css" text="Playlists" VBox.vgrow="ALWAYS">
+                            <TitledPane expanded="true" style="-fx-font-size: 15;" styleClass="others" stylesheets="@stylesheets/admin-job-manager.css" text="Playlists" VBox.vgrow="ALWAYS">
                                 <content>
                                     <ListView fx:id="listPlaylists" prefWidth="327.0" style="-fx-background-color: #10231c;" VBox.vgrow="ALWAYS" />
                                 </content>
@@ -68,7 +68,7 @@
                             </TitledPane>
 
                             <!-- Focus Mode Controls -->
-                            <TitledPane expanded="true" style="-fx-background-color: #10231c; -fx-border-color: transparent; -fx-font-size: 15;" styleClass="others" stylesheets="@StyleSheets/admin-job-manager.css" text="Focus Mode  🎯 " VBox.vgrow="NEVER">
+                            <TitledPane expanded="true" style="-fx-background-color: #10231c; -fx-border-color: transparent; -fx-font-size: 15;" styleClass="others" stylesheets="@stylesheets/admin-job-manager.css" text="Focus Mode  🎯 " VBox.vgrow="NEVER">
                                 <content>
                                     <HBox alignment="CENTER_LEFT" spacing="6" style="-fx-padding: 6;">
                                         <children>
@@ -100,7 +100,7 @@
             <!-- ============ CENTER SECTION (WEBVIEW PLAYER) ============ -->
             <center>
                 <VBox prefHeight="840.0" prefWidth="590.0" spacing="8" style="-fx-background-color: #10231c;" VBox.vgrow="ALWAYS">
-                    <WebView fx:id="webView" prefHeight="830.0" prefWidth="579.0" style="-fx-cursor: hand;" stylesheets="@StyleSheets/admin-job-manager.css" VBox.vgrow="ALWAYS" />
+                    <WebView fx:id="webView" prefHeight="830.0" prefWidth="579.0" style="-fx-cursor: hand;" stylesheets="@stylesheets/admin-job-manager.css" VBox.vgrow="ALWAYS" />
                 </VBox>
             </center>
 
@@ -110,14 +110,14 @@
                     <content>
                         <VBox fillWidth="true" prefHeight="810.0" prefWidth="372.0" spacing="8" style="-fx-background-color: #10231c; -fx-border-color: transparent;">
                             <!-- To-Do List Section -->
-                            <TitledPane expanded="true" style="-fx-background-color: tranparent; -fx-border-color: transparent; -fx-font-size: 15;" styleClass="others" stylesheets="@StyleSheets/admin-job-manager.css" text="To-Do List" VBox.vgrow="ALWAYS">
+                            <TitledPane expanded="true" style="-fx-background-color: tranparent; -fx-border-color: transparent; -fx-font-size: 15;" styleClass="others" stylesheets="@stylesheets/admin-job-manager.css" text="To-Do List" VBox.vgrow="ALWAYS">
                                 <content>
                                     <AnchorPane fx:id="todoContainer" prefWidth="323.0" style="-fx-background-color: #10231c; -fx-border-color: transparent;" />
                                 </content>
                             </TitledPane>
 
                             <!-- Chatbot Section -->
-                            <TitledPane fx:id="chatbotPane" expanded="true" style="-fx-border-color: transparent; -fx-font-size: 15; -fx-font-weight: bold;" stylesheets="@StyleSheets/admin-job-manager.css" text="Chatbot" textFill="WHITE" VBox.vgrow="ALWAYS">
+                            <TitledPane fx:id="chatbotPane" expanded="true" style="-fx-border-color: transparent; -fx-font-size: 15; -fx-font-weight: bold;" stylesheets="@stylesheets/admin-job-manager.css" text="Chatbot" textFill="WHITE" VBox.vgrow="ALWAYS">
                                 <content>
                                     <AnchorPane fx:id="chatbotContainer" style="-fx-background-color: #10231c; -fx-border-color: transparent;" />
                                 </content>

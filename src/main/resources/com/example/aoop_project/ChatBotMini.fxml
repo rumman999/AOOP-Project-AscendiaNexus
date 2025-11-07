@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background: #0d221c;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.ChatBotController">
+<ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background: #0d221c;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.Controllers.ChatBotController">
     <content>
         <VBox alignment="CENTER" prefWidth="300" spacing="8" style="-fx-background-color: #0d221c; -fx-padding: 10; -fx-border-color: #e67e22; -fx-border-radius: 10;">
 
@@ -33,7 +33,7 @@
                <children>
                       <ImageView fitHeight="67.0" fitWidth="78.0" layoutX="21.0" layoutY="-6.0">
                           <image>
-                        <Image url="@Images/chatbot-unscreen.gif" />
+                        <Image url="@images/chatbot-unscreen.gif" />
                      </image>
                       </ImageView>
                </children>

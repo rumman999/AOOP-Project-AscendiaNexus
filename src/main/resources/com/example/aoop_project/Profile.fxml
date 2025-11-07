@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<AnchorPane prefHeight="600" prefWidth="600" style="-fx-background-color: #10231c;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.ProfileController">
+<AnchorPane prefHeight="600" prefWidth="600" style="-fx-background-color: #10231c;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.Controllers.ProfileController">
 
     <VBox alignment="TOP_CENTER" spacing="15" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="10">
 
@@ -30,7 +30,7 @@
                           <Circle fx:id="profileClip" centerX="70" centerY="70" radius="70" />
                       </clip>
                   <image>
-                     <Image url="@Images/chatbot2-unscreen.gif" />
+                     <Image url="@images/chatbot2-unscreen.gif" />
                   </image>
                   </ImageView>
                   <Circle fill="transparent" layoutX="37.0" layoutY="80.0" radius="70.0" stroke="#00f270" strokeWidth="2" />

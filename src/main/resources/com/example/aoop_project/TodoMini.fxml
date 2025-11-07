@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.TextFlow?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background: #10231c;" vbarPolicy="NEVER" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.TodoController">
+<ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background: #10231c;" vbarPolicy="NEVER" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.Controllers.TodoController">
     <content>
         <BorderPane prefHeight="400" prefWidth="600" style="-fx-background-color: #10231c;">
 
@@ -38,7 +38,7 @@
                         </children>
                     </TextFlow>
 
-                          <TableView fx:id="taskTable" prefHeight="233.0" prefWidth="579.0" style="-fx-background-color: #10231c;" stylesheets="@StyleSheets/admin-job-manager.css" VBox.vgrow="ALWAYS">
+                          <TableView fx:id="taskTable" prefHeight="233.0" prefWidth="579.0" style="-fx-background-color: #10231c;" stylesheets="@stylesheets/admin-job-manager.css" VBox.vgrow="ALWAYS">
                         <columns>
                             <TableColumn fx:id="doneColumn" prefWidth="60" text="✓" />
                             <TableColumn fx:id="taskColumn" prefWidth="518.3999893188477" text="Task" />

@@ -19,14 +19,14 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #f8f9fa;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.loginController">
+<AnchorPane prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #f8f9fa;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.Controllers.loginController">
 
     <StackPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 
-        <GridPane alignment="CENTER" hgap="40" prefHeight="740" prefWidth="900" style="-fx-background-color: #10231c;" stylesheets="@StyleSheets/DashboardUI.css" vgap="0">
+        <GridPane alignment="CENTER" hgap="40" prefHeight="740" prefWidth="900" style="-fx-background-color: #10231c;" stylesheets="@stylesheets/DashboardUI.css" vgap="0">
 
             <!-- Left Column -->
-            <VBox alignment="CENTER_LEFT" prefHeight="520.0" prefWidth="475.0" spacing="20" style="-fx-padding: 20;" stylesheets="@StyleSheets/DashboardUI.css" GridPane.columnIndex="0">
+            <VBox alignment="CENTER_LEFT" prefHeight="520.0" prefWidth="475.0" spacing="20" style="-fx-padding: 20;" stylesheets="@stylesheets/DashboardUI.css" GridPane.columnIndex="0">
                 <TextFlow>
                     <Text fx:id="textSkill" fill="WHITE" fontSmoothingType="LCD" style="-fx-font-size: 56px; -fx-font-weight: bold;" text="Ascendia" />
                     <Text fx:id="textPlus" style="-fx-font-size: 56; -fx-font-weight: bold; -fx-fill: #e67e22;" text="Nexus" wrappingWidth="433.3883056640625" />
@@ -41,7 +41,7 @@
             <StackPane alignment="CENTER" prefHeight="520" prefWidth="400" GridPane.columnIndex="1">
 
                 <!-- Login Form -->
-                <VBox fx:id="loginForm" alignment="CENTER" managed="true" maxWidth="400" spacing="15" styleClass="LoginBox" stylesheets="@StyleSheets/DashboardUI.css" visible="true">
+                <VBox fx:id="loginForm" alignment="CENTER" managed="true" maxWidth="400" spacing="15" styleClass="LoginBox" stylesheets="@stylesheets/DashboardUI.css" visible="true">
 
                     <Label style="-fx-font-size: 30px; -fx-font-weight: bold;" text="Login" textFill="#fff7f7">
                   <font>
@@ -51,14 +51,14 @@
                      <Insets bottom="30.0" />
                   </VBox.margin></Label>
 
-                    <TextField fx:id="loginEmailUI" maxWidth="320" prefHeight="35.0" prefWidth="309.0" promptText="Email" styleClass="loginEmail" stylesheets="@StyleSheets/DashboardUI.css">
+                    <TextField fx:id="loginEmailUI" maxWidth="320" prefHeight="35.0" prefWidth="309.0" promptText="Email" styleClass="loginEmail" stylesheets="@stylesheets/DashboardUI.css">
                   <padding>
                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                   </padding>
                   <VBox.margin>
                      <Insets top="30.0" />
                   </VBox.margin></TextField>
-                    <PasswordField fx:id="loginPasswordUI" maxWidth="320" prefHeight="34.0" prefWidth="320.0" promptText="Password" styleClass="loginEmail" stylesheets="@StyleSheets/DashboardUI.css">
+                    <PasswordField fx:id="loginPasswordUI" maxWidth="320" prefHeight="34.0" prefWidth="320.0" promptText="Password" styleClass="loginEmail" stylesheets="@stylesheets/DashboardUI.css">
                   <padding>
                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                   </padding>
@@ -71,7 +71,7 @@
                   </VBox.margin>
                </Label>
 
-                    <Button fx:id="LoginButton" onAction="#handleLogin" prefHeight="40.0" prefWidth="187.0" style="-fx-font-weight: bold;" styleClass="viewBtnLogin" stylesheets="@StyleSheets/DashboardUI.css" text="Login" textFill="#10231c">
+                    <Button fx:id="LoginButton" onAction="#handleLogin" prefHeight="40.0" prefWidth="187.0" style="-fx-font-weight: bold;" styleClass="viewBtnLogin" stylesheets="@stylesheets/DashboardUI.css" text="Login" textFill="#10231c">
                   <VBox.margin>
                      <Insets top="10.0" />
                   </VBox.margin>
@@ -87,20 +87,20 @@
                 </VBox>
 
                 <!-- Signup Form -->
-                <VBox fx:id="signupForm" alignment="CENTER" managed="false" maxWidth="400.0" prefHeight="508.0" prefWidth="86.0" spacing="15" styleClass="LoginBox" stylesheets="@StyleSheets/DashboardUI.css" visible="false">
+                <VBox fx:id="signupForm" alignment="CENTER" managed="false" maxWidth="400.0" prefHeight="508.0" prefWidth="86.0" spacing="15" styleClass="LoginBox" stylesheets="@stylesheets/DashboardUI.css" visible="false">
 
                     <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: white;" text="Sign Up">
                   <VBox.margin>
                      <Insets bottom="30.0" top="20.0" />
                   </VBox.margin></Label>
 
-                    <TextField fx:id="fnameUI" maxWidth="320" promptText="Full Name" styleClass="loginEmail" stylesheets="@StyleSheets/DashboardUI.css" />
-                    <TextField fx:id="emailUI" maxWidth="320" promptText="Email" styleClass="loginEmail" stylesheets="@StyleSheets/DashboardUI.css" />
-                    <TextField fx:id="phoneNoUI" maxWidth="320" promptText="Phone Number" styleClass="loginEmail" stylesheets="@StyleSheets/DashboardUI.css" />
-                    <PasswordField fx:id="passwordUI" maxWidth="320" promptText="Password" styleClass="loginEmail" stylesheets="@StyleSheets/DashboardUI.css" />
-                    <PasswordField fx:id="signUpConfirmPasswordFieldUI" maxWidth="320" promptText="Confirm Password" styleClass="loginEmail" stylesheets="@StyleSheets/DashboardUI.css" />
+                    <TextField fx:id="fnameUI" maxWidth="320" promptText="Full Name" styleClass="loginEmail" stylesheets="@stylesheets/DashboardUI.css" />
+                    <TextField fx:id="emailUI" maxWidth="320" promptText="Email" styleClass="loginEmail" stylesheets="@stylesheets/DashboardUI.css" />
+                    <TextField fx:id="phoneNoUI" maxWidth="320" promptText="Phone Number" styleClass="loginEmail" stylesheets="@stylesheets/DashboardUI.css" />
+                    <PasswordField fx:id="passwordUI" maxWidth="320" promptText="Password" styleClass="loginEmail" stylesheets="@stylesheets/DashboardUI.css" />
+                    <PasswordField fx:id="signUpConfirmPasswordFieldUI" maxWidth="320" promptText="Confirm Password" styleClass="loginEmail" stylesheets="@stylesheets/DashboardUI.css" />
 
-                    <ComboBox fx:id="accountTypeUI" maxWidth="320" prefHeight="37.0" prefWidth="50.0" promptText="Account Type" styleClass="combo-box" stylesheets="@StyleSheets/DashboardUI.css">
+                    <ComboBox fx:id="accountTypeUI" maxWidth="320" prefHeight="37.0" prefWidth="50.0" promptText="Account Type" styleClass="combo-box" stylesheets="@stylesheets/DashboardUI.css">
                         <items>
                             <FXCollections fx:factory="observableArrayList">
                                 <String fx:value="Jobseeker" />
@@ -114,7 +114,7 @@
                     </ComboBox>
                <Label fx:id="signUpError" alignment="CENTER" maxWidth="320.0" prefHeight="22.0" style="-fx-text-fill: red;" textAlignment="CENTER" wrapText="true" />
 
-                    <Button fx:id="SignUpButtonUI" onAction="#handleSignup" prefWidth="200" styleClass="signUpbtn" stylesheets="@StyleSheets/DashboardUI.css" text="Sign Up" textFill="TRANSPARENT">
+                    <Button fx:id="SignUpButtonUI" onAction="#handleSignup" prefWidth="200" styleClass="signUpbtn" stylesheets="@stylesheets/DashboardUI.css" text="Sign Up" textFill="TRANSPARENT">
                   <font>
                      <Font size="20.0" />
                   </font>

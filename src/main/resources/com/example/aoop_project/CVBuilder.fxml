@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<ScrollPane fitToHeight="false" fitToWidth="true" hbarPolicy="NEVER" style="                 -fx-background-color: transparent;                 -fx-border-color: transparent;                 -fx-focus-color: transparent;                 -fx-faint-focus-color: transparent;             " vbarPolicy="NEVER" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.CVBuilderController">
+<ScrollPane fitToHeight="false" fitToWidth="true" hbarPolicy="NEVER" style="                 -fx-background-color: transparent;                 -fx-border-color: transparent;                 -fx-focus-color: transparent;                 -fx-faint-focus-color: transparent;             " vbarPolicy="NEVER" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.Controllers.CVBuilderController">
     <VBox spacing="25" style="-fx-background-color: #10231c;">
         <padding>
             <Insets bottom="35" left="45" right="45" top="35" />

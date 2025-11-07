@@ -106,7 +106,7 @@
                     <execution>
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.example.aoop_project.getStartedApplication</mainClass> <!-- Corrected mainClass -->
+                            <mainClass>com.example.aoop_project.AscendiaNexusApp</mainClass> <!-- Corrected mainClass -->
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

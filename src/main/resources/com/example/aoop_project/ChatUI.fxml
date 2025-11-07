@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.messaging.ChatController">
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.Controllers.ChatController">
 
     <!-- ===== LEFT SIDEBAR ===== -->
     <left>
@@ -31,7 +31,7 @@
                </Label>
                <ImageView fitHeight="150.0" fitWidth="200.0">
                   <image>
-                     <Image url="@Images/chatgif-unscreen.gif" />
+                     <Image url="@images/chatgif-unscreen.gif" />
                   </image>
                </ImageView>
             </children>

@@ -15,21 +15,21 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.TextFlow?>
 
-<BorderPane style="-fx-background-color: #10231c;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.FeedController">
+<BorderPane style="-fx-background-color: #10231c;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.Controllers.FeedController">
     <left>
         <!-- Same navigation as JobSeekerDashboard -->
         <VBox fx:id="moderateContent" prefHeight="531.0" prefWidth="298.0" style="-fx-background-color: #10231c;" BorderPane.alignment="CENTER">
             <children>
-                <Button fx:id="handleHome" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleHome" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🏠      Home" textFill="WHITE" />
-                <Button fx:id="handleMusic" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleMusic" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🎧      Lo-Fi Music" textFill="WHITE" />
-                <Button fx:id="handleMessages" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleMessages" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="💬     Messages" textFill="WHITE" />
-                <Button fx:id="handleTodo" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleTodolist" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="📝      Todo-List" textFill="WHITE" />
-                <Button fx:id="handleChatbot" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleChatbot" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🤖      ChatBot" textFill="WHITE" />
-                <Button fx:id="handleGames" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleGame" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🎮      Games" textFill="WHITE" />
-                <Button fx:id="handleJobSearch" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleJobSearch" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="💼      Job Search" textFill="WHITE" />
-                <Button fx:id="handleCV" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleCV" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="📄      CV Builder" textFill="WHITE" />
-                <Button fx:id="handleProfile" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleProfile" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="👤      Profile" textFill="WHITE" />
-                <Button fx:id="logout_button" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleLogout" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🚶‍♂️     Logout" textFill="WHITE" />
+                <Button fx:id="handleHome" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleHome" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@stylesheets/DashboardUI.css" text="🏠      Home" textFill="WHITE" />
+                <Button fx:id="handleMusic" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleMusic" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@stylesheets/DashboardUI.css" text="🎧      Lo-Fi Music" textFill="WHITE" />
+                <Button fx:id="handleMessages" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleMessages" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@stylesheets/DashboardUI.css" text="💬     Messages" textFill="WHITE" />
+                <Button fx:id="handleTodo" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleTodolist" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@stylesheets/DashboardUI.css" text="📝      Todo-List" textFill="WHITE" />
+                <Button fx:id="handleChatbot" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleChatbot" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@stylesheets/DashboardUI.css" text="🤖      ChatBot" textFill="WHITE" />
+                <Button fx:id="handleGames" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleGame" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@stylesheets/DashboardUI.css" text="🎮      Games" textFill="WHITE" />
+                <Button fx:id="handleJobSearch" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleJobSearch" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@stylesheets/DashboardUI.css" text="💼      Job Search" textFill="WHITE" />
+                <Button fx:id="handleCV" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleCV" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@stylesheets/DashboardUI.css" text="📄      CV Builder" textFill="WHITE" />
+                <Button fx:id="handleProfile" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleProfile" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@stylesheets/DashboardUI.css" text="👤      Profile" textFill="WHITE" />
+                <Button fx:id="logout_button" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#handleLogout" prefHeight="40.0" prefWidth="260.0" styleClass="navBtn" stylesheets="@stylesheets/DashboardUI.css" text="🚶‍♂️     Logout" textFill="WHITE" />
             </children>
             <padding>
                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
@@ -72,7 +72,7 @@
                     </children>
                 </HBox>
             <Region prefHeight="72.0" prefWidth="397.0" />
-                <Button mnemonicParsing="false" onAction="#handleDashboard" prefHeight="40.0" prefWidth="162.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="📈 Dashboard" textFill="WHITE">
+                <Button mnemonicParsing="false" onAction="#handleDashboard" prefHeight="40.0" prefWidth="162.0" styleClass="navBtn" stylesheets="@stylesheets/DashboardUI.css" text="📈 Dashboard" textFill="WHITE">
                     <font>
                         <Font size="15.0" />
                     </font>
@@ -80,7 +80,7 @@
                         <Insets left="40.0" top="15.0" />
                     </HBox.margin>
                 </Button>
-                <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="111.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🧑‍💻 Feed" textFill="WHITE">
+                <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="111.0" styleClass="navBtn" stylesheets="@stylesheets/DashboardUI.css" text="🧑‍💻 Feed" textFill="WHITE">
                     <HBox.margin>
                         <Insets left="30.0" top="15.0" />
                     </HBox.margin>
@@ -88,7 +88,7 @@
                         <Font size="15.0" />
                     </font>
                 </Button>
-                <Button mnemonicParsing="false" onAction="#handleOpenExplore" prefHeight="40.0" prefWidth="130.0" styleClass="navBtn" stylesheets="@StyleSheets/DashboardUI.css" text="🧭Explore" textFill="WHITE">
+                <Button mnemonicParsing="false" onAction="#handleOpenExplore" prefHeight="40.0" prefWidth="130.0" styleClass="navBtn" stylesheets="@stylesheets/DashboardUI.css" text="🧭Explore" textFill="WHITE">
                     <font>
                         <Font size="15.0" />
                     </font>
@@ -125,7 +125,7 @@
 
     <center>
         <!-- Feed Content -->
-        <ScrollPane styleClass="custom-scroll" stylesheets="@StyleSheets/DashboardUI.css" BorderPane.alignment="CENTER">
+        <ScrollPane styleClass="custom-scroll" stylesheets="@stylesheets/DashboardUI.css" BorderPane.alignment="CENTER">
             <content>
                 <VBox prefWidth="1450.0" spacing="20" style="-fx-background-color: #10231c;">
                     <padding>
@@ -149,9 +149,9 @@
 
                                 <HBox alignment="CENTER_LEFT" spacing="15">
                                     <children>
-                                        <Button fx:id="addImageBtn" onAction="#handleAddImage" styleClass="musicPlay" stylesheets="@StyleSheets/DashboardUI.css" text="📸 Add Photo" />
+                                        <Button fx:id="addImageBtn" onAction="#handleAddImage" styleClass="musicPlay" stylesheets="@stylesheets/DashboardUI.css" text="📸 Add Photo" />
                                         <Label fx:id="selectedImageLabel" text="" textFill="#379172" />
-                                        <Button fx:id="postBtn" onAction="#handleCreatePost" styleClass="viewBtn" stylesheets="@StyleSheets/DashboardUI.css" text="✨ Post" />
+                                        <Button fx:id="postBtn" onAction="#handleCreatePost" styleClass="viewBtn" stylesheets="@stylesheets/DashboardUI.css" text="✨ Post" />
                                     </children>
                                 </HBox>
                             </children>

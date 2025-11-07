@@ -8,14 +8,14 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="TOP_CENTER" spacing="15" styleClass="dialog-header" stylesheets="@StyleSheets/UserSearch.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.UserSearchController">
+<VBox alignment="TOP_CENTER" spacing="15" styleClass="dialog-header" stylesheets="@stylesheets/UserSearch.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.aoop_project.Controllers.UserSearchController">
 
     <children>
         <!-- Top Controls -->
         <HBox alignment="CENTER" spacing="10">
-            <TextField fx:id="searchField" prefWidth="400" promptText="🔍 Search Users..." styleClass="search" stylesheets="@StyleSheets/DashboardUI.css" />
+            <TextField fx:id="searchField" prefWidth="400" promptText="🔍 Search Users..." styleClass="search" stylesheets="@stylesheets/DashboardUI.css" />
 
-            <Button onAction="#handleSearch" prefWidth="58.0" stylesheets="@StyleSheets/UserSearch.css" text="Search">
+            <Button onAction="#handleSearch" prefWidth="58.0" stylesheets="@stylesheets/UserSearch.css" text="Search">
                 <HBox.margin>
                     <Insets top="4.0" left="12.0" bottom="4.0" right="0"/>
                 </HBox.margin>
@@ -27,7 +27,7 @@
                 </HBox.margin>
             </Button>
 
-            <Button onAction="#handleRefresh" stylesheets="@StyleSheets/UserSearch.css" text="Refresh">
+            <Button onAction="#handleRefresh" stylesheets="@stylesheets/UserSearch.css" text="Refresh">
                 <HBox.margin>
                     <Insets top="4.0" left="5.0" bottom="4.0" right="0"/>
                 </HBox.margin>
@@ -41,7 +41,7 @@
         </HBox>
 
         <!-- User Table -->
-        <TableView fx:id="userTable" prefHeight="500" prefWidth="740" styleClass="user-table" stylesheets="@StyleSheets/UserSearch.css">
+        <TableView fx:id="userTable" prefHeight="500" prefWidth="740" styleClass="user-table" stylesheets="@stylesheets/UserSearch.css">
             <columns>
                 <TableColumn fx:id="colProfile" prefWidth="100" text="Profile" />
                 <TableColumn fx:id="colName" prefWidth="200" text="Full Name" />

@@ -6,7 +6,7 @@
 
 <VBox xmlns="http://javafx.com/javafx/23.0.1"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.example.aoop_project.UserMessagePopupController"
+      fx:controller="com.example.aoop_project.Controllers.UserMessagePopupController"
       spacing="10" prefWidth="400" prefHeight="500"
       style="-fx-background-color: white;">
 
