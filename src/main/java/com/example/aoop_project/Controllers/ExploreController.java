@@ -50,6 +50,13 @@ public class ExploreController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        // --- ADD THIS BLOCK TO ENABLE JAVASCRIPT ---
+        if (webView != null) {
+            webView.getEngine().setJavaScriptEnabled(true);
+        }
+        // ----------------------------------------------
+
         // Load chatbot and todo
         loadChatbot();
         loadTodoList();
@@ -221,7 +228,7 @@ public class ExploreController implements Initializable {
 
     private void loadChatbot() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("ChatBotMini.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/aoop_project/ChatBotMini.fxml"));
             Region content = loader.load();
             ScrollPane scroll = new ScrollPane(content);
             scroll.setFitToWidth(true);
@@ -240,7 +247,7 @@ public class ExploreController implements Initializable {
 
     private void loadTodoList() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("TodoMini.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/aoop_project/TodoMini.fxml"));
             Region content = loader.load();
             ScrollPane scroll = new ScrollPane(content);
             scroll.setFitToWidth(true);
@@ -284,6 +291,9 @@ public class ExploreController implements Initializable {
     private void loadPlaylist(Playlist p) {
         WebEngine engine = webView.getEngine();
         String id = YouTubeUtil.extractPlaylistId(p.getUrl());
+
+        engine.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.0.0 Safari/537.36");
+
         engine.load(YouTubeUtil.toEmbedUrl(id));
     }
 

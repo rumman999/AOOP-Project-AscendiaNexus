@@ -314,7 +314,7 @@ public class FeedController implements Initializable {
                 return;
             }
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("ChatBot.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("com/example/aoop_project/ChatBot.fxml"));
             Parent root = loader.load();
 
             Stage owner = (Stage) ((Node) e.getSource()).getScene().getWindow();

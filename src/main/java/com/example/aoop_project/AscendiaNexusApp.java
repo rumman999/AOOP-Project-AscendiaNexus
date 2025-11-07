@@ -49,7 +49,17 @@ public class AscendiaNexusApp extends Application {
 
     public static void launchScene(String fxmlFile) {
         try {
-            FXMLLoader loader = new FXMLLoader(AscendiaNexusApp.class.getResource(fxmlFile));
+
+            String fxmlPath = "/com/example/aoop_project/" + fxmlFile;
+
+
+            FXMLLoader loader = new FXMLLoader(AscendiaNexusApp.class.getResource(fxmlPath));
+
+
+            if (loader.getLocation() == null) {
+                throw new IOException("Cannot find FXML file at path: " + fxmlPath);
+            }
+
             Scene scene = new Scene(loader.load());
 
             Stage newStage = new Stage();

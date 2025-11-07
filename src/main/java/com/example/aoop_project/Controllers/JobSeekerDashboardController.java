@@ -279,7 +279,7 @@ public class JobSeekerDashboardController implements Initializable {
     private void handleGame(ActionEvent e) {
         try {
             if (gameSelectionStage == null || !gameSelectionStage.isShowing()) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("GameSelection.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("com/example/aoop_project/GameSelection.fxml"));
                 Parent root = loader.load();
                 Stage owner = (Stage) ((Node) e.getSource()).getScene().getWindow();
                 gameSelectionStage = new Stage();
@@ -340,7 +340,7 @@ public class JobSeekerDashboardController implements Initializable {
 
     @FXML
     private void handleOpenExplore(ActionEvent e) {
-        AscendiaNexusApp.launchScene("com/example/aoop_project/Explore.fxml");
+        AscendiaNexusApp.launchScene("Explore.fxml");
     }
 
     private Stage musicStage;
